@@ -1,0 +1,16 @@
+{
+  "$schema": "https://designlasagna.recipes/v0.3/utilities.json",
+  "schemaVersion": "0.3.0",
+  "utilities": [
+    {
+      "name": "text-heading-1",
+      "description": "Heading style",
+      "platforms": {
+        "web": {
+          "className": "ds-text-heading-1",
+          "properties": { "font-size": "32px", "font-weight": "700" }
+        }
+      }
+    }
+  ]
+}

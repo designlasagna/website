@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Schemas and a language server for building design systems." />
+  <title>Design Lasagna</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/mark.svg" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="/" class="brand">
+      <svg viewBox="0 0 24 18" fill="currentColor" aria-hidden="true">
+        <rect width="24" height="4" rx="1"/>
+        <rect y="7" width="16" height="4" rx="1"/>
+        <rect y="14" width="8" height="4" rx="1"/>
+      </svg>
+      Design Lasagna
+    </a>
+    <a href="#schemas">Schemas</a>
+    <a href="#language-server">Language Server</a>
+    <a href="#examples">Examples</a>
+    <a href="/schemas/">Docs</a>
+  </nav>
+</header>
+
+<main>
+
+  <section>
+    <h1 class="logotype">
+      <svg class="logotype-mark" viewBox="0 0 24 18" fill="currentColor" aria-hidden="true">
+        <rect width="24" height="4" rx="1"/>
+        <rect y="7" width="16" height="4" rx="1"/>
+        <rect y="14" width="8" height="4" rx="1"/>
+      </svg>
+      <span class="logotype-name">
+        <span class="logotype-sup">Design</span>
+        <span class="logotype-main">Lasagna</span>
+      </span>
+    </h1>
+    <p class="muted">Schemas and a language server for building design systems.</p>
+  </section>
+
+  <section id="schemas">
+    <h2>Schemas</h2>
+    <p>Reference schema files directly via <code>$schema</code>. Open the docs when you need field details.</p>
+
+    <div class="schema-grid">
+      <div class="schema-group">
+        <h3>v0.3 — current</h3>
+        <ul>
+          <li><a href="/v0.3/tokens.json">tokens.json</a> · <a href="/schemas/v0.3/tokens.html">docs</a></li>
+          <li><a href="/v0.3/utilities.json">utilities.json</a> · <a href="/schemas/v0.3/utilities.html">docs</a></li>
+          <li><a href="/v0.3/cem-extensions.json">cem-extensions.json</a> · <a href="/schemas/v0.3/cem-extensions.html">docs</a></li>
+          <li><a href="/v0.3/icons.json">icons.json</a> · <a href="/schemas/v0.3/icons.html">docs</a></li>
+        </ul>
+      </div>
+      <div class="schema-group">
+        <h3>v0.2 — stable</h3>
+        <ul>
+          <li><a href="/v0.2/tokens.json">tokens.json</a> · <a href="/schemas/v0.2/tokens.html">docs</a></li>
+          <li><a href="/v0.2/utilities.json">utilities.json</a> · <a href="/schemas/v0.2/utilities.html">docs</a></li>
+          <li><a href="/v0.2/cem-extensions.json">cem-extensions.json</a> · <a href="/schemas/v0.2/cem-extensions.html">docs</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p><a href="/schemas/">Open schema docs hub →</a></p>
+  </section>
+
+  <section id="language-server">
+    <h2>Language Server</h2>
+    <p>Autocomplete, diagnostics, and code actions for components, tokens, and utility classes.</p>
+
+    <div class="code-pair">
+      <div class="code-block">
+        <h3>Package discovery</h3>
+        <pre><code>{
+  "customElements": "dist/custom-elements.json",
+  "designSystem": {
+    "tokens": "dist/tokens.json",
+    "utilities": "dist/utilities.json"
+  }
+}</code></pre>
+      </div>
+      <div class="code-block">
+        <h3>Local config</h3>
+        <pre><code>{
+  "sources": {
+    "components": ["packages/components/dist/custom-elements.json"],
+    "tokens": ["packages/tokens/dist/tokens.json"],
+    "utilities": ["packages/css/dist/utilities.json"]
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <p>
+      <a href="/language-server.html">Language server docs →</a> ·
+      <a href="https://github.com/designlasagna/ds-language-server">GitHub</a>
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples</h2>
+    <ul class="link-list">
+      <li><a href="/examples/minimal.tokens.v0.3.json">minimal.tokens.v0.3.json</a></li>
+      <li><a href="/examples/minimal.utilities.v0.3.json">minimal.utilities.v0.3.json</a></li>
+      <li><a href="/examples/minimal.icons.v0.3.json">minimal.icons.v0.3.json</a></li>
+    </ul>
+    <p style="margin-top: 16px"><a href="/examples.html">More examples →</a></p>
+  </section>
+
+  <section>
+    <h2>GitHub</h2>
+    <ul class="link-list">
+      <li><a href="https://github.com/designlasagna/schemas">designlasagna/schemas</a></li>
+      <li><a href="https://github.com/designlasagna/ds-language-server">designlasagna/ds-language-server</a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <span>Design Lasagna</span>
+  <nav>
+    <a href="/schemas/">Schemas</a>
+    <a href="/language-server.html">Language Server</a>
+    <a href="https://github.com/designlasagna/schemas">GitHub</a>
+  </nav>
+</footer>
+
+</body>
+</html>

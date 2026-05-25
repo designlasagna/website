@@ -1,0 +1,11 @@
+{
+  "name": "designlasagna-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync:schemas": "node scripts/sync-schema-files.mjs",
+    "generate:schemas": "node scripts/generate-schema-pages.mjs",
+    "build": "npm run sync:schemas && npm run generate:schemas",
+    "start": "npm run build && node scripts/serve.mjs"
+  }
+}
