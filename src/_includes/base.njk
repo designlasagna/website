@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ description or site.description }}">
+  <title>{% if title and title != site.title %}{{ title }} — {% endif %}{{ site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/styles.css' | url }}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Design Lasagna home"><img src="{{ '/assets/logotype.svg' | url }}" alt="Design Lasagna" width="213" height="202"></a>
+    <nav class="site-nav" aria-label="Main">
+      {% for link in site.nav %}
+      <a href="{{ link.href }}"{% if link.href == page.url %} aria-current="page"{% endif %}>{{ link.label }}</a>
+      {% endfor %}
+    </nav>
+  </header>
+  <main id="main">
+    {{ content | safe }}
+  </main>
+  <footer class="site-footer">
+    <nav aria-label="External">
+      {% for link in site.external %}
+      <a href="{{ link.href }}">{{ link.label }}</a>
+      {% endfor %}
+    </nav>
+    <p class="site-footer__note">{{ site.description }}</p>
+  </footer>
+</body>
+</html>

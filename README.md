@@ -1,13 +1,13 @@
 # Design Lasagna website
 
-The official Design Lasagna landing page, deployed through GitHub Pages at https://designlasagna.recipes.
+The official Design Lasagna landing page, built as an Eleventy static site and deployed through GitHub Pages at https://designlasagna.recipes. See `docs/architecture.md` for the site design.
 
 ## Local preview
 
-Open `index.html` in a browser, or serve the directory with any static-file server:
-
 ```bash
-npx serve .
+npm install
+npm run build          # outputs to dist/
+npm run dev            # Eleventy dev server with reload
 ```
 
 ## Deployment
