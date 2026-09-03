@@ -30,6 +30,7 @@ test('v0.3 token documentation overlay covers every documented schema property',
         assert.equal(typeof guide[key], 'string', `${scope}.${field}.${key} must be text`);
         assert.ok(guide[key].length > 0, `${scope}.${field}.${key} must not be empty`);
       }
+      assert.ok(guide.example && typeof guide.example === 'object', `${scope}.${field}.example must be an object`);
     }
   }
 });
