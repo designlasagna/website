@@ -1,0 +1,767 @@
+# Reader-facing guidance for the v0.3 tokens schema.
+# Keep JSON Schema constraints in @designlasagna/schemas. Edit this file for
+# prose, related fields, and field-specific example snippets.
+v03Tokens:
+  manifest:
+    $schema:
+      summary: Identifies the JSON Schema used to validate this file.
+      useWhen: Include when consumers need to discover the contract from the manifest
+        itself.
+      provenance: Authored metadata.
+      related:
+        - schemaVersion
+      example:
+        $schema: https://designlasagna.recipes/schemas/v0.3/tokens.json
+    schemaVersion:
+      summary: States the Design Lasagna manifest format version.
+      useWhen: Always set this so readers and tools select the correct compatibility
+        rules.
+      provenance: Authored metadata.
+      related:
+        - $schema
+      example:
+        schemaVersion: 0.3.0
+    generatedAt:
+      summary: Records when this resolved manifest was produced.
+      useWhen: Use for traceability and freshness checks in generated output.
+      provenance: Generated metadata.
+      related:
+        - source
+      example:
+        generatedAt: 2026-09-04T00:00:00Z
+    extends:
+      summary: Lists manifests that should be loaded with this manifest.
+      useWhen: Use when a system is composed from shared or inherited manifests.
+      provenance: Authored or generated metadata.
+      related:
+        - tokens
+      example:
+        extends:
+          - core.tokens.json
+    designSystem:
+      summary: Describes the design system that owns this manifest.
+      useWhen: Use to attach a name, version, and documentation locations to a
+        published manifest.
+      provenance: Authored metadata.
+      related:
+        - source
+      example:
+        designSystem:
+          name: Acme Design System
+          version: 2.4.0
+    source:
+      summary: Identifies the source inputs or build context used to create the
+        manifest.
+      useWhen: Use when consumers need to trace resolved data back to its authoring
+        source.
+      provenance: Generated metadata.
+      related:
+        - generatedAt
+      example:
+        source:
+          repository: https://github.com/acme/tokens
+    counts:
+      summary: Provides aggregate counts for the manifest.
+      useWhen: Use for reporting or quick integrity checks without traversing every
+        token.
+      provenance: Generated metadata.
+      related:
+        - tokens
+      example:
+        counts:
+          total: 248
+          by:
+            color: 96
+    conditions:
+      summary: Declares named conditions that can affect resolved values.
+      useWhen: Use when token values vary by environment, theme, or other named
+        condition.
+      provenance: Authored metadata.
+      related:
+        - tokens
+      example:
+        conditions:
+          dark:
+            theme: dark
+    collections:
+      summary: Groups tokens into named collections.
+      useWhen: Use when consumers need stable, higher-level sets of tokens.
+      provenance: Authored metadata.
+      related:
+        - tokens
+      example:
+        collections:
+          core:
+            label: Core tokens
+    tokenRelations:
+      summary: Declares relationships between tokens.
+      useWhen: Use to express semantic or operational links that are not evident from
+        a token value alone.
+      provenance: Authored metadata.
+      related:
+        - tokens
+      example:
+        tokenRelations:
+          - type: paired
+            tokens:
+              - color.text.default
+              - color.background.default
+    tokens:
+      summary: Contains the resolved tokens in this manifest.
+      useWhen: Always include the token records a consumer should read.
+      provenance: Generated output.
+      related:
+        - schemaVersion
+      example:
+        tokens: &a1
+          - id: color.blue.500
+            resolved:
+              light: "#0b5fff"
+  Token:
+    id:
+      summary: The stable, unique identifier for this token.
+      useWhen: Always provide it; consumers should use it as the durable token identity.
+      provenance: Generated from the source token identity.
+      related:
+        - path
+        - resolved
+      example:
+        id: color.blue.500
+    path:
+      summary: The hierarchical token path as an array of name segments.
+      useWhen: Use when tools need to group, navigate, or reconstruct a dot-separated
+        token name.
+      provenance: Generated from authored naming.
+      related:
+        - id
+        - originalPath
+      example:
+        path:
+          - color
+          - blue
+          - "500"
+    originalPath:
+      summary: Preserves the token path before any normalization or transformation.
+      useWhen: Use when a build changes naming but consumers need the source path.
+      provenance: Generated metadata.
+      related:
+        - path
+      example:
+        originalPath:
+          - color
+          - blue
+          - "500"
+    label:
+      summary: A human-friendly display name for the token.
+      useWhen: Use in interfaces, documentation, and pickers where the identifier is
+        too technical.
+      provenance: Authored metadata.
+      related:
+        - id
+        - description
+      example:
+        label: Blue 500
+    category:
+      summary: The primary semantic category for the token.
+      useWhen: Use to group tokens for navigation and filtering.
+      provenance: Authored metadata.
+      related:
+        - subCategory
+        - type
+      example:
+        category: color
+    subCategory:
+      summary: A more specific category within the primary category.
+      useWhen: Use when category alone does not give enough grouping detail.
+      provenance: Authored metadata.
+      related:
+        - category
+      example:
+        subCategory: blue
+    collection:
+      summary: Names the collection this token belongs to.
+      useWhen: Use when tokens are published as named sets or packages.
+      provenance: Authored metadata.
+      related:
+        - collections
+      example:
+        collection: core
+    tier:
+      summary: Expresses the token’s abstraction level or intended layer.
+      useWhen: Use to distinguish foundational values from semantic or component-level
+        tokens.
+      provenance: Authored metadata.
+      related:
+        - type
+        - usage
+      example:
+        tier: primitive
+    type:
+      summary: Identifies the token value type.
+      useWhen: Use to select appropriate editors, renderers, and validation behaviour.
+      provenance: Authored DTCG-compatible metadata.
+      related:
+        - resolved
+        - format
+      example:
+        type: color
+    description:
+      summary: Explains the token’s meaning and intended role.
+      useWhen: Use to give people the context that a name and value cannot convey.
+      provenance: Authored metadata.
+      related:
+        - usage
+      example:
+        description: The primary blue used for interactive elements.
+    cssVariable:
+      summary: Deprecated in v0.3. A legacy CSS custom-property name for this token.
+      useWhen: Do not add this to new manifests; use `platforms.web.reference` for CSS
+        mappings instead.
+      provenance: Legacy generated or authored mapping.
+      related:
+        - platforms
+      example:
+        cssVariable: --color-blue-500
+    platforms:
+      summary: Maps the token to platform-specific references and guidance.
+      useWhen: Use when a token has implementation names or usage that vary by platform.
+      provenance: Generated or authored mapping.
+      related:
+        - cssVariable
+      example:
+        platforms:
+          ios:
+            reference: Color.Blue500
+    resolved:
+      summary: Contains the final value for each applicable mode.
+      useWhen: Always provide it in a resolved manifest; consumers read this instead
+        of evaluating source aliases.
+      provenance: Generated output.
+      related:
+        - modes
+        - format
+      example:
+        resolved:
+          light: "#0b5fff"
+          dark: "#5b93ff"
+    modes:
+      summary: Lists the modes for which this token has values.
+      useWhen: Use when consumers need to know which themes, densities, or other
+        variants are available.
+      provenance: Generated output.
+      related:
+        - resolved
+      example:
+        modes:
+          - light
+          - dark
+    format:
+      summary: Adds information needed to interpret a typed value.
+      useWhen: Use for values whose colour space or unit must be explicit.
+      provenance: Authored or generated metadata.
+      related:
+        - type
+        - resolved
+      example:
+        format:
+          colorSpace: srgb
+    usage:
+      summary: Documents allowed contexts and discouraged uses.
+      useWhen: Use to guide designers and implementers toward appropriate application.
+      provenance: Authored metadata.
+      related:
+        - description
+      example:
+        usage: &a2
+          allowedProperties:
+            - color
+          doNot:
+            - Use for disabled text
+    a11y:
+      summary: Provides accessibility requirements or checks associated with the token.
+      useWhen: Use when contrast, target size, or motion guidance affects
+        implementation.
+      provenance: Authored metadata.
+      related:
+        - usage
+      example:
+        a11y:
+          wcagContrast:
+            ratio: 4.5
+            against: color.background.default
+            level: AA
+    priority:
+      summary: Indicates the relative importance of the token.
+      useWhen: Use to order migrations, review, or UI presentation.
+      provenance: Authored metadata.
+      related:
+        - deprecated
+      example:
+        priority: high
+    since:
+      summary: Records the version in which the token became available.
+      useWhen: Use to make compatibility and migration decisions.
+      provenance: Authored metadata.
+      related:
+        - deprecated
+      example:
+        since: 2.4.0
+    keywords:
+      summary: Supplies search terms for the token.
+      useWhen: Use to improve discovery in documentation and token pickers.
+      provenance: Authored metadata.
+      related:
+        - label
+        - description
+      example:
+        keywords:
+          - blue
+          - brand
+          - action
+    docs:
+      summary: Links the token to its supporting documentation.
+      useWhen: Use when readers need to continue to design-system guidance outside the
+        manifest.
+      provenance: Authored metadata.
+      related:
+        - description
+      example:
+        docs:
+          url: https://example.com/tokens/blue-500
+    deprecated:
+      summary: Marks a token as deprecated and explains its replacement plan.
+      useWhen: Use when retaining a token temporarily while guiding consumers to a
+        successor.
+      provenance: Authored metadata.
+      related:
+        - since
+      example:
+        deprecated:
+          message: Use color.action.primary instead.
+          replacement: color.action.primary
+    tags:
+      summary: Adds free-form labels for filtering and organisation.
+      useWhen: Use for lightweight grouping that does not merit a first-class category.
+      provenance: Authored metadata.
+      related:
+        - keywords
+      example:
+        tags:
+          - brand
+          - interactive
+    sourceFiles:
+      summary: Lists source files that contributed to this token.
+      useWhen: Use for debugging and tracing generated output back to source control.
+      provenance: Generated metadata.
+      related:
+        - source
+      example:
+        sourceFiles:
+          - tokens/color/blue.json
+    metadata:
+      summary: Stores additional implementation-specific metadata.
+      useWhen: Use only for information not represented by a defined field.
+      provenance: Authored or generated extension metadata.
+      related:
+        - description
+      example:
+        metadata:
+          figmaStyleId: S:1234
+  DesignSystemMeta:
+    name:
+      summary: The design system’s display name.
+      useWhen: Use to identify the owner of a manifest to people and tooling.
+      provenance: Authored metadata.
+      related:
+        - version
+      example:
+        name: Acme Design System
+    version:
+      summary: The design system release version.
+      useWhen: Use to correlate the manifest with a design-system release.
+      provenance: Authored metadata.
+      related:
+        - name
+      example:
+        version: 2.4.0
+    documentation:
+      summary: Links to the design system’s general documentation.
+      useWhen: Use to give consumers an entry point beyond individual token guidance.
+      provenance: Authored metadata.
+      related:
+        - docsTemplates
+      example:
+        documentation: https://example.com/design-system
+    package:
+      summary: Identifies the package that distributes the design system.
+      useWhen: Use when consumers install or resolve the system through a package
+        registry.
+      provenance: Authored metadata.
+      related:
+        - version
+      example:
+        package: "@acme/design-tokens"
+    docsTemplates:
+      summary: Provides documentation templates or locations.
+      useWhen: Use when generated token documentation should link into a standard
+        structure.
+      provenance: Authored metadata.
+      related:
+        - documentation
+      example:
+        docsTemplates:
+          token: /tokens/{id}
+  Counts:
+    total:
+      summary: The total number of tokens in the manifest.
+      useWhen: Use for quick reporting and regression checks.
+      provenance: Generated metadata.
+      related:
+        - by
+      example:
+        total: 248
+    by:
+      summary: Breaks token counts down by a named grouping.
+      useWhen: Use to understand the composition of a token set without reading every
+        record.
+      provenance: Generated metadata.
+      related:
+        - total
+      example:
+        by:
+          color: 96
+          dimension: 42
+  TokenRelation:
+    type:
+      summary: Classifies the relationship between tokens.
+      useWhen: Use to let consumers interpret the relation consistently.
+      provenance: Authored metadata.
+      related:
+        - tokens
+      example:
+        type: color
+    tokens:
+      summary: Lists the token identifiers participating in the relationship.
+      useWhen: Use to connect the relationship to actual token records.
+      provenance: Authored metadata.
+      related:
+        - type
+      example:
+        tokens: *a1
+    description:
+      summary: Explains why the tokens are related.
+      useWhen: Use when the relation type alone is not sufficiently specific.
+      provenance: Authored metadata.
+      related:
+        - type
+      example:
+        description: The primary blue used for interactive elements.
+  PlatformMapping:
+    reference:
+      summary: Gives the platform-specific token reference or name.
+      useWhen: Use when an implementation platform uses a different identifier.
+      provenance: Generated or authored mapping.
+      related:
+        - usage
+      example:
+        reference: Color.Blue500
+    usage:
+      summary: Explains how the platform mapping should be applied.
+      useWhen: Use when a reference needs platform-specific implementation guidance.
+      provenance: Authored metadata.
+      related:
+        - reference
+      example:
+        usage: *a2
+  Format:
+    colorSpace:
+      summary: Names the colour space used by a colour value.
+      useWhen: Use whenever a colour value could be interpreted in more than one
+        colour space.
+      provenance: Authored or generated metadata.
+      related:
+        - unit
+      example:
+        colorSpace: srgb
+    unit:
+      summary: Names the unit used by a dimensional value.
+      useWhen: Use whenever a numeric value needs a unit to be interpreted correctly.
+      provenance: Authored or generated metadata.
+      related:
+        - colorSpace
+      example:
+        unit: px
+  Usage:
+    allowedProperties:
+      summary: Lists properties for which this token is appropriate.
+      useWhen: Use to constrain implementation to intended CSS or platform properties.
+      provenance: Authored metadata.
+      related:
+        - context
+      example:
+        allowedProperties:
+          - color
+    context:
+      summary: Describes the contexts in which the token is intended to appear.
+      useWhen: Use to clarify semantic application beyond its raw value.
+      provenance: Authored metadata.
+      related:
+        - doNot
+      example:
+        context: Body copy
+    doNot:
+      summary: Lists discouraged or invalid uses of the token.
+      useWhen: Use to prevent common semantic or accessibility mistakes.
+      provenance: Authored metadata.
+      related:
+        - context
+      example:
+        doNot:
+          - Use for disabled text
+  A11y:
+    wcagContrast:
+      summary: States contrast information or requirements.
+      useWhen: Use when a colour token must meet a contrast target against another
+        token.
+      provenance: Authored metadata.
+      related:
+        - minTargetSize
+      example:
+        wcagContrast:
+          ratio: 4.5
+          against: color.background.default
+          level: AA
+    minTargetSize:
+      summary: States the minimum target size for interactive use.
+      useWhen: Use for tokens that influence controls or touch targets.
+      provenance: Authored metadata.
+      related:
+        - motionSafe
+      example:
+        minTargetSize: 44px
+    motionSafe:
+      summary: Indicates whether the token is safe for motion-sensitive contexts.
+      useWhen: Use when animation or motion preferences affect application.
+      provenance: Authored metadata.
+      related:
+        - wcagContrast
+      example:
+        motionSafe: true
+  ContrastInfo:
+    ratio:
+      summary: The contrast ratio achieved or required.
+      useWhen: Use to communicate a measurable WCAG contrast result.
+      provenance: Authored metadata.
+      related:
+        - against
+        - level
+      example:
+        ratio: 4.5
+    against:
+      summary: Identifies the colour or token used as the contrast background.
+      useWhen: Use so the stated ratio has a clear comparison target.
+      provenance: Authored metadata.
+      related:
+        - ratio
+      example:
+        against: color.background.default
+    level:
+      summary: Identifies the WCAG conformance level associated with the contrast
+        guidance.
+      useWhen: Use when a particular accessibility threshold is required.
+      provenance: Authored metadata.
+      related:
+        - ratio
+      example:
+        level: AA
+  Docs:
+    url:
+      summary: Links to general web documentation for the token.
+      useWhen: Use when the canonical guidance lives on a documentation site.
+      provenance: Authored metadata.
+      related:
+        - figma
+        - storybook
+      example:
+        url: https://example.com/tokens/blue-500
+    figma:
+      summary: Links to the corresponding Figma resource.
+      useWhen: Use when designers need to locate the token in Figma.
+      provenance: Authored metadata.
+      related:
+        - url
+      example:
+        figma: https://figma.com/file/example
+    storybook:
+      summary: Links to the corresponding Storybook resource.
+      useWhen: Use when implementers need to inspect the token in component examples.
+      provenance: Authored metadata.
+      related:
+        - url
+      example:
+        storybook: https://example.com/storybook
+  Deprecated:
+    message:
+      summary: Explains why the token is deprecated and what consumers should do.
+      useWhen: Use whenever a token remains available only for compatibility.
+      provenance: Authored metadata.
+      related:
+        - replacement
+        - removal
+      example:
+        message: Use color.text.default instead.
+    removal:
+      summary: States the planned version or date for removal.
+      useWhen: Use to let consumers schedule migration work.
+      provenance: Authored metadata.
+      related:
+        - replacement
+      example:
+        removal: 4.0.0
+    replacement:
+      summary: Identifies the preferred successor token.
+      useWhen: Use to provide a direct migration path.
+      provenance: Authored metadata.
+      related:
+        - message
+      example:
+        replacement: color.text.default
+  ConditionsEntry:
+    description:
+      summary: Explains the condition dimension in reader-facing terms.
+      useWhen: Use to clarify what changes when this condition is selected.
+      provenance: Authored metadata.
+      related:
+        - type
+        - values
+      example:
+        description: The primary blue used for interactive elements.
+    type:
+      summary: Classifies the condition dimension, such as colour scheme or density.
+      useWhen: Use to help tools interpret the condition consistently.
+      provenance: Authored metadata.
+      related:
+        - values
+      example:
+        type: colorScheme
+    values:
+      summary: Lists the allowed values for the named condition.
+      useWhen: Always include the selectable values for a declared condition.
+      provenance: Authored metadata.
+      related:
+        - default
+      example:
+        values:
+          - light
+          - dark
+    default:
+      summary: Names the value used when no condition is selected.
+      useWhen: Use when one value is the safe or expected fallback.
+      provenance: Authored metadata.
+      related:
+        - values
+      example:
+        default: light
+  CollectionsEntry:
+    name:
+      summary: Provides a human-friendly name for the collection.
+      useWhen: Use when the collection key is not suitable for display.
+      provenance: Authored metadata.
+      related:
+        - description
+      example:
+        name: Acme Design System
+    description:
+      summary: Explains the purpose and contents of the collection.
+      useWhen: Use to help consumers choose the correct collection.
+      provenance: Authored metadata.
+      related:
+        - name
+      example:
+        description: The primary blue used for interactive elements.
+    conditions:
+      summary: Limits the collection to named condition dimensions.
+      useWhen: Use when the collection only applies in particular variants.
+      provenance: Authored metadata.
+      related:
+        - defaults
+      example:
+        conditions:
+          - colorScheme
+    defaults:
+      summary: Supplies default metadata inherited by collection members.
+      useWhen: Use to avoid repeating shared tier, priority, usage, format, or
+        accessibility metadata.
+      provenance: Authored metadata.
+      related:
+        - conditions
+      example:
+        defaults:
+          tier: primitive
+          priority: 80
+          usage:
+            allowedProperties:
+              - color
+  _definitions:
+    A11y:
+      summary: Accessibility guidance associated with a token. Use it to record
+        contrast requirements, minimum target sizes, and motion safety so
+        consumers can implement the token responsibly.
+    Collections:
+      summary: A map of named collections. Each collection can describe its purpose,
+        applicable conditions, and defaults inherited by its tokens.
+      example:
+        core:
+          name: Core tokens
+          conditions:
+            - colorScheme
+          defaults:
+            tier: primitive
+            priority: 80
+    CompositeValue:
+      summary: An intentionally open object for structured token values such as
+        typography, borders, or shadows. Its keys depend on the token type;
+        consumers must interpret it together with `type`.
+      example:
+        fontFamily: Inter
+        fontSize: 1rem
+        fontWeight: 600
+        lineHeight: 1.5
+    Conditions:
+      summary: A map of named condition dimensions. Each key, such as `colorScheme`,
+        describes the values a resolved token may vary by.
+      example:
+        colorScheme:
+          type: colorScheme
+          values:
+            - light
+            - dark
+          default: light
+    ContrastInfo:
+      summary: A contrast requirement or result. It records the ratio, its comparison
+        colour or token, and the relevant WCAG conformance level.
+    Counts:
+      summary: A generated summary of the manifest’s token inventory. It lets
+        reporting and validation tools inspect totals without iterating through
+        every token.
+    Deprecated:
+      summary: Migration information for a token that should no longer be used in new
+        work. It explains the reason, removal plan, and preferred replacement.
+    DesignSystemMeta:
+      summary: Identity and discovery metadata for the design system that published
+        the manifest, including its release and documentation locations.
+    Docs:
+      summary: "Links from a token to the places where people can understand and use
+        it: web documentation, Figma, and Storybook."
+    Format:
+      summary: Type-specific information needed to interpret a resolved value
+        correctly, such as a colour space or dimensional unit.
+    PlatformMapping:
+      summary: A platform-specific implementation reference for a token, plus optional
+        guidance for applying it on that platform.
+    TokenRelation:
+      summary: An explicit relationship between two or more tokens. It records the
+        relation type as well as the participating token identifiers.
+    Usage:
+      summary: Human guidance that defines where a token belongs, which properties it
+        may serve, and where it should not be used.

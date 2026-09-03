@@ -53,7 +53,7 @@ description: JSON Schema reference for the Design Lasagna v0.3 tokens manifest.
               {% if guide.provenance %}<p><strong>Origin:</strong> {{ guide.provenance }}</p>{% endif %}
               {% if guide.related and guide.related.length %}<p><strong>Related:</strong> {% for related in guide.related %}<code>{{ related }}</code>{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
             </div>
-            {% if schemaDocs.v03Tokens._examples[scope][field.name] %}<div><p><strong>Example usage</strong></p><pre class="json-example"><code>{{ schemaDocs.v03Tokens._examples[scope][field.name] | jsonCode | safe }}</code></pre></div>{% endif %}
+            {% if guide.example %}<div><p><strong>Example usage</strong></p><pre class="json-example"><code>{{ guide.example | jsonCode | safe }}</code></pre></div>{% endif %}
           </div>
         </td>
       </tr>

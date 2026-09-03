@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0",
-    "@designlasagna/schemas": "^0.3.4"
+    "@designlasagna/schemas": "^0.3.4",
+    "yaml": "^2.9.0"
   }
 }
