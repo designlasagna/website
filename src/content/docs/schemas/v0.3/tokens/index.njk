@@ -24,16 +24,19 @@ description: JSON Schema reference for the Design Lasagna v0.3 tokens manifest.
       {% set guide = scopeDocs[field.name] or {} %}
       <tr class="field-row">
         <td class="field-name-cell">
-          <input class="field-toggle" id="field-details-{{ scope }}-{{ loop.index }}" type="checkbox" aria-label="Show details for {{ field.name }}">
-          <label class="field-name-toggle" for="field-details-{{ scope }}-{{ loop.index }}">
-            <span class="field-chevron" aria-hidden="true"></span>
-            <code>{{ field.name }}{% if field.required %}<span class="required-field" aria-label="required">*</span>{% endif %}</code>
-            {% if field.deprecated %}<span class="field-status field-status--deprecated">Deprecated</span>{% endif %}
-          </label>
+          <div class="field-name-toggle-wrap">
+            <input class="field-toggle" id="field-details-{{ scope }}-{{ loop.index }}" type="checkbox" aria-label="Show details for {{ field.name }}">
+            <label class="field-name-toggle" for="field-details-{{ scope }}-{{ loop.index }}">
+              <span class="field-chevron" aria-hidden="true"></span>
+              <code>{{ field.name }}{% if field.required %}<span class="required-field" aria-label="required">*</span>{% endif %}</code>
+              {% if field.deprecated %}<span class="field-status field-status--deprecated">Deprecated</span>{% endif %}
+            </label>
+          </div>
         </td>
       <td>
         {% if field.type %}
           {% if field.type is string %}<code>{{ field.type }}</code>{% else %}<code>{{ field.type | join(', ') }}</code>{% endif %}
+          {% if field.additionalProperties and field.additionalProperties.$ref %}<br><code>values: {{ field.additionalProperties.$ref }}</code>{% endif %}
         {% elif field.$ref %}
           <code>{{ field.$ref }}</code>
         {% else %}—{% endif %}

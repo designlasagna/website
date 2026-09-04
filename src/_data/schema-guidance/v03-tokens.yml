@@ -59,7 +59,9 @@ v03Tokens:
         - generatedAt
       example:
         source:
-          repository: https://github.com/acme/tokens
+          files:
+            - file: tokens.json
+              mode: base
     counts:
       summary: Provides aggregate counts for the manifest.
       useWhen: Use for reporting or quick integrity checks without traversing every
@@ -71,7 +73,9 @@ v03Tokens:
         counts:
           total: 248
           by:
-            color: 96
+            type:
+              color: 96
+              dimension: 42
     conditions:
       summary: Declares named conditions that can affect resolved values.
       useWhen: Use when token values vary by environment, theme, or other named
@@ -81,8 +85,12 @@ v03Tokens:
         - tokens
       example:
         conditions:
-          dark:
-            theme: dark
+          colorScheme:
+            type: colorScheme
+            values:
+              - light
+              - dark
+            default: light
     collections:
       summary: Groups tokens into named collections.
       useWhen: Use when consumers need stable, higher-level sets of tokens.
@@ -92,7 +100,7 @@ v03Tokens:
       example:
         collections:
           core:
-            label: Core tokens
+            name: Core tokens
     tokenRelations:
       summary: Declares relationships between tokens.
       useWhen: Use to express semantic or operational links that are not evident from
@@ -116,7 +124,7 @@ v03Tokens:
         tokens: &a1
           - id: color.blue.500
             resolved:
-              light: "#0b5fff"
+              base: "#0b5fff"
   Token:
     id:
       summary: The stable, unique identifier for this token.
@@ -223,8 +231,8 @@ v03Tokens:
       example:
         cssVariable: --color-blue-500
     platforms:
-      summary: Maps the token to platform-specific references and guidance.
-      useWhen: Use when a token has implementation names or usage that vary by platform.
+      summary: Maps each platform name to that platform’s implementation reference.
+      useWhen: Use when a token has a different implementation identifier on a platform.
       provenance: Generated or authored mapping.
       related:
         - cssVariable
@@ -245,16 +253,17 @@ v03Tokens:
           light: "#0b5fff"
           dark: "#5b93ff"
     modes:
-      summary: Lists the modes for which this token has values.
-      useWhen: Use when consumers need to know which themes, densities, or other
-        variants are available.
-      provenance: Generated output.
+      summary: Retains the authored value for each applicable mode, including
+        unresolved aliases.
+      useWhen: Include when consumers need alias provenance or must re-resolve
+        the token; consumers that only need final values use `resolved` instead.
+      provenance: Generated from authored source.
       related:
         - resolved
       example:
         modes:
-          - light
-          - dark
+          light: "{color.blue.500}"
+          dark: "{color.blue.300}"
     format:
       summary: Adds information needed to interpret a typed value.
       useWhen: Use for values whose colour space or unit must be explicit.
@@ -297,7 +306,7 @@ v03Tokens:
       related:
         - deprecated
       example:
-        priority: high
+        priority: 80
     since:
       summary: Records the version in which the token became available.
       useWhen: Use to make compatibility and migration decisions.
@@ -429,8 +438,9 @@ v03Tokens:
         - total
       example:
         by:
-          color: 96
-          dimension: 42
+          type:
+            color: 96
+            dimension: 42
   TokenRelation:
     type:
       summary: Classifies the relationship between tokens.
@@ -447,7 +457,9 @@ v03Tokens:
       related:
         - type
       example:
-        tokens: *a1
+        tokens:
+          - color.text.default
+          - color.background.default
     description:
       summary: Explains why the tokens are related.
       useWhen: Use when the relation type alone is not sufficiently specific.
@@ -458,21 +470,11 @@ v03Tokens:
         description: The primary blue used for interactive elements.
   PlatformMapping:
     reference:
-      summary: Gives the platform-specific token reference or name.
+      summary: Gives the platform-specific identifier developers use for the token.
       useWhen: Use when an implementation platform uses a different identifier.
       provenance: Generated or authored mapping.
-      related:
-        - usage
       example:
         reference: Color.Blue500
-    usage:
-      summary: Explains how the platform mapping should be applied.
-      useWhen: Use when a reference needs platform-specific implementation guidance.
-      provenance: Authored metadata.
-      related:
-        - reference
-      example:
-        usage: *a2
   Format:
     colorSpace:
       summary: Names the colour space used by a colour value.
@@ -757,8 +759,7 @@ v03Tokens:
       summary: Type-specific information needed to interpret a resolved value
         correctly, such as a colour space or dimensional unit.
     PlatformMapping:
-      summary: A platform-specific implementation reference for a token, plus optional
-        guidance for applying it on that platform.
+      summary: The platform-specific implementation reference developers use for a token.
     TokenRelation:
       summary: An explicit relationship between two or more tokens. It records the
         relation type as well as the participating token identifiers.
