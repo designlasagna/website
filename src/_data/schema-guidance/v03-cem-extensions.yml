@@ -1,0 +1,210 @@
+# Reader-facing guidance for the v0.3 CEM extensions schema
+# (v0.3/cem-extensions.json). This schema does not define a manifest of its
+# own: it defines extension fields that a design system may add to Custom
+# Elements Manifest declarations and members. Keep JSON Schema constraints in
+# @designlasagna/schemas. Edit this file for prose, related fields, and
+# field-specific example snippets.
+v03CemExtensions:
+  LifecycleFields:
+    status:
+      summary: The lifecycle status of the CEM declaration or member this field extends.
+      useWhen: Use so tooling and readers know how much the item can be relied on. Common values are `draft`, `experimental`, `beta`, `rc`, `stable`, `deprecated`, and `removed`; any string is allowed.
+      provenance: Authored metadata.
+      related:
+        - removal
+        - replacement
+      example:
+        status: stable
+    removal:
+      summary: When a deprecated item is expected to be removed.
+      useWhen: Use alongside a deprecation notice so consumers can schedule migration before the item disappears.
+      provenance: Authored metadata.
+      related:
+        - status
+        - replacement
+      example:
+        removal: "4.0.0"
+    replacement:
+      summary: The machine-readable identifier that replaces a deprecated item.
+      useWhen: Use to point tooling and consumers at the durable identity of the successor, rather than describing it in prose alone.
+      provenance: Authored metadata.
+      related:
+        - status
+        - removal
+      example:
+        replacement: lasagna-button-lg
+  DeprecatedValue:
+    value:
+      summary: The attribute value being deprecated.
+      useWhen: Always provide it; it names the exact value this deprecation record applies to.
+      provenance: Authored metadata.
+      related:
+        - message
+      example:
+        value: "flat"
+    message:
+      summary: Explains why the value is deprecated and what to do instead.
+      useWhen: Always provide it when deprecating a value; it is the reader-facing half of the record.
+      provenance: Authored metadata.
+      related:
+        - value
+        - replacement
+      example:
+        message: Use "ghost" instead.
+    removal:
+      summary: When the deprecated attribute value is expected to be removed.
+      useWhen: Use to let consumers schedule migration of that specific value.
+      provenance: Authored metadata.
+      related:
+        - replacement
+        - value
+      example:
+        removal: "3.0.0"
+    replacement:
+      summary: The value that replaces the deprecated one.
+      useWhen: Use to give consumers the direct migration target for the value.
+      provenance: Authored metadata.
+      related:
+        - value
+        - message
+      example:
+        replacement: ghost
+  AttributeExtensions:
+    enum:
+      summary: The allowed values for a CEM attribute or member.
+      useWhen: Use to advertise the value set of an attribute so autocomplete and validation tools can check it.
+      provenance: Authored or generated metadata.
+      related:
+        - deprecatedValues
+      example:
+        enum:
+          - primary
+          - ghost
+    removal:
+      summary: When a deprecated attribute is expected to be removed.
+      useWhen: Use alongside attribute deprecation so consumers can plan the removal.
+      provenance: Authored metadata.
+      related:
+        - replacement
+        - deprecatedValues
+      example:
+        removal: "4.0.0"
+    replacement:
+      summary: The machine-readable identifier that replaces a deprecated attribute.
+      useWhen: Use to provide the migration target when a whole attribute is going away.
+      provenance: Authored metadata.
+      related:
+        - removal
+      example:
+        replacement: lasagna-button-lg
+    deprecatedValues:
+      summary: Per-value deprecation records for a CEM attribute.
+      useWhen: Use when only some of an attribute's values are deprecated and each one needs its own migration story.
+      provenance: Authored metadata.
+      related:
+        - enum
+      example:
+        deprecatedValues:
+          - value: "flat"
+            message: Use "ghost" instead.
+            replacement: ghost
+            removal: "3.0.0"
+  SlotExtensions:
+    deprecated:
+      summary: Marks a CEM slot as deprecated.
+      useWhen: Use with `true` for a plain deprecation flag, or a string explaining why the slot is going away and where to move content.
+      provenance: Authored metadata.
+      related:
+        - removal
+        - replacement
+      example:
+        deprecated: true
+    removal:
+      summary: When a deprecated slot is expected to be removed.
+      useWhen: Use so consumers can migrate slot content before removal.
+      provenance: Authored metadata.
+      related:
+        - deprecated
+        - replacement
+      example:
+        removal: "4.0.0"
+    replacement:
+      summary: The slot (or API) that replaces a deprecated one.
+      useWhen: Use to point consumers at the durable identity of the successor slot.
+      provenance: Authored metadata.
+      related:
+        - deprecated
+        - removal
+      example:
+        replacement: icon
+  CssPropertyExtensions:
+    deprecated:
+      summary: Marks a CEM cssProperty entry as deprecated.
+      useWhen: Use with `true` for a plain deprecation flag, or a string explaining why the property no longer has a supported value.
+      provenance: Authored metadata.
+      related:
+        - removal
+        - replacement
+      example:
+        deprecated: "Use --lasagna-button-corner instead."
+    removal:
+      summary: When a deprecated cssProperty value is expected to be removed.
+      useWhen: Use so consumers can stop setting the property before removal.
+      provenance: Authored metadata.
+      related:
+        - deprecated
+        - replacement
+      example:
+        removal: "4.0.0"
+    replacement:
+      summary: The cssProperty (or API) that replaces a deprecated one.
+      useWhen: Use to give CSS consumers the direct migration target.
+      provenance: Authored metadata.
+      related:
+        - deprecated
+        - removal
+      example:
+        replacement: --lasagna-button-corner
+  _definitions:
+    AttributeExtensions:
+      summary: Extension fields that can be added to a CEM attribute or member entry, the allowed value set, plus deprecation and migration information for the attribute as a whole or per value.
+      example:
+        name: variant
+        enum:
+          - primary
+          - ghost
+        deprecatedValues:
+          - value: "flat"
+            message: Use "ghost" instead.
+            replacement: ghost
+            removal: "3.0.0"
+    CssPropertyExtensions:
+      summary: Extension fields that can be added to a CEM cssProperty entry to mark it deprecated and record its removal plan and replacement.
+      example:
+        name: --lasagna-border
+        deprecated: true
+        replacement: --lasagna-button-border
+        removal: "4.0.0"
+    DeprecatedValue:
+      summary: Deprecation information for one specific attribute value. It names the value, explains the deprecation, and records the removal plan and replacement.
+      example:
+        value: "flat"
+        message: Use "ghost" instead.
+        replacement: ghost
+        removal: "3.0.0"
+    LifecycleFields:
+      summary: >-
+        The lifecycle fields a design system may add to any CEM declaration
+        or member: a status, and when a deprecated item is scheduled for
+        removal and what replaces it.
+      example:
+        status: deprecated
+        removal: "4.0.0"
+        replacement: lasagna-button-lg
+    SlotExtensions:
+      summary: Extension fields that can be added to a CEM slot entry to mark the slot deprecated and record its removal plan and replacement.
+      example:
+        name: icon
+        deprecated: true
+        replacement: badge
+        removal: "4.0.0"

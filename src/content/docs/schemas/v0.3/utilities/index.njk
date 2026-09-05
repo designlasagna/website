@@ -1,0 +1,127 @@
+---
+layout: base.njk
+permalink: /docs/schemas/v0.3/utilities/
+title: Utilities — v0.3
+description: JSON Schema reference for the Design Lasagna v0.3 utilities manifest.
+---
+{%- set st = schemas.v03Utilities -%}
+{%- set ref = st.ref -%}
+{%- set utility = ref.definitions.UtilityClass -%}
+
+{% macro fieldTable(fields, scope) %}
+<div class="schema-table-wrap">
+  <table class="schema-table">
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for field in fields %}
+      {% set scopeDocs = schemaDocs.v03Utilities[scope] or {} %}
+      {% set guide = scopeDocs[field.name] or {} %}
+      <tr class="field-row">
+        <td class="field-name-cell">
+          <div class="field-name-toggle-wrap">
+            <input class="field-toggle" id="field-details-{{ scope }}-{{ loop.index }}" type="checkbox" aria-label="Show details for {{ field.name }}">
+            <label class="field-name-toggle" for="field-details-{{ scope }}-{{ loop.index }}">
+              <span class="field-chevron" aria-hidden="true"></span>
+              <code>{{ field.name }}{% if field.required %}<span class="required-field" aria-label="required">*</span>{% endif %}</code>
+              {% if field.deprecated %}<span class="field-status field-status--deprecated">Deprecated</span>{% endif %}
+            </label>
+          </div>
+        </td>
+      <td>
+        {% if field.type %}
+          {% if field.type is string %}<code>{{ field.type }}</code>{% else %}<code>{{ field.type | join(', ') }}</code>{% endif %}
+          {% if field.additionalProperties and field.additionalProperties.$ref %}<br><code>values: {{ field.additionalProperties.$ref }}</code>{% endif %}
+        {% elif field.$ref %}
+          <code>{{ field.$ref }}</code>
+        {% else %}—{% endif %}
+      </td>
+        <td>
+          {{ guide.summary or field.description or '—' }}
+          {% if field.enum %}<br>Allowed: <code>{{ field.enum.values | join(', ') }}</code>{% endif %}
+          {% if field.default !== undefined %}<br>Default: <code>{{ field.default }}</code>{% endif %}
+        </td>
+      </tr>
+      <tr class="field-details">
+        <td colspan="3">
+          <div class="field-details__content">
+            <div>
+              <p>{{ guide.summary or field.description or 'No additional guidance is available.' }}</p>
+              {% if guide.useWhen %}<p><strong>Use when:</strong> {{ guide.useWhen }}</p>{% endif %}
+              {% if guide.provenance %}<p><strong>Origin:</strong> {{ guide.provenance }}</p>{% endif %}
+              {% if guide.related and guide.related.length %}<p><strong>Related:</strong> {% for related in guide.related %}<code>{{ related }}</code>{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+            </div>
+            {% if guide.example %}<div><p><strong>Example usage</strong></p><pre class="json-example"><code>{{ guide.example | jsonCode | safe }}</code></pre></div>{% endif %}
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endmacro %}
+
+<section>
+  <p class="eyebrow">Schemas / v0.3</p>
+  <h1>Utilities</h1>
+  <p class="lede">{{ ref.description }}</p>
+  <p><strong>Raw schema:</strong> <code>{{ st.canonicalUrl }}</code></p>
+  <p><strong>npm:</strong> <code>{{ st.npmImportPath }}</code></p>
+  <pre><code>{% raw %}{
+  "$schema": "https://designlasagna.recipes/v0.3/utilities.json"
+}{% endraw %}</code></pre>
+
+  <h2>Minimal example</h2>
+  <p>This manifest declares a flat <code>utilities</code> list. The schema also allows a
+  <code>categories</code> manifest, in which each category groups its utilities —
+  every utility class follows the same shape either way.</p>
+  <pre class="json-example"><code>{{ st.minimalExample | jsonCode | safe }}</code></pre>
+</section>
+
+<section>
+  <h2>Manifest fields</h2>
+  <p><span class="required-field" aria-label="required">*</span> Required field. A manifest declares
+  <code>categories</code> or <code>utilities</code> (one of the two), alongside <code>schemaVersion</code>.</p>
+  {{ fieldTable(ref.properties, 'manifest') }}
+</section>
+
+<section>
+  <h2>Utility class fields</h2>
+  <p>Each item in <code>utilities</code> follows this shape.</p>
+  {{ fieldTable(utility.properties, 'UtilityClass') }}
+</section>
+
+<section>
+  <h2>Nested definitions</h2>
+  {% for entry in ref.definitions | dictsort %}
+    {% set name = entry[0] %}
+    {% set definition = entry[1] %}
+    {% if name != 'UtilityClass' %}
+    {% set definitionGuide = schemaDocs.v03Utilities._definitions[name] or {} %}
+    <article class="schema-definition">
+      <h3><code>{{ name }}</code></h3>
+      <p>{{ definitionGuide.summary or definition.description or 'See the raw schema for this definition.' }}</p>
+      {% if definition.properties %}
+        {{ fieldTable(definition.properties, name) }}
+      {% elif definition.additionalProperties === true %}
+        <p>This definition accepts type-specific keys; the schema deliberately does not constrain the object further.</p>
+      {% elif definition.type %}
+        <p><code>{{ definition.type }}</code></p>
+      {% endif %}
+      {% if definitionGuide.example %}
+        <p><strong>Example usage</strong></p>
+        <pre class="json-example"><code>{{ definitionGuide.example | jsonCode | safe }}</code></pre>
+      {% endif %}
+    </article>
+    {% endif %}
+  {% endfor %}
+</section>
+
+<section>
+  <p><a href="/docs/schemas/">← All schemas</a> · <a href="https://github.com/designlasagna/schemas">Schema source on GitHub ↗</a></p>
+</section>

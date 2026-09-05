@@ -473,8 +473,20 @@ v03Tokens:
       summary: Gives the platform-specific identifier developers use for the token.
       useWhen: Use when an implementation platform uses a different identifier.
       provenance: Generated or authored mapping.
+      related:
+        - usage
       example:
         reference: Color.Blue500
+    usage:
+      summary: Records how the platform reference should actually be consumed.
+        for example a property, a resource, or an API call.
+      useWhen: Use when the identifier alone is ambiguous and the intended
+        application needs to be stated.
+      provenance: Generated or authored mapping.
+      related:
+        - reference
+      example:
+        usage: "UIMenuItem.titleColor"
   Format:
     colorSpace:
       summary: Names the colour space used by a colour value.
@@ -759,7 +771,8 @@ v03Tokens:
       summary: Type-specific information needed to interpret a resolved value
         correctly, such as a colour space or dimensional unit.
     PlatformMapping:
-      summary: The platform-specific implementation reference developers use for a token.
+      summary: "The platform-specific implementation reference developers use for
+        a token, plus how that reference is consumed."
     TokenRelation:
       summary: An explicit relationship between two or more tokens. It records the
         relation type as well as the participating token identifiers.

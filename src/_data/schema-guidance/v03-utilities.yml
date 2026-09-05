@@ -1,0 +1,471 @@
+# Reader-facing guidance for the v0.3 utilities schema.
+# Keep JSON Schema constraints in @designlasagna/schemas. Edit this file for
+# prose, related fields, and field-specific example snippets.
+v03Utilities:
+  manifest:
+    $schema:
+      summary: Identifies the JSON Schema used to validate this file.
+      useWhen: Include when consumers need to discover the contract from the
+        manifest itself.
+      provenance: Authored metadata.
+      related:
+        - schemaVersion
+      example:
+        $schema: https://designlasagna.recipes/v0.3/utilities.json
+    schemaVersion:
+      summary: States the Design Lasagna manifest format version.
+      useWhen: Always set this so readers and tools select the correct
+        compatibility rules.
+      provenance: Authored metadata.
+      related:
+        - $schema
+      example:
+        schemaVersion: 0.3.0
+    generatedAt:
+      summary: Records when this utilities manifest was produced.
+      useWhen: Use for traceability and freshness checks in generated output.
+      provenance: Generated metadata.
+      related:
+        - designSystem
+      example:
+        generatedAt: 2026-09-04T00:00:00Z
+    designSystem:
+      summary: Describes the design system that owns this manifest.
+      useWhen: Use to attach a name, version, and documentation locations to a
+        published manifest.
+      provenance: Authored metadata.
+      related:
+        - generatedAt
+      example:
+        designSystem:
+          name: Acme Design System
+          version: 2.4.0
+    variantPatterns:
+      summary: Declares the state and responsive variant names available to
+        utilities.
+      useWhen: Use when utilities expose variant forms that tools should
+        recognise, such as `hover:` or breakpoint prefixes.
+      provenance: Generated from the utility definition.
+      related:
+        - utilities
+      example:
+        variantPatterns:
+          states:
+            hover:
+              format: hover:{utility}
+              description: Applies while the element is hovered.
+          responsive:
+            breakpoints:
+              - sm
+              - md
+            format: sm:{utility}
+    categories:
+      summary: Groups utilities into named categories.
+      useWhen: Use to organise utilities for browsing and autocomplete grouping.
+      provenance: Generated from authored definitions.
+      related:
+        - utilities
+      example:
+        categories:
+          - name: Layout
+            description: Utilities that control layout.
+            prefix: layout
+            utilities:
+              - name: layout:grid
+    utilities:
+      summary: Contains the utility class records in this manifest.
+      useWhen: Always include the utilities a consumer should discover or apply.
+      provenance: Generated from authored utility definitions.
+      related:
+        - categories
+        - variantPatterns
+      example:
+        utilities: &a1
+          - name: "flex"
+            status: stable
+            variants:
+              responsive: true
+  DesignSystemMeta:
+    name:
+      summary: The design system’s display name.
+      useWhen: Use to identify the owner of a manifest to people and tooling.
+      provenance: Authored metadata.
+      related:
+        - version
+      example:
+        name: Acme Design System
+    version:
+      summary: The design system release version.
+      useWhen: Use to correlate the manifest with a design-system release.
+      provenance: Authored metadata.
+      related:
+        - name
+      example:
+        version: 2.4.0
+    documentation:
+      summary: Links to the design system’s general documentation.
+      useWhen: Use to give consumers an entry point beyond individual utility
+        guidance.
+      provenance: Authored metadata.
+      related:
+        - docsTemplates
+      example:
+        documentation: https://example.com/design-system
+    package:
+      summary: Identifies the package that distributes the design system.
+      useWhen: Use when consumers install or resolve the system through a package
+        registry.
+      provenance: Authored metadata.
+      related:
+        - version
+      example:
+        package: "@acme/design-system"
+    docsTemplates:
+      summary: Provides URL templates for constructing documentation links.
+      useWhen: Use when generated utility documentation should link into a
+        standard structure.
+      provenance: Authored metadata.
+      related:
+        - documentation
+      example:
+        docsTemplates:
+          url: /docs/utilities/{name}
+  Category:
+    name:
+      summary: The human-readable name of the utility category.
+      useWhen: Always provide it; it names the group in documentation and UI.
+      provenance: Authored metadata.
+      related:
+        - description
+        - prefix
+      example:
+        name: Layout
+    description:
+      summary: Explains what the category covers.
+      useWhen: Use to help readers choose the right category at a glance.
+      provenance: Authored metadata.
+      related:
+        - name
+      example:
+        description: Utilities that control layout.
+    prefix:
+      summary: The common utility name prefix shared by this category.
+      useWhen: Use when tools should recognise related utilities by naming.
+      provenance: Authored metadata.
+      related:
+        - name
+        - utilities
+      example:
+        prefix: layout
+    utilities:
+      summary: The utility classes belonging to this category.
+      useWhen: Always list the utilities so category browsing stays complete.
+      provenance: Generated from authored definitions.
+      related:
+        - name
+      example:
+        utilities:
+          - name: layout:grid
+            status: stable
+  UtilityClass:
+    name:
+      summary: The stable utility identifier, such as a utility name.
+      useWhen: Always provide it; consumers use it as the durable utility
+        identity.
+      provenance: Authored metadata.
+      related:
+        - description
+        - keywords
+      example:
+        name: "flex"
+    description:
+      summary: Explains what the utility does and when to apply it.
+      useWhen: Use to give implementers the intent that a name cannot convey.
+      provenance: Authored metadata.
+      related:
+        - name
+        - keywords
+      example:
+        description: Lay out children in a flex row.
+    status:
+      summary: Describes the lifecycle status of the utility.
+      useWhen: Use so consumers know how much they can rely on the utility, such
+        as stable versus experimental.
+      provenance: Authored metadata.
+      related:
+        - since
+        - deprecated
+      example:
+        status: stable
+    exclusiveGroup:
+      summary: Names the group of mutually exclusive utilities.
+      useWhen: Use when only one utility in a set should be applied at a time,
+        such as display modes.
+      provenance: Authored metadata.
+      related:
+        - name
+      example:
+        exclusiveGroup: display
+    variants:
+      summary: Controls which variant kinds a specific utility supports.
+      useWhen: Use to advertise the state and responsive variants of this
+        utility in autocomplete.
+      provenance: Authored metadata.
+      related:
+        - status
+      example:
+        variants:
+          responsive: true
+    priority:
+      summary: Influences the order utilities appear in suggestion lists.
+      useWhen: Use to surface the most common utilities first in tooling.
+      provenance: Authored metadata.
+      related:
+        - keywords
+      example:
+        priority: 80
+    keywords:
+      summary: Supplies natural-language synonyms and search terms.
+      useWhen: Use to improve discovery in autocomplete and documentation search.
+      provenance: Authored metadata.
+      related:
+        - description
+        - name
+      example:
+        keywords:
+          - layout
+          - flex
+    since:
+      summary: Records the version in which the utility became available.
+      useWhen: Use to make compatibility and migration decisions.
+      provenance: Authored metadata.
+      related:
+        - status
+        - deprecated
+      example:
+        since: 2.4.0
+    docs:
+      summary: Links the utility to its supporting documentation.
+      useWhen: Use when readers need to continue to design-system guidance
+        outside the manifest.
+      provenance: Authored metadata.
+      related:
+        - description
+      example:
+        docs:
+          url: https://example.com/docs/utilities/flex
+    platforms:
+      summary: Maps each platform name to that platform’s utility expression.
+      useWhen: Use when a utility is realised differently per platform, such as
+        a class name and CSS properties on the web.
+      provenance: Generated or authored mapping.
+      related:
+        - properties
+      example:
+        platforms:
+          web:
+            className: "flex"
+            properties:
+              display: "flex"
+    properties:
+      summary: >-
+        DEPRECATED in v0.3. Maps CSS property names to utility values; new
+        manifests should use `platforms.web.properties` instead.
+      useWhen: Read it for legacy manifests only; do not add it to new ones.
+      provenance: Legacy authored mapping.
+      related:
+        - platforms
+      example:
+        properties:
+          display: "flex"
+    tokens:
+      summary: Lists the token identifiers this utility references.
+      useWhen: Use to connect a utility back to the design tokens it consumes.
+      provenance: Generated from utility evaluation.
+      related:
+        - name
+      example:
+        tokens:
+          - spacing.400
+          - color.blue.500
+    deprecated:
+      summary: Marks the utility as deprecated and explains its replacement.
+      useWhen: Use when the utility remains available temporarily while guiding
+        consumers to a successor.
+      provenance: Authored metadata.
+      related:
+        - status
+        - since
+      example:
+        deprecated:
+          message: Use layout:grid instead.
+          replacement: layout:grid
+  UtilityVariants:
+    states:
+      summary: Indicates which state variants this utility supports.
+      useWhen: Use to advertise state variants such as `hover:` for one specific
+        utility.
+      provenance: Authored metadata.
+      related:
+        - responsive
+      example:
+        states:
+          - hover
+          - focus
+    responsive:
+      summary: Indicates whether this utility supports responsive breakpoint
+        variants.
+      useWhen: Use when the utility is offered under breakpoint prefixes such as
+        `sm:` and `md:`.
+      provenance: Authored metadata.
+      related:
+        - states
+      example:
+        responsive: true
+  VariantPatterns:
+    states:
+      summary: Declares the pseudo-state variants available to utilities.
+      useWhen: Use when utilities support state forms such as `hover:` or
+        `focus:` and tools should generate them.
+      provenance: Generated from variant configuration.
+      related:
+        - responsive
+      example:
+        states:
+          hover:
+            format: hover:{utility}
+            description: Applies while the element is hovered.
+    responsive:
+      summary: Declares the responsive breakpoints and naming form for utility
+        variants.
+      useWhen: Use when utilities support breakpoint variants like `sm:`.
+      provenance: Generated from breakpoint configuration.
+      related:
+        - states
+      example:
+        responsive:
+          breakpoints:
+            - sm
+            - md
+          format: sm:{utility}
+  PlatformUtility:
+    className:
+      summary: The class name that expresses the utility on this platform.
+      useWhen: Use when the platform applies the utility through a class.
+      provenance: Generated or authored mapping.
+      related:
+        - modifier
+        - properties
+      example:
+        className: "flex"
+    modifier:
+      summary: The modifier token the platform combines with a base class to
+        express the utility.
+      useWhen: Use when the platform names utilities as a base class plus a
+        modifier, rather than a single class name.
+      provenance: Generated or authored mapping.
+      related:
+        - className
+      example:
+        modifier: flex
+    style:
+      summary: A style fragment the platform attaches to express the utility.
+      useWhen: Use when the platform realises the utility through inline or
+        embedded style text.
+      provenance: Generated or authored mapping.
+      related:
+        - properties
+      example:
+        style: "display: flex;"
+    properties:
+      summary: The property map the platform uses to implement the utility.
+      useWhen: Use when the utility is realised directly as style properties.
+      provenance: Generated from utility evaluation.
+      related:
+        - className
+      example:
+        properties:
+          display: "flex"
+  Docs:
+    url:
+      summary: Links to general web documentation for the utility.
+      useWhen: Use when the canonical guidance lives on a documentation site.
+      provenance: Authored metadata.
+      related:
+        - figma
+        - storybook
+      example:
+        url: https://example.com/docs/utilities/flex
+    figma:
+      summary: Links to the corresponding Figma resource.
+      useWhen: Use when designers need to locate the utility in Figma.
+      provenance: Authored metadata.
+      related:
+        - url
+      example:
+        figma: https://figma.com/file/example
+    storybook:
+      summary: Links to the corresponding Storybook resource.
+      useWhen: Use when implementers need to inspect the utility in component
+        examples.
+      provenance: Authored metadata.
+      related:
+        - url
+      example:
+        storybook: https://example.com/storybook
+  Deprecated:
+    message:
+      summary: Explains why the utility is deprecated and what to do instead.
+      useWhen: Use whenever a utility remains available only for compatibility.
+      provenance: Authored metadata.
+      related:
+        - replacement
+        - removal
+      example:
+        message: Use layout:grid instead.
+    removal:
+      summary: States the planned version or date for removal.
+      useWhen: Use to let consumers schedule migration work.
+      provenance: Authored metadata.
+      related:
+        - replacement
+      example:
+        removal: 4.0.0
+    replacement:
+      summary: Identifies the machine-readable successor utility.
+      useWhen: Use to provide a direct migration path.
+      provenance: Authored metadata.
+      related:
+        - message
+      example:
+        replacement: layout:grid
+  _definitions:
+    Category:
+      summary: A named grouping of utilities. It carries a display name, an
+        optional prefix, and the utility records that belong to the group.
+    DesignSystemMeta:
+      summary: Identity and discovery metadata for the design system that
+        published the manifest, including its release and documentation
+        locations.
+    Deprecated:
+      summary: Migration information for a utility that should no longer be
+        used in new work. It explains the reason, removal plan, and preferred
+        replacement.
+    Docs:
+      summary: "Links from a utility to the places where people can understand
+        and use it: web documentation, Figma, and Storybook."
+    PlatformUtility:
+      summary: The platform-specific ways a utility is expressed, such as a
+        class name on the web or style properties, so tooling can apply it
+        faithfully per platform.
+    UtilityVariants:
+      summary: Per-utility variant support flags. It records whether a state and
+        a responsive variant apply to this utility, keeping variant data
+        distinct from the shared variant vocabulary.
+    VariantPatterns:
+      summary: The declared state and responsive variant naming patterns a
+        manifest supports. It lets tooling generate and recognise variant names
+        such as `hover:flex` or `sm:flex`.
+    UtilityClass:
+      summary: "A single utility record: its identity, lifecycle status, the
+        variants it supports, and how each platform realises it."

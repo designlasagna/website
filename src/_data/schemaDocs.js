@@ -4,6 +4,16 @@ const fs = require('node:fs');
 const path = require('node:path');
 const YAML = require('yaml');
 
-const guidancePath = path.join(__dirname, 'schema-guidance', 'v03-tokens.yml');
+const dir = path.join(__dirname, 'schema-guidance');
 
-module.exports = YAML.parse(fs.readFileSync(guidancePath, 'utf8'));
+module.exports = {
+  v03Tokens: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v03-tokens.yml'), 'utf8'),
+  ).v03Tokens,
+  v03Utilities: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v03-utilities.yml'), 'utf8'),
+  ).v03Utilities,
+  v03CemExtensions: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v03-cem-extensions.yml'), 'utf8'),
+  ).v03CemExtensions,
+};
