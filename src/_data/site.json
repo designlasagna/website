@@ -2,11 +2,7 @@
   "title": "Design Lasagna",
   "description": "Design Lasagna — open tooling for design systems.",
   "nav": [
-    { "label": "About", "href": "/about/" },
-    { "label": "Tasty parts", "href": "/tools/" },
-    { "label": "Docs", "href": "/docs/" },
-    { "label": "Learn", "href": "/learn/" },
-    { "label": "Writing", "href": "/writing/" }
+    { "label": "Docs", "href": "/docs/" }
   ],
   "external": [
     { "label": "Schemas ↗", "href": "https://github.com/designlasagna/schemas" },

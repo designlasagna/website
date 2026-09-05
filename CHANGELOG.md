@@ -8,3 +8,5 @@
 - Clarified platform mappings and their `PlatformMapping` value shape.
 - Improved schema-reference table row expansion and alignment.
 - Added v0.3 Utilities and Components (CEM extensions) schema reference pages, guidance, and coverage tests.
+- Moved GitHub Pages deployment from the legacy Jekyll branch build to the Eleventy GitHub Actions workflow.
+- Hid unfinished sections from the main navigation.
