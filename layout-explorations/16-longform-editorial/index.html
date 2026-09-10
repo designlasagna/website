@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout 16 — Longform editorial article</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Tilt+Warp&display=swap">
+<style>
+:root { --ink:#261c2d; --paper:#fffaf1; --gold:#f6b33d; --orange:#dd4c14; --purple:#8342b0; --muted:#6e6276; --lede:#3c4841; }
+* { box-sizing:border-box; }
+html,body { min-height:100%; }
+body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; }
+.skip { position:absolute; top:-100vh; left:.75rem; background:var(--gold); padding:.6rem 1rem; font:500 .8rem "DM Mono",monospace; text-decoration:none; z-index:9; }
+.skip:focus { top:.75rem; }
+.concept-note { padding:.8rem clamp(1.5rem,5vw,5rem); background:var(--gold); font:500 .75rem "DM Mono",monospace; }
+.site-header { display:flex; align-items:center; gap:1.25rem; padding:1.1rem clamp(1.5rem,5vw,5rem); border-bottom:1px dashed color-mix(in srgb,var(--purple) 40%,transparent); }
+.brand { width:4.4rem; display:block; }
+.brand img { width:100%; display:block; }
+.site-nav { margin-left:auto; display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; font:500 .76rem "DM Mono",monospace; }
+.site-nav a { color:inherit; text-decoration:none; }
+.site-nav a:hover { color:var(--orange); text-decoration:underline; text-decoration-color:var(--gold); }
+main { width:min(88rem,100%); margin:auto; padding:clamp(1.5rem,4vw,3.5rem) clamp(1.5rem,5vw,5rem) 3rem; }
+.kicker { margin:0 0 .9rem; color:var(--purple); font:500 .7rem "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+h1 { margin:0; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; font-size:clamp(3rem,7vw,6.1rem); line-height:.88; letter-spacing:-.06em; text-transform:uppercase; }
+h1 em { color:var(--orange); font-style:normal; }
+.deck { margin:1rem 0 0; max-width:46ch; color:var(--lede); font-size:1.15rem; line-height:1.6; }
+.article-meta { display:flex; flex-wrap:wrap; gap:.5rem 1.25rem; margin:1.4rem 0 1.8rem; padding:.85rem 0; border-top:1px solid color-mix(in srgb,var(--purple) 18%,transparent); border-bottom:1px solid color-mix(in srgb,var(--purple) 18%,transparent); font:500 .72rem "DM Mono",monospace; color:var(--muted); }
+.article-meta b { color:var(--ink); }
+.toc { display:flex; flex-wrap:wrap; gap:.4rem 1rem; margin:0 auto 2rem; padding:.8rem 1rem; border-left:.35rem solid var(--gold); background:color-mix(in srgb,var(--gold) 9%,white); font:500 .72rem "DM Mono",monospace; }
+.toc a { color:var(--purple); text-decoration:none; }
+.toc a:hover { color:var(--orange); text-decoration:underline; }
+.story { max-width:72rem; margin:auto; }
+.story p { max-width:68ch; line-height:1.75; margin:1.1rem 0; }
+.story h2 { margin:2rem 0 .8rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:-.03em; font-size:clamp(1.35rem,2.6vw,2rem); line-height:.95; }
+figure { margin:0; }
+img { width:100%; display:block; border-radius:1rem; border:1px solid color-mix(in srgb,var(--purple) 18%,transparent); box-shadow:5px 5px 0 color-mix(in srgb,var(--gold) 42%,transparent); }
+figcaption { margin-top:.45rem; font:500 .72rem "DM Mono",monospace; color:var(--muted); }
+.wide, .fullbleed { margin:1.5rem 0 2rem; }
+.fullbleed { width:100vw; margin-left:calc(50% - 50vw); }
+.fullbleed img { border-radius:0; border:0; box-shadow:none; min-height:52svh; object-fit:cover; }
+.table-wrap { overflow:auto; margin:1rem 0 1.6rem; border:1px solid color-mix(in srgb,var(--purple) 20%,transparent); border-radius:1rem; background:#fffdf8; box-shadow:5px 5px 0 color-mix(in srgb,var(--gold) 34%,transparent); }
+table { width:100%; border-collapse:collapse; min-width:42rem; }
+th, td { padding:.8rem .9rem; border-bottom:1px solid color-mix(in srgb,var(--purple) 14%,transparent); text-align:left; }
+th { font:500 .75rem "DM Mono",monospace; color:var(--purple); text-transform:uppercase; background:color-mix(in srgb,var(--gold) 10%,white); }
+td { color:var(--lede); }
+.quote { margin:1.5rem 0; padding:1rem 1.1rem; border-left:.45rem solid var(--gold); background:color-mix(in srgb,var(--gold) 10%,white); font-size:1.1rem; line-height:1.6; }
+.quote p, .quote { color:var(--lede); }
+.note { margin-top:1.2rem; padding:1rem 1.1rem; background:color-mix(in srgb,var(--orange) 8%,white); border-left:.35rem solid var(--orange); }
+.summary-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; margin-bottom:1rem; }
+.stat { padding:1rem 1.1rem; border-radius:1rem; background:#fffdf8; border:1px solid color-mix(in srgb,var(--purple) 18%,transparent); box-shadow:4px 4px 0 color-mix(in srgb,var(--gold) 30%,transparent); }
+.stat b { display:block; font-family:"Tilt Warp","DM Sans",sans-serif; font-size:2rem; color:var(--purple); }
+.stat span { font:500 .75rem "DM Mono",monospace; color:var(--muted); }
+.callout { padding:1rem 1.1rem; border:1px solid color-mix(in srgb,var(--purple) 20%,transparent); border-radius:1rem; background:#fffdf8; box-shadow:4px 4px 0 color-mix(in srgb,var(--gold) 34%,transparent); }
+.callout b { display:block; margin-bottom:.35rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; }
+.callout p { margin:0; color:var(--lede); line-height:1.6; }
+.split-wide { display:grid; grid-template-columns:minmax(0,1fr) 18rem; gap:1.2rem; align-items:center; margin:1rem 0 1.6rem; }
+.split-wide figure { margin:0; }
+.split-wide img { min-height:260px; object-fit:cover; }
+footer { padding:1.25rem clamp(1.5rem,5vw,5rem) 2rem; font:500 .68rem "DM Mono",monospace; color:var(--muted); }
+@media (max-width:920px) { .summary-grid, .split-wide { grid-template-columns:1fr; } .fullbleed { width:auto; margin-left:0; } .fullbleed img { min-height:38svh; } }
+@media (max-width:720px) { .site-header { align-items:flex-start; flex-direction:column; } .site-nav { margin-left:0; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="concept-note">LAYOUT EXPLORATION 16 — "LONGFORM EDITORIAL". A text-heavy article page that maps the needed content types: headings, pull quotes, wide images, tables, and supporting notes. (Exploration file — not part of the build.)</div>
+<header class="site-header">
+  <a class="brand" href="../" aria-label="Design Lasagna home"><img src="../../src/assets/logotype.svg" alt=""></a>
+  <nav class="site-nav" aria-label="Primary"><a href="#">Tools</a><a href="#">Docs</a><a href="#">Learn</a><a href="#">Writing</a><a href="#">About</a></nav>
+</header>
+<main id="main">
+  <p class="kicker">Writing · longform article</p>
+  <h1>A longform article page that can hold <em>real content</em>.</h1>
+  <p class="deck">Text-first, with slots for wide figures, pull quotes, tables, and occasional media. The point is to understand the editorial structure before styling it further.</p>
+  <div class="article-meta"><span><b>By</b> Design Lasagna</span><span><b>6 min read</b></span><span><b>Updated</b> 2025-01-01</span></div>
+  <nav class="toc" aria-label="Article sections"><a href="#thesis">Thesis</a><a href="#evidence">Evidence</a><a href="#pace">Reset the pace</a><a href="#notes">Notes</a></nav>
+  <article class="story">
+    <p>Longform pages need to answer a simple question: what kinds of content might appear inside the article? This exploration lays out the pieces explicitly so the structure is easy to discuss.</p>
+    <p>We start with prose, then place a wide image where the reader needs a shift in pace. After that come a pull quote, a table, and a second figure — the sort of ingredients a real article might require.</p>
+
+    <figure class="wide">
+      <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%20900%22%3E%3Crect%20width%3D%221600%22%20height%3D%22900%22%20fill%3D%22%23fff4e7%22%2F%3E%3Ccircle%20cx%3D%22260%22%20cy%3D%22240%22%20r%3D%22150%22%20fill%3D%22%23f6b33d%22%2F%3E%3Ccircle%20cx%3D%221210%22%20cy%3D%22230%22%20r%3D%22170%22%20fill%3D%22%23dd4c14%22%2F%3E%3Ccircle%20cx%3D%221090%22%20cy%3D%22650%22%20r%3D%22260%22%20fill%3D%22%238342b0%22%2F%3E%3Crect%20x%3D%2290%22%20y%3D%22120%22%20width%3D%22700%22%20height%3D%22280%22%20rx%3D%2240%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22840%22%20y%3D%22140%22%20width%3D%22620%22%20height%3D%22260%22%20rx%3D%2240%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%221600%22%20height%3D%22110%22%20rx%3D%220%22%20fill%3D%22%23f6b33d%22%2F%3E%3Crect%20x%3D%22120%22%20y%3D%22520%22%20width%3D%22420%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.14%22%2F%3E%3Crect%20x%3D%22120%22%20y%3D%22566%22%20width%3D%22760%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.11%22%2F%3E%3C%2Fsvg%3E" alt="Wide editorial image placeholder">
+      <figcaption>Wide figure: use for a lead image, diagram, or contextual screenshot.</figcaption>
+    </figure>
+
+    <h2 id="thesis">Start with a clear thesis.</h2>
+    <p>The opening paragraphs should explain what the page is doing and why it matters. In a longform article, the reader needs orientation before they encounter details.</p>
+
+    <aside class="quote">
+      <p>“Good article pages organize content before they decorate it.”</p>
+    </aside>
+
+    <h2 id="evidence">Show the supporting evidence.</h2>
+    <p>Some articles need a table instead of another paragraph. Others need a chart or a screenshot. This page reserves space for those blocks instead of hiding them in a generic content stack.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Element</th><th>Purpose</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>H2</td><td>Section break</td><td>Use for topic changes</td></tr>
+          <tr><td>Figure</td><td>Visual context</td><td>Wide or full bleed</td></tr>
+          <tr><td>Table</td><td>Comparisons</td><td>Useful for summaries</td></tr>
+          <tr><td>Quote</td><td>Editorial emphasis</td><td>Pull the reader forward</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="pace">Let one image reset the pace.</h2>
+    <p>After denser text, a second figure can provide relief. The layout keeps the reading column narrow, but lets the image escape that constraint when it needs to.</p>
+
+    <figure class="wide">
+      <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%20900%22%3E%3Crect%20width%3D%221600%22%20height%3D%22900%22%20fill%3D%22%23f4e3ff%22%2F%3E%3Ccircle%20cx%3D%22260%22%20cy%3D%22220%22%20r%3D%22140%22%20fill%3D%22%238342b0%22%2F%3E%3Ccircle%20cx%3D%221180%22%20cy%3D%22240%22%20r%3D%22170%22%20fill%3D%22%23f6b33d%22%2F%3E%3Ccircle%20cx%3D%22980%22%20cy%3D%22650%22%20r%3D%22260%22%20fill%3D%22%23dd4c14%22%2F%3E%3Crect%20x%3D%220%22%20y%3D%22700%22%20width%3D%221600%22%20height%3D%22200%22%20rx%3D%220%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22110%22%20width%3D%22520%22%20height%3D%22210%22%20rx%3D%2240%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22760%22%20y%3D%22110%22%20width%3D%22580%22%20height%3D%22210%22%20rx%3D%2240%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22180%22%20y%3D%22410%22%20width%3D%22430%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.14%22%2F%3E%3Crect%20x%3D%22180%22%20y%3D%22456%22%20width%3D%22330%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.10%22%2F%3E%3Crect%20x%3D%22810%22%20y%3D%22410%22%20width%3D%22430%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.14%22%2F%3E%3C%2Fsvg%3E" alt="Secondary figure placeholder">
+      <figcaption>Secondary figure: a wide screenshot, chart, or supporting image.</figcaption>
+    </figure>
+
+    <p class="note" id="notes"><b>Source note:</b> the final note, source, or related link can live here without interrupting the article.</p>
+  </article>
+</main>
+<footer>Design Lasagna · longform editorial exploration</footer>
+</body>
+</html>

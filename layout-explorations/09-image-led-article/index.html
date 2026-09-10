@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout 09 — Image-led article</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Tilt+Warp&display=swap">
+<style>
+:root { --ink:#261c2d; --paper:#fffaf1; --gold:#f6b33d; --orange:#dd4c14; --purple:#8342b0; --muted:#6e6276; --lede:#3c4841; }
+* { box-sizing:border-box; }
+html,body { min-height:100%; }
+body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; }
+.skip { position:absolute; top:-100vh; left:.75rem; background:var(--gold); padding:.6rem 1rem; font:500 .8rem "DM Mono",monospace; text-decoration:none; z-index:9; }
+.skip:focus { top:.75rem; }
+.concept-note { padding:.8rem clamp(1.5rem,5vw,5rem); background:var(--gold); font:500 .75rem "DM Mono",monospace; }
+.site-header { display:flex; align-items:center; gap:1.25rem; padding:1.1rem clamp(1.5rem,5vw,5rem); border-bottom:1px dashed color-mix(in srgb,var(--purple) 40%,transparent); }
+.brand { width:4.4rem; display:block; }
+.brand img { width:100%; display:block; }
+.site-nav { margin-left:auto; display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; font:500 .76rem "DM Mono",monospace; }
+.site-nav a { color:inherit; text-decoration:none; }
+.site-nav a:hover { color:var(--orange); text-decoration:underline; text-decoration-color:var(--gold); }
+main { width:min(90rem,100%); margin:auto; padding:clamp(1.5rem,4vw,3.5rem) clamp(1.5rem,5vw,5rem) 3rem; }
+.hero { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(18rem,.9fr); gap:2rem; align-items:end; padding-bottom:2rem; border-bottom:3px solid var(--ink); }
+.kicker { margin:0 0 .9rem; color:var(--purple); font:500 .7rem "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+h1 { margin:0; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; font-size:clamp(3rem,7vw,6.5rem); line-height:.84; letter-spacing:-.06em; text-transform:uppercase; }
+h1 em { color:var(--orange); font-style:normal; }
+.deck { margin:1rem 0 0; max-width:44ch; color:var(--lede); font-size:1.15rem; line-height:1.6; }
+.hero figure { margin:0; }
+.hero img { width:100%; height:auto; display:block; border-radius:1.2rem; box-shadow:8px 8px 0 color-mix(in srgb,var(--gold) 50%,transparent); border:1px solid color-mix(in srgb,var(--purple) 18%,transparent); }
+.hero figcaption { margin-top:.6rem; font:500 .72rem "DM Mono",monospace; color:var(--muted); }
+.story { display:grid; grid-template-columns:minmax(0,1fr) 16rem; gap:2rem; align-items:start; padding-top:2rem; }
+.story article { max-width:52rem; }
+.story p { max-width:68ch; line-height:1.75; margin:1.15rem 0; }
+.story h2 { margin:2.2rem 0 .8rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:-.03em; font-size:clamp(1.35rem,2.6vw,2rem); line-height:.95; }
+.image-row { display:grid; grid-template-columns:1.2fr .8fr; gap:1rem; margin:1.4rem 0 1.7rem; }
+.image-row figure, .image-stack figure { margin:0; }
+.image-row img, .image-stack img { width:100%; height:auto; display:block; border-radius:1rem; border:1px solid color-mix(in srgb,var(--purple) 18%,transparent); box-shadow:5px 5px 0 color-mix(in srgb,var(--gold) 42%,transparent); }
+.image-stack { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1rem 0 1.5rem; }
+.image-stack figure:nth-child(1) { grid-column:1 / -1; }
+.caption { margin-top:.5rem; font:500 .72rem "DM Mono",monospace; color:var(--muted); }
+.pull { margin:1.75rem 0; padding:1.25rem 1.4rem; border-left:.45rem solid var(--gold); background:color-mix(in srgb,var(--gold) 10%,white); font-size:1.08rem; line-height:1.6; }
+.pull em { color:var(--purple); font-style:normal; }
+.notes { position:sticky; top:1rem; padding:1.25rem; border-radius:1rem; background:var(--purple); color:#fff; }
+.notes h2 { margin:0 0 .75rem; color:var(--gold); font-size:1rem; }
+.notes p { margin:.6rem 0; line-height:1.6; color:rgba(255,255,255,.86); }
+.notes a { color:var(--gold); text-decoration:none; }
+.notes a:hover { text-decoration:underline; }
+footer { padding:1.25rem clamp(1.5rem,5vw,5rem) 2rem; font:500 .68rem "DM Mono",monospace; color:var(--muted); }
+@media (max-width:980px){ .hero, .story { grid-template-columns:1fr; } .notes { position:static; } }
+@media (max-width:720px){ .site-header { align-items:flex-start; flex-direction:column; } .site-nav { margin-left:0; } .image-row, .image-stack { grid-template-columns:1fr; } .image-stack figure:nth-child(1) { grid-column:auto; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="concept-note">LAYOUT EXPLORATION 09 — "IMAGE-LED ARTICLE". A writing layout with more inline images, figure captions, and a stronger visual rhythm between text blocks. (Exploration file — not part of the build.)</div>
+<header class="site-header">
+  <a class="brand" href="../" aria-label="Design Lasagna home"><img src="../../src/assets/logotype.svg" alt=""></a>
+  <nav class="site-nav" aria-label="Primary"><a href="#">Tools</a><a href="#">Docs</a><a href="#">Learn</a><a href="#">Writing</a><a href="#">About</a></nav>
+</header>
+<main id="main">
+  <section class="hero">
+    <div>
+      <p class="kicker">Writing · image-led</p>
+      <h1>Let the article use <em>pictures</em> as punctuation.</h1>
+      <p class="deck">A more visual article layout for stories, docs intros, and essays that benefit from screenshots, sketches, diagrams, or product shots woven into the reading flow.</p>
+    </div>
+    <figure>
+      <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201400%20900%22%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%221400%22%20height%3D%22900%22%20rx%3D%2248%22%20fill%3D%22%23fff6e7%22%2F%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22290%22%20cy%3D%22260%22%20r%3D%22160%22%20fill%3D%22%23f6b33d%22%2F%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22480%22%20cy%3D%22620%22%20r%3D%22220%22%20fill%3D%22%238342b0%22%20opacity%3D%22.92%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22760%22%20y%3D%22160%22%20width%3D%22470%22%20height%3D%22140%22%20rx%3D%2270%22%20fill%3D%22%23dd4c14%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22790%22%20y%3D%22340%22%20width%3D%22320%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.18%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22790%22%20y%3D%22392%22%20width%3D%22520%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.14%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22790%22%20y%3D%22444%22%20width%3D%22390%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.14%22%2F%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%22790%22%20y%3D%22610%22%20font-family%3D%22DM%20Mono%2C%20monospace%22%20font-size%3D%2236%22%20fill%3D%22%238342b0%22%3EIMAGE-LED%20INTRO%3C%2Ftext%3E%0A%20%20%20%20%3C%2Fsvg%3E" alt="Abstract hero illustration with large color blocks and text">
+      <figcaption>Hero image above the fold, paired with a short editorial summary.</figcaption>
+    </figure>
+  </section>
+
+  <section class="story">
+    <article>
+      <p>Some pages feel better when they alternate between text and image. The eye gets a reset; the reader gets a clearer rhythm. For a project like Design Lasagna, that could mean screenshots of schemas, diagrams of workflows, or visual examples of docs pages.</p>
+
+      <div class="image-row">
+        <figure>
+          <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20900%20650%22%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22900%22%20height%3D%22650%22%20rx%3D%2236%22%20fill%3D%22%23fbf3de%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%2270%22%20y%3D%2272%22%20width%3D%22380%22%20height%3D%22210%22%20rx%3D%2228%22%20fill%3D%22%23f6b33d%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M510%20110h250a18%2018%200%200%201%2018%2018v164a18%2018%200%200%201-18%2018H510a18%2018%200%200%201-18-18V128a18%2018%200%200%201%2018-18Z%22%20fill%3D%22%238342b0%22%2F%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22610%22%20cy%3D%22215%22%20r%3D%2252%22%20fill%3D%22%23fffaf1%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%2286%22%20y%3D%22334%22%20width%3D%22742%22%20height%3D%2220%22%20rx%3D%2210%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%2286%22%20y%3D%22372%22%20width%3D%22560%22%20height%3D%2220%22%20rx%3D%2210%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%2286%22%20y%3D%22484%22%20font-family%3D%22DM%20Sans%2C%20Arial%2C%20sans-serif%22%20font-size%3D%2238%22%20font-weight%3D%22700%22%20fill%3D%22%23dd4c14%22%3EProcess%20image%3C%2Ftext%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%2286%22%20y%3D%22535%22%20font-family%3D%22DM%20Mono%2C%20monospace%22%20font-size%3D%2224%22%20fill%3D%22%236e6276%22%3Efigure%20%2F%20caption%20%2F%20context%3C%2Ftext%3E%0A%20%20%20%20%3C%2Fsvg%3E" alt="Illustration with bright blocks and a process label">
+          <figcaption class="caption">Inline figure 01 — a supporting image placed near the opening argument.</figcaption>
+        </figure>
+        <figure>
+          <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20900%20650%22%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22900%22%20height%3D%22650%22%20rx%3D%2236%22%20fill%3D%22%23fff7ea%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%2272%22%20y%3D%2290%22%20width%3D%22756%22%20height%3D%22470%22%20rx%3D%2234%22%20fill%3D%22%23f4e3ff%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M180%20198h540%22%20stroke%3D%22%238342b0%22%20stroke-width%3D%2224%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M180%20268h390%22%20stroke%3D%22%23dd4c14%22%20stroke-width%3D%2218%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M180%20330h470%22%20stroke%3D%22%23261c2d%22%20stroke-opacity%3D%22.14%22%20stroke-width%3D%2218%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M180%20392h330%22%20stroke%3D%22%23261c2d%22%20stroke-opacity%3D%22.14%22%20stroke-width%3D%2218%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22700%22%20cy%3D%22398%22%20r%3D%2292%22%20fill%3D%22%23f6b33d%22%2F%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%22180%22%20y%3D%22488%22%20font-family%3D%22Tilt%20Warp%2C%20DM%20Sans%2C%20Arial%2C%20sans-serif%22%20font-size%3D%2244%22%20fill%3D%22%23261c2d%22%3EInline%20art%3C%2Ftext%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%22180%22%20y%3D%22532%22%20font-family%3D%22DM%20Mono%2C%20monospace%22%20font-size%3D%2224%22%20fill%3D%22%236e6276%22%3Esupports%20the%20article%20flow%3C%2Ftext%3E%0A%20%20%20%20%3C%2Fsvg%3E" alt="Illustration with layered shapes and typography">
+          <figcaption class="caption">Inline figure 02 — a second image used as a visual beat.</figcaption>
+        </figure>
+      </div>
+
+      <h2>Use image blocks to change pace.</h2>
+      <p>Rather than stacking long stretches of text, the article can break into sections that each introduce a visual proof. This is especially useful when the page teaches something or explains a workflow.</p>
+      <p>The layout still reads as an article — it just behaves more like an illustrated essay.</p>
+
+      <div class="image-stack">
+        <figure>
+          <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201400%20900%22%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%221400%22%20height%3D%22900%22%20rx%3D%2248%22%20fill%3D%22%23fff6e7%22%2F%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22290%22%20cy%3D%22260%22%20r%3D%22160%22%20fill%3D%22%23f6b33d%22%2F%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22480%22%20cy%3D%22620%22%20r%3D%22220%22%20fill%3D%22%238342b0%22%20opacity%3D%22.92%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22760%22%20y%3D%22160%22%20width%3D%22470%22%20height%3D%22140%22%20rx%3D%2270%22%20fill%3D%22%23dd4c14%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22790%22%20y%3D%22340%22%20width%3D%22320%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.18%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22790%22%20y%3D%22392%22%20width%3D%22520%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.14%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22790%22%20y%3D%22444%22%20width%3D%22390%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.14%22%2F%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%22790%22%20y%3D%22610%22%20font-family%3D%22DM%20Mono%2C%20monospace%22%20font-size%3D%2236%22%20fill%3D%22%238342b0%22%3EIMAGE-LED%20INTRO%3C%2Ftext%3E%0A%20%20%20%20%3C%2Fsvg%3E" alt="Repeated abstract illustration as a wide contextual image">
+          <figcaption class="caption">Wide image for emphasis or section opening.</figcaption>
+        </figure>
+        <figure>
+          <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20900%20650%22%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22900%22%20height%3D%22650%22%20rx%3D%2236%22%20fill%3D%22%23fbf3de%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%2270%22%20y%3D%2272%22%20width%3D%22380%22%20height%3D%22210%22%20rx%3D%2228%22%20fill%3D%22%23f6b33d%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M510%20110h250a18%2018%200%200%201%2018%2018v164a18%2018%200%200%201-18%2018H510a18%2018%200%200%201-18-18V128a18%2018%200%200%201%2018-18Z%22%20fill%3D%22%238342b0%22%2F%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22610%22%20cy%3D%22215%22%20r%3D%2252%22%20fill%3D%22%23fffaf1%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%2286%22%20y%3D%22334%22%20width%3D%22742%22%20height%3D%2220%22%20rx%3D%2210%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%2286%22%20y%3D%22372%22%20width%3D%22560%22%20height%3D%2220%22%20rx%3D%2210%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%2286%22%20y%3D%22484%22%20font-family%3D%22DM%20Sans%2C%20Arial%2C%20sans-serif%22%20font-size%3D%2238%22%20font-weight%3D%22700%22%20fill%3D%22%23dd4c14%22%3EProcess%20image%3C%2Ftext%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%2286%22%20y%3D%22535%22%20font-family%3D%22DM%20Mono%2C%20monospace%22%20font-size%3D%2224%22%20fill%3D%22%236e6276%22%3Efigure%20%2F%20caption%20%2F%20context%3C%2Ftext%3E%0A%20%20%20%20%3C%2Fsvg%3E" alt="Smaller image crop used as supporting context">
+          <figcaption class="caption">Small image for detail or captioned note.</figcaption>
+        </figure>
+        <figure>
+          <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20900%20650%22%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22900%22%20height%3D%22650%22%20rx%3D%2236%22%20fill%3D%22%23fff7ea%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%2272%22%20y%3D%2290%22%20width%3D%22756%22%20height%3D%22470%22%20rx%3D%2234%22%20fill%3D%22%23f4e3ff%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M180%20198h540%22%20stroke%3D%22%238342b0%22%20stroke-width%3D%2224%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M180%20268h390%22%20stroke%3D%22%23dd4c14%22%20stroke-width%3D%2218%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M180%20330h470%22%20stroke%3D%22%23261c2d%22%20stroke-opacity%3D%22.14%22%20stroke-width%3D%2218%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M180%20392h330%22%20stroke%3D%22%23261c2d%22%20stroke-opacity%3D%22.14%22%20stroke-width%3D%2218%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22700%22%20cy%3D%22398%22%20r%3D%2292%22%20fill%3D%22%23f6b33d%22%2F%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%22180%22%20y%3D%22488%22%20font-family%3D%22Tilt%20Warp%2C%20DM%20Sans%2C%20Arial%2C%20sans-serif%22%20font-size%3D%2244%22%20fill%3D%22%23261c2d%22%3EInline%20art%3C%2Ftext%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%22180%22%20y%3D%22532%22%20font-family%3D%22DM%20Mono%2C%20monospace%22%20font-size%3D%2224%22%20fill%3D%22%236e6276%22%3Esupports%20the%20article%20flow%3C%2Ftext%3E%0A%20%20%20%20%3C%2Fsvg%3E" alt="Another supporting image with typographic treatment">
+          <figcaption class="caption">Another visual beat before the conclusion.</figcaption>
+        </figure>
+      </div>
+
+      <div class="pull">The goal is not decoration — it is <em>clarity through rhythm</em>.</div>
+
+      <h2>Best for content with examples.</h2>
+      <p>If the article includes screenshots, step photos, charts, or sketches, this layout gives those assets room to breathe without losing the editorial tone.</p>
+    </article>
+
+    <aside class="notes" aria-label="Editorial notes">
+      <h2>Notes</h2>
+      <p><strong>Best for:</strong> tutorials with screenshots, essays with diagrams, and launch pages with visual proof.</p>
+      <p><strong>Pattern:</strong> title → hero image → text → figure → text → figures.</p>
+      <p><a href="#">View more layouts</a></p>
+    </aside>
+  </section>
+</main>
+<footer>Design Lasagna · image-led article exploration</footer>
+</body>
+</html>

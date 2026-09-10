@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout 02 — Menu (bento grid)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Tilt+Warp&display=swap">
+<style>
+:root { --ink:#261c2d; --paper:#fffaf1; --gold:#f6b33d; --orange:#dd4c14; --purple:#8342b0; --muted:#6e6276; --lede:#3c4841; --card:#fffdf8; }
+* { box-sizing:border-box; } body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; min-height:100svh; display:flex; flex-direction:column; }
+.skip { position:absolute; top:-100vh; left:.75rem; background:var(--gold); padding:.6rem 1rem; font:500 .8rem "DM Mono",monospace; text-decoration:none; z-index:9; }
+.skip:focus { top:.75rem; }
+.site-header { display:flex; align-items:center; flex-wrap:wrap; gap:.75rem 2rem; padding:1.1rem clamp(1.5rem,5vw,5rem); }
+.brand { display:block; width:clamp(2.6rem,4vw,3.6rem); }
+.brand img { display:block; width:100%; }
+.site-nav { margin-left:auto; display:flex; flex-wrap:wrap; gap:.5rem 1.5rem; font:500 .76rem "DM Mono",monospace; }
+.site-nav a { color:inherit; text-decoration:none; }
+.site-nav a:hover { color:var(--orange); text-decoration:underline; text-decoration-color:var(--gold); }
+main { flex:1; padding:clamp(1.5rem,4vw,4rem) clamp(1.5rem,5vw,5rem); }
+.headline { display:flex; align-items:baseline; flex-wrap:wrap; gap:1.5rem 3rem; margin-bottom:2.25rem; }
+.headline h1 { margin:0; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-size:clamp(2.6rem,6vw,4.5rem); font-weight:400; letter-spacing:-.05em; line-height:.9; text-transform:uppercase; }
+.headline h1 em { color:var(--orange); font-style:normal; }
+.headline p { max-width:36ch; margin:0; color:var(--lede); line-height:1.5; }
+.grid { display:grid; grid-template-columns:repeat(6,1fr); gap:1.1rem; grid-auto-rows:minmax(10rem,auto); }
+.card { position:relative; padding:1.4rem 1.5rem; border:1px solid color-mix(in srgb,var(--purple) 25%,var(--paper)); border-radius:.9rem; background:var(--card); box-shadow:6px 6px 0 color-mix(in srgb,var(--gold) 40%,transparent); display:flex; flex-direction:column; text-decoration:none; color:inherit; overflow:hidden; }
+.card:hover { box-shadow:9px 9px 0 color-mix(in srgb,var(--gold) 60%,transparent); transform:translate(-2px,-2px); }
+.card h2 { margin:.3rem 0 .6rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; font-size:clamp(1.4rem,2.4vw,2rem); letter-spacing:-.03em; text-transform:uppercase; }
+.card p { margin:0; line-height:1.5; color:var(--lede); font-size:.95rem; }
+.card .eyebrow { color:var(--orange); font:500 .66rem "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+.card .go { margin-top:auto; padding-top:1rem; font:500 .72rem "DM Mono",monospace; color:var(--purple); }
+.a { grid-column:span 4; grid-row:span 2; background:var(--purple); color:#fff; border-color:var(--ink); }
+.a h2,.a p,.a .eyebrow { color:#fff; }
+.a .eyebrow { color:var(--gold); }
+.a .token-swatch { display:flex; gap:.6rem; margin-top:1rem; flex-wrap:wrap; }
+.a .token-swatch span { padding:.35rem .7rem; border-radius:.5rem; font:500 .68rem "DM Mono",monospace; background:rgba(255,255,255,.14); color:#fff; border:1px solid rgba(255,255,255,.25); }
+.a .go { color:var(--gold); }
+.b { grid-column:span 2; background:color-mix(in srgb,var(--gold) 22%,white); }
+.c { grid-column:span 2; background:color-mix(in srgb,var(--orange) 12%,white); }
+.d { grid-column:span 3; }
+.e { grid-column:span 3; background:color-mix(in srgb,var(--purple) 10%,white); }
+footer { display:flex; flex-wrap:wrap; align-items:center; gap:.75rem 2rem; padding:1.25rem clamp(1.5rem,5vw,5rem) 2rem; font:500 .72rem "DM Mono",monospace; color:var(--muted); }
+.concept-note { padding:.8rem clamp(1.5rem,5vw,5rem); background:var(--gold); font:500 .75rem "DM Mono",monospace; }
+@media (max-width:820px){ .grid { grid-template-columns:repeat(2,1fr); } .a { grid-column:span 2; } .b,.c,.d,.e { grid-column:span 1; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="concept-note">LAYOUT EXPLORATION 02 — "MENU / BENTO". The site as a menu of dishes: every section is a card sized by importance. (Exploration file — not part of the build.)</div>
+<header class="site-header">
+  <a class="brand" href="../" aria-label="Design Lasagna home"><img src="../../src/assets/logotype.svg" alt=""></a>
+  <nav class="site-nav" aria-label="Primary"><a href="#">Tools</a><a href="#" aria-current="page">Menu</a><a href="#">Learn</a><a href="#">About</a></nav>
+</header>
+<main id="main">
+  <div class="headline">
+    <h1>Today's <em>menu.</em></h1>
+    <p>Open tooling for design systems, served à la carte. Pick a dish — or read the full kitchen notes.</p>
+  </div>
+  <div class="grid">
+    <a class="card a" href="#">
+      <span class="eyebrow">Signature dish</span>
+      <h2>Schemas</h2>
+      <p>Versioned JSON schemas for DTCG tokens and CEM extensions. Plain artifacts you can adopt on your own.</p>
+      <div class="token-swatch"><span>tokens v0.3</span><span>utilities v0.3</span><span>cem-extensions v0.3</span></div>
+      <span class="go">Browse the schema reference →</span>
+    </a>
+    <a class="card b" href="#">
+      <span class="eyebrow">Editor</span>
+      <h2>Language Server</h2>
+      <p>Diagnostics, completions, and hints that explain why.</p>
+      <span class="go">Try it →</span>
+    </a>
+    <a class="card c" href="#">
+      <span class="eyebrow">Guides</span>
+      <h2>Learn</h2>
+      <p>Evergreen, task-oriented recipes.</p>
+      <span class="go">Cook along →</span>
+    </a>
+    <a class="card d" href="#">
+      <span class="eyebrow">Reference</span>
+      <h2>Docs</h2>
+      <p>Concrete usage for each tool and schema version.</p>
+      <span class="go">Read the docs →</span>
+    </a>
+    <a class="card e" href="#">
+      <span class="eyebrow">Dated notes</span>
+      <h2>Writing</h2>
+      <p>Essays and notes from the kitchen.</p>
+      <span class="go">Latest entries →</span>
+    </a>
+  </div>
+</main>
+<footer>
+  <span>Design Lasagna</span><span>admin@designlasagna.recipes</span>
+</footer>
+</body>
+</html>

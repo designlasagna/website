@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout 01 — Poster (oversize type)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Tilt+Warp&display=swap">
+<style>
+:root { --ink:#261c2d; --paper:#fffaf1; --gold:#f6b33d; --orange:#dd4c14; --purple:#8342b0; --muted:#6e6276; --lede:#3c4841; }
+* { box-sizing: border-box; } body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; }
+.skip { position:absolute; top:-100vh; left:.75rem; background:var(--gold); color:var(--ink); padding:.6rem 1rem; font:500 .8rem "DM Mono",monospace; text-decoration:none; z-index:9; }
+.skip:focus { top:.75rem; }
+.topbar { display:flex; align-items:center; gap:1.5rem; padding:1rem clamp(1rem,3vw,2.5rem); border-bottom:2px solid var(--ink); }
+.topbar .word { font:500 .8rem "DM Mono",monospace; text-transform:uppercase; letter-spacing:.06em; }
+.topbar nav { margin-left:auto; display:flex; gap:1.5rem; font:500 .72rem "DM Mono",monospace; }
+.topbar nav a { color:inherit; text-decoration:none; }
+.topbar nav a:hover { color:var(--orange); }
+main { padding:clamp(2rem,6vw,5rem) clamp(1rem,3vw,2.5rem); }
+.hero { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(14rem,.6fr); gap:2rem; align-items:end; }
+.hero h1 { margin:0; font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; line-height:.82; letter-spacing:-.06em; font-size:clamp(4rem,13vw,13rem); color:var(--purple); }
+.hero h1 em { font-style:normal; color:var(--orange); display:block; }
+.meta { font:500 .72rem/1.7 "DM Mono",monospace; color:var(--muted); padding-bottom:1rem; }
+.meta b { color:var(--ink); }
+.rule { border:0; border-top:3px solid var(--ink); margin:2.5rem 0 1.5rem; }
+.strip { display:flex; flex-wrap:wrap; gap:.5rem 2.5rem; font:500 .8rem "DM Mono",monospace; }
+.strip a { color:var(--ink); text-decoration:none; border-bottom:3px solid var(--gold); padding-bottom:.15rem; }
+.strip a:hover { color:var(--orange); }
+footer { margin-top:4rem; padding:1.5rem clamp(1rem,3vw,2.5rem) 2.5rem; font:500 .7rem "DM Mono",monospace; color:var(--muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+.concept-note { padding:1rem clamp(1rem,3vw,2.5rem); background:var(--gold); font:500 .75rem "DM Mono",monospace; }
+@media (max-width:700px){ .hero { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="concept-note">LAYOUT EXPLORATION 01 — "POSTER". One big statement, thin chrome, maximum type. (Exploration file — not part of the build.)</div>
+<header class="topbar">
+  <span class="word">Design Lasagna</span>
+  <nav aria-label="Primary">
+    <a href="#">Tools</a><a href="#">Docs</a><a href="#">Learn</a><a href="#">Writing</a><a href="#">About</a>
+  </nav>
+</header>
+<main id="main">
+  <section class="hero">
+    <h1>Make systems <em>make sense.</em></h1>
+    <p class="meta"><b>EST. THE KITCHEN</b><br>Open tools for design tokens, schemas, and better editor workflows. Not a platform. Not a format. Mechanism, not policy.</p>
+  </section>
+  <hr class="rule">
+  <nav class="strip" aria-label="Quick links">
+    <a href="#">schemas v0.3</a><a href="#">language server</a><a href="#">docs</a><a href="#">learn</a><a href="#">writing</a><a href="#">get in touch</a>
+  </nav>
+</main>
+<footer>
+  <span>Design Lasagna — recipes for design systems</span>
+  <span>admin@designlasagna.recipes</span>
+</footer>
+</body>
+</html>

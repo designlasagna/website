@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout 10 — Image mosaic article</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Tilt+Warp&display=swap">
+<style>
+:root { --ink:#261c2d; --paper:#fffaf1; --gold:#f6b33d; --orange:#dd4c14; --purple:#8342b0; --muted:#6e6276; --lede:#3c4841; }
+* { box-sizing:border-box; }
+html,body { min-height:100%; }
+body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; }
+.skip { position:absolute; top:-100vh; left:.75rem; background:var(--gold); padding:.6rem 1rem; font:500 .8rem "DM Mono",monospace; text-decoration:none; z-index:9; }
+.skip:focus { top:.75rem; }
+.concept-note { padding:.8rem clamp(1.5rem,5vw,5rem); background:var(--gold); font:500 .75rem "DM Mono",monospace; }
+.site-header { display:flex; align-items:center; gap:1.25rem; padding:1.1rem clamp(1.5rem,5vw,5rem); border-bottom:1px dashed color-mix(in srgb,var(--purple) 40%,transparent); }
+.brand { width:4.4rem; display:block; }
+.brand img { width:100%; display:block; }
+.site-nav { margin-left:auto; display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; font:500 .76rem "DM Mono",monospace; }
+.site-nav a { color:inherit; text-decoration:none; }
+.site-nav a:hover { color:var(--orange); text-decoration:underline; text-decoration-color:var(--gold); }
+main { width:min(90rem,100%); margin:auto; padding:clamp(1.5rem,4vw,3.5rem) clamp(1.5rem,5vw,5rem) 3rem; }
+h1 { margin:0; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; font-size:clamp(3rem,7vw,6.5rem); line-height:.84; letter-spacing:-.06em; text-transform:uppercase; }
+h1 em { color:var(--orange); font-style:normal; }
+.kicker { margin:0 0 .9rem; color:var(--purple); font:500 .7rem "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+.deck { margin:1rem 0 0; max-width:44ch; color:var(--lede); font-size:1.15rem; line-height:1.6; }
+.story, .pairs { display:grid; grid-template-columns:minmax(0,1fr) 16rem; gap:2rem; align-items:start; padding-top:2rem; }
+.story article, .pairs { max-width:none; }
+.story article, .pairs > .pair, .pairs > .footer-note { max-width:52rem; }
+.story p, .pair p { max-width:68ch; line-height:1.75; margin:1.15rem 0; }
+h2 { margin:1.6rem 0 .8rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:-.03em; font-size:clamp(1.35rem,2.6vw,2rem); line-height:.95; }
+.notes { position:sticky; top:1rem; padding:1.25rem; border-radius:1rem; background:var(--purple); color:#fff; }
+.notes h2 { margin:0 0 .75rem; color:var(--gold); font-size:1rem; }
+.notes p { margin:.6rem 0; line-height:1.6; color:rgba(255,255,255,.86); }
+.notes a { color:var(--gold); text-decoration:none; }
+.notes a:hover { text-decoration:underline; }
+figure { margin:0; }
+img { display:block; width:100%; height:auto; border-radius:1rem; border:1px solid color-mix(in srgb,var(--purple) 18%,transparent); box-shadow:5px 5px 0 color-mix(in srgb,var(--gold) 42%,transparent); }
+figcaption { margin-top:.45rem; font:500 .72rem "DM Mono",monospace; color:var(--muted); }
+.hero { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(18rem,.9fr); gap:2rem; align-items:end; padding-bottom:2rem; border-bottom:3px solid var(--ink); }
+.mosaic { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.9rem; align-items:stretch; }
+.mosaic figure:nth-child(1) { grid-column:1 / span 2; }
+.mosaic figure:nth-child(2) { grid-column:3 / span 2; }
+.mosaic figure:nth-child(3) { grid-column:1 / span 1; }
+.mosaic figure:nth-child(4) { grid-column:2 / span 3; }
+.image-band { display:grid; grid-template-columns:.8fr 1.2fr .9fr; gap:1rem; margin:1.5rem 0; }
+.image-band img { border-radius:.9rem; }
+.pull { margin:1.75rem 0; padding:1.15rem 1.25rem; border-left:.45rem solid var(--gold); background:color-mix(in srgb,var(--gold) 10%,white); font-size:1.08rem; line-height:1.6; }
+.pull em { color:var(--purple); font-style:normal; }
+.lead-image img { width:100%; display:block; border-radius:1.2rem; }
+.pair { display:grid; grid-template-columns:1fr 1fr; gap:1.3rem; margin:0 0 1.4rem; align-items:center; }
+.pair.reverse figure { order:2; }
+.pair.reverse div { order:1; }
+.footer-note { margin-top:1rem; padding:1rem 1.1rem; border-top:2px solid var(--orange); background:color-mix(in srgb,var(--orange) 6%,white); }
+.stack { display:grid; gap:1rem; align-self:start; position:sticky; top:1rem; }
+.stack figure.top { transform:rotate(1.5deg); }
+.stack figure.bottom { transform:rotate(-2deg) translateX(1.2rem); }
+.callout-row { display:grid; grid-template-columns:.9fr 1.1fr; gap:1rem; align-items:center; margin:1.1rem 0; }
+.callout-row.reverse { grid-template-columns:1.1fr .9fr; }
+.callout { padding:1rem 1.1rem; border:1px solid color-mix(in srgb,var(--purple) 20%,transparent); border-radius:1rem; background:#fffdf8; box-shadow:4px 4px 0 color-mix(in srgb,var(--gold) 34%,transparent); }
+.callout b { display:block; margin-bottom:.35rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; }
+.callout p { margin:0; color:var(--lede); line-height:1.6; }
+footer { padding:1.25rem clamp(1.5rem,5vw,5rem) 2rem; font:500 .68rem "DM Mono",monospace; color:var(--muted); }
+@media (max-width:980px){ .story, .pairs, .hero { grid-template-columns:1fr; } .notes, .stack { position:static; } }
+@media (max-width:720px){ .site-header { align-items:flex-start; flex-direction:column; } .site-nav { margin-left:0; } .mosaic, .image-band, .pair, .callout-row, .callout-row.reverse { grid-template-columns:1fr; } .mosaic figure:nth-child(n), .pair.reverse figure, .pair.reverse div { grid-column:auto; order:unset; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="concept-note">LAYOUT EXPLORATION 10 — "IMAGE MOSAIC". An article layout that opens with a collage of images and keeps visual rhythm through mixed-size cards. (Exploration file — not part of the build.)</div>
+<header class="site-header">
+  <a class="brand" href="../" aria-label="Design Lasagna home"><img src="../../src/assets/logotype.svg" alt=""></a>
+  <nav class="site-nav" aria-label="Primary"><a href="#">Tools</a><a href="#">Docs</a><a href="#">Learn</a><a href="#">Writing</a><a href="#">About</a></nav>
+</header>
+<main id="main">
+  <section class="hero">
+    <div>
+      <p class="kicker">Writing · image mosaic</p>
+      <h1>How to build an article from a <em>mosaic of images</em>.</h1>
+      <p class="deck">A layout for image-rich writing: think case studies, launch stories, or explainers that need a gallery-like opener before the prose settles in.</p>
+    </div>
+    <div class="mosaic">
+      <figure class="a"><img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201200%20900%22%3E%0A%20%20%3Crect%20width%3D%221200%22%20height%3D%22900%22%20rx%3D%2256%22%20fill%3D%22%23fff6e7%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22270%22%20cy%3D%22250%22%20r%3D%22170%22%20fill%3D%22%23f6b33d%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22760%22%20cy%3D%22580%22%20r%3D%22240%22%20fill%3D%22%238342b0%22%2F%3E%0A%20%20%3Crect%20x%3D%22710%22%20y%3D%22140%22%20width%3D%22330%22%20height%3D%22140%22%20rx%3D%2270%22%20fill%3D%22%23dd4c14%22%2F%3E%0A%20%20%3Crect%20x%3D%22120%22%20y%3D%22620%22%20width%3D%22400%22%20height%3D%2280%22%20rx%3D%2240%22%20fill%3D%22%23261c2d%22%2F%3E%0A%20%20%3Crect%20x%3D%22730%22%20y%3D%22360%22%20width%3D%22250%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.16%22%2F%3E%0A%20%20%3Crect%20x%3D%22730%22%20y%3D%22410%22%20width%3D%22390%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%0A%3C%2Fsvg%3E" alt="Abstract warm-toned image tile"><figcaption>Lead tile</figcaption></figure>
+      <figure class="b"><img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201200%20900%22%3E%0A%20%20%3Crect%20width%3D%221200%22%20height%3D%22900%22%20rx%3D%2256%22%20fill%3D%22%23f4e3ff%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22260%22%20cy%3D%22220%22%20r%3D%22140%22%20fill%3D%22%238342b0%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22820%22%20cy%3D%22590%22%20r%3D%22210%22%20fill%3D%22%23f6b33d%22%2F%3E%0A%20%20%3Crect%20x%3D%2290%22%20y%3D%22120%22%20width%3D%22420%22%20height%3D%22130%22%20rx%3D%2232%22%20fill%3D%22%23dd4c14%22%2F%3E%0A%20%20%3Crect%20x%3D%22620%22%20y%3D%22150%22%20width%3D%22220%22%20height%3D%22190%22%20rx%3D%22110%22%20fill%3D%22%23fffaf1%22%2F%3E%0A%20%20%3Crect%20x%3D%22110%22%20y%3D%22430%22%20width%3D%22260%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.16%22%2F%3E%0A%20%20%3Crect%20x%3D%22110%22%20y%3D%22478%22%20width%3D%22470%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%0A%3C%2Fsvg%3E" alt="Abstract purple image tile"><figcaption>Support tile</figcaption></figure>
+      <figure class="c"><img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201200%20900%22%3E%0A%20%20%3Crect%20width%3D%221200%22%20height%3D%22900%22%20rx%3D%2256%22%20fill%3D%22%23fff8ea%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22300%22%20cy%3D%22260%22%20r%3D%22120%22%20fill%3D%22%23dd4c14%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22760%22%20cy%3D%22220%22%20r%3D%22170%22%20fill%3D%22%23f6b33d%22%2F%3E%0A%20%20%3Crect%20x%3D%22150%22%20y%3D%22530%22%20width%3D%22430%22%20height%3D%22120%22%20rx%3D%2260%22%20fill%3D%22%238342b0%22%2F%3E%0A%20%20%3Crect%20x%3D%22680%22%20y%3D%22470%22%20width%3D%22210%22%20height%3D%22190%22%20rx%3D%2240%22%20fill%3D%22%23261c2d%22%2F%3E%0A%20%20%3Crect%20x%3D%22170%22%20y%3D%22700%22%20width%3D%22350%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.16%22%2F%3E%0A%20%20%3Crect%20x%3D%22170%22%20y%3D%22748%22%20width%3D%22250%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%0A%3C%2Fsvg%3E" alt="Abstract orange image tile"><figcaption>Detail tile</figcaption></figure>
+      <figure class="d"><img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201200%20900%22%3E%0A%20%20%3Crect%20width%3D%221200%22%20height%3D%22900%22%20rx%3D%2256%22%20fill%3D%22%23fff6f0%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22240%22%20cy%3D%22220%22%20r%3D%22150%22%20fill%3D%22%23f6b33d%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22820%22%20cy%3D%22650%22%20r%3D%22230%22%20fill%3D%22%23dd4c14%22%2F%3E%0A%20%20%3Crect%20x%3D%22120%22%20y%3D%22140%22%20width%3D%22460%22%20height%3D%22180%22%20rx%3D%2234%22%20fill%3D%22%238342b0%22%2F%3E%0A%20%20%3Crect%20x%3D%22640%22%20y%3D%22400%22%20width%3D%22320%22%20height%3D%22220%22%20rx%3D%22110%22%20fill%3D%22%23fffaf1%22%2F%3E%0A%20%20%3Crect%20x%3D%22150%22%20y%3D%22400%22%20width%3D%22320%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.16%22%2F%3E%0A%20%20%3Crect%20x%3D%22150%22%20y%3D%22450%22%20width%3D%22420%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%0A%3C%2Fsvg%3E" alt="Abstract wide image tile"><figcaption>Wide tile</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="story">
+    <article>
+      <p>The first screen acts like a contact sheet: a few images at different sizes, each hinting at a part of the story. That gives the reader texture before they ever hit the first paragraph.</p>
+      <p>Once the article begins, the image rhythm stays irregular on purpose. Large, medium, and small figures create motion while the copy stays calm and readable.</p>
+
+      <div class="image-band">
+        <figure><img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201200%20900%22%3E%0A%20%20%3Crect%20width%3D%221200%22%20height%3D%22900%22%20rx%3D%2256%22%20fill%3D%22%23f4e3ff%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22260%22%20cy%3D%22220%22%20r%3D%22140%22%20fill%3D%22%238342b0%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22820%22%20cy%3D%22590%22%20r%3D%22210%22%20fill%3D%22%23f6b33d%22%2F%3E%0A%20%20%3Crect%20x%3D%2290%22%20y%3D%22120%22%20width%3D%22420%22%20height%3D%22130%22%20rx%3D%2232%22%20fill%3D%22%23dd4c14%22%2F%3E%0A%20%20%3Crect%20x%3D%22620%22%20y%3D%22150%22%20width%3D%22220%22%20height%3D%22190%22%20rx%3D%22110%22%20fill%3D%22%23fffaf1%22%2F%3E%0A%20%20%3Crect%20x%3D%22110%22%20y%3D%22430%22%20width%3D%22260%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.16%22%2F%3E%0A%20%20%3Crect%20x%3D%22110%22%20y%3D%22478%22%20width%3D%22470%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%0A%3C%2Fsvg%3E" alt="Compact image card"><figcaption>Small visual beat</figcaption></figure>
+        <figure><img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201200%20900%22%3E%0A%20%20%3Crect%20width%3D%221200%22%20height%3D%22900%22%20rx%3D%2256%22%20fill%3D%22%23fff6f0%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22240%22%20cy%3D%22220%22%20r%3D%22150%22%20fill%3D%22%23f6b33d%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22820%22%20cy%3D%22650%22%20r%3D%22230%22%20fill%3D%22%23dd4c14%22%2F%3E%0A%20%20%3Crect%20x%3D%22120%22%20y%3D%22140%22%20width%3D%22460%22%20height%3D%22180%22%20rx%3D%2234%22%20fill%3D%22%238342b0%22%2F%3E%0A%20%20%3Crect%20x%3D%22640%22%20y%3D%22400%22%20width%3D%22320%22%20height%3D%22220%22%20rx%3D%22110%22%20fill%3D%22%23fffaf1%22%2F%3E%0A%20%20%3Crect%20x%3D%22150%22%20y%3D%22400%22%20width%3D%22320%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.16%22%2F%3E%0A%20%20%3Crect%20x%3D%22150%22%20y%3D%22450%22%20width%3D%22420%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%0A%3C%2Fsvg%3E" alt="Wide image card"><figcaption>Wide visual beat</figcaption></figure>
+        <figure><img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201200%20900%22%3E%0A%20%20%3Crect%20width%3D%221200%22%20height%3D%22900%22%20rx%3D%2256%22%20fill%3D%22%23fff6e7%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22270%22%20cy%3D%22250%22%20r%3D%22170%22%20fill%3D%22%23f6b33d%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22760%22%20cy%3D%22580%22%20r%3D%22240%22%20fill%3D%22%238342b0%22%2F%3E%0A%20%20%3Crect%20x%3D%22710%22%20y%3D%22140%22%20width%3D%22330%22%20height%3D%22140%22%20rx%3D%2270%22%20fill%3D%22%23dd4c14%22%2F%3E%0A%20%20%3Crect%20x%3D%22120%22%20y%3D%22620%22%20width%3D%22400%22%20height%3D%2280%22%20rx%3D%2240%22%20fill%3D%22%23261c2d%22%2F%3E%0A%20%20%3Crect%20x%3D%22730%22%20y%3D%22360%22%20width%3D%22250%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.16%22%2F%3E%0A%20%20%3Crect%20x%3D%22730%22%20y%3D%22410%22%20width%3D%22390%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%0A%3C%2Fsvg%3E" alt="Square image card"><figcaption>Square visual beat</figcaption></figure>
+      </div>
+
+      <h2>Make the grid feel intentional.</h2>
+      <p>Instead of lining up images in a rigid gallery, vary their footprint. The result feels more editorial: like a feature article that happens to include pictures, not a picture wall with some text attached.</p>
+
+      <div class="pull"><em>Rule of thumb:</em> use at least one image to set scale, one to add detail, and one to move the reader forward.</div>
+
+      <h2>Let captions do extra work.</h2>
+      <p>Captions can annotate, explain, or simply slow the reader down for a second. In an image-heavy article, they’re part of the voice, not just metadata.</p>
+    </article>
+    <aside class="notes" aria-label="Image mosaic notes">
+      <h2>Notes</h2>
+      <p><strong>Best for:</strong> case studies, launch stories, and visual explainers.</p>
+      <p><strong>Pattern:</strong> collage opener → prose → image band → conclusion.</p>
+      <p><a href="#">View related layouts</a></p>
+    </aside>
+  </section>
+</main>
+<footer>Design Lasagna · image mosaic exploration</footer>
+</body>
+</html>

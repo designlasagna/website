@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout 18 — Feature article with media blocks</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Tilt+Warp&display=swap">
+<style>
+:root { --ink:#261c2d; --paper:#fffaf1; --gold:#f6b33d; --orange:#dd4c14; --purple:#8342b0; --muted:#6e6276; --lede:#3c4841; }
+* { box-sizing:border-box; }
+html,body { min-height:100%; }
+body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; }
+.skip { position:absolute; top:-100vh; left:.75rem; background:var(--gold); padding:.6rem 1rem; font:500 .8rem "DM Mono",monospace; text-decoration:none; z-index:9; }
+.skip:focus { top:.75rem; }
+.concept-note { padding:.8rem clamp(1.5rem,5vw,5rem); background:var(--gold); font:500 .75rem "DM Mono",monospace; }
+.site-header { display:flex; align-items:center; gap:1.25rem; padding:1.1rem clamp(1.5rem,5vw,5rem); border-bottom:1px dashed color-mix(in srgb,var(--purple) 40%,transparent); }
+.brand { width:4.4rem; display:block; }
+.brand img { width:100%; display:block; }
+.site-nav { margin-left:auto; display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; font:500 .76rem "DM Mono",monospace; }
+.site-nav a { color:inherit; text-decoration:none; }
+.site-nav a:hover { color:var(--orange); text-decoration:underline; text-decoration-color:var(--gold); }
+main { width:min(88rem,100%); margin:auto; padding:clamp(1.5rem,4vw,3.5rem) clamp(1.5rem,5vw,5rem) 3rem; }
+.kicker { margin:0 0 .9rem; color:var(--purple); font:500 .7rem "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+h1 { margin:0; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; font-size:clamp(3rem,7vw,6.1rem); line-height:.88; letter-spacing:-.06em; text-transform:uppercase; }
+h1 em { color:var(--orange); font-style:normal; }
+.deck { margin:1rem 0 0; max-width:46ch; color:var(--lede); font-size:1.15rem; line-height:1.6; }
+.article-meta { display:flex; flex-wrap:wrap; gap:.5rem 1.25rem; margin:1.4rem 0 1.8rem; padding:.85rem 0; border-top:1px solid color-mix(in srgb,var(--purple) 18%,transparent); border-bottom:1px solid color-mix(in srgb,var(--purple) 18%,transparent); font:500 .72rem "DM Mono",monospace; color:var(--muted); }
+.article-meta b { color:var(--ink); }
+.play { position:absolute; left:50%; top:50%; display:grid; place-items:center; width:5rem; height:5rem; transform:translate(-50%,-50%); border:3px solid var(--paper); border-radius:50%; background:var(--orange); color:var(--paper); font-size:1.45rem; box-shadow:0 0 0 .5rem rgba(38,28,45,.18); }
+.fullbleed { position:relative; }
+.story { max-width:72rem; margin:auto; }
+.story p { max-width:68ch; line-height:1.75; margin:1.1rem 0; }
+.story h2 { margin:2rem 0 .8rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:-.03em; font-size:clamp(1.35rem,2.6vw,2rem); line-height:.95; }
+figure { margin:0; }
+img { width:100%; display:block; border-radius:1rem; border:1px solid color-mix(in srgb,var(--purple) 18%,transparent); box-shadow:5px 5px 0 color-mix(in srgb,var(--gold) 42%,transparent); }
+figcaption { margin-top:.45rem; font:500 .72rem "DM Mono",monospace; color:var(--muted); }
+.wide, .fullbleed { margin:1.5rem 0 2rem; }
+.fullbleed { width:100vw; margin-left:calc(50% - 50vw); }
+.fullbleed img { border-radius:0; border:0; box-shadow:none; min-height:52svh; object-fit:cover; }
+.table-wrap { overflow:auto; margin:1rem 0 1.6rem; border:1px solid color-mix(in srgb,var(--purple) 20%,transparent); border-radius:1rem; background:#fffdf8; box-shadow:5px 5px 0 color-mix(in srgb,var(--gold) 34%,transparent); }
+table { width:100%; border-collapse:collapse; min-width:42rem; }
+th, td { padding:.8rem .9rem; border-bottom:1px solid color-mix(in srgb,var(--purple) 14%,transparent); text-align:left; }
+th { font:500 .75rem "DM Mono",monospace; color:var(--purple); text-transform:uppercase; background:color-mix(in srgb,var(--gold) 10%,white); }
+td { color:var(--lede); }
+.quote { margin:1.5rem 0; padding:1rem 1.1rem; border-left:.45rem solid var(--gold); background:color-mix(in srgb,var(--gold) 10%,white); font-size:1.1rem; line-height:1.6; }
+.quote p, .quote { color:var(--lede); }
+.note { margin-top:1.2rem; padding:1rem 1.1rem; background:color-mix(in srgb,var(--orange) 8%,white); border-left:.35rem solid var(--orange); }
+.summary-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; margin-bottom:1rem; }
+.stat { padding:1rem 1.1rem; border-radius:1rem; background:#fffdf8; border:1px solid color-mix(in srgb,var(--purple) 18%,transparent); box-shadow:4px 4px 0 color-mix(in srgb,var(--gold) 30%,transparent); }
+.stat b { display:block; font-family:"Tilt Warp","DM Sans",sans-serif; font-size:2rem; color:var(--purple); }
+.stat span { font:500 .75rem "DM Mono",monospace; color:var(--muted); }
+.callout { padding:1rem 1.1rem; border:1px solid color-mix(in srgb,var(--purple) 20%,transparent); border-radius:1rem; background:#fffdf8; box-shadow:4px 4px 0 color-mix(in srgb,var(--gold) 34%,transparent); }
+.callout b { display:block; margin-bottom:.35rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; }
+.callout p { margin:0; color:var(--lede); line-height:1.6; }
+.split-wide { display:grid; grid-template-columns:minmax(0,1fr) 18rem; gap:1.2rem; align-items:center; margin:1rem 0 1.6rem; }
+.split-wide figure { margin:0; }
+.split-wide img { min-height:260px; object-fit:cover; }
+footer { padding:1.25rem clamp(1.5rem,5vw,5rem) 2rem; font:500 .68rem "DM Mono",monospace; color:var(--muted); }
+@media (max-width:920px) { .summary-grid, .split-wide { grid-template-columns:1fr; } .fullbleed { width:auto; margin-left:0; } .fullbleed img { min-height:38svh; } }
+@media (max-width:720px) { .site-header { align-items:flex-start; flex-direction:column; } .site-nav { margin-left:0; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="concept-note">LAYOUT EXPLORATION 18 — "FEATURE / MEDIA". A feature article that mixes full-bleed video, extra-wide figures, pull quotes, and section headings. (Exploration file — not part of the build.)</div>
+<header class="site-header">
+  <a class="brand" href="../" aria-label="Design Lasagna home"><img src="../../src/assets/logotype.svg" alt=""></a>
+  <nav class="site-nav" aria-label="Primary"><a href="#">Tools</a><a href="#">Docs</a><a href="#">Learn</a><a href="#">Writing</a><a href="#">About</a></nav>
+</header>
+<main id="main">
+  <p class="kicker">Writing · feature story</p>
+  <h1>A feature article with <em>video, wide images, and headings</em>.</h1>
+  <p class="deck">Use when the article needs a strong lead, then room for media blocks that break up the reading without overwhelming it.</p>
+  <div class="article-meta"><span><b>By</b> Design Lasagna</span><span><b>8 min read</b></span><span><b>Format</b> Feature + media</span></div>
+  <article class="story">
+    <p>Feature pages often need more than paragraphs. They need a lead image, maybe a video, maybe a chart or a screenshot — all arranged so the article still feels coherent.</p>
+
+    <figure class="fullbleed">
+      <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%20900%22%3E%3Crect%20width%3D%221600%22%20height%3D%22900%22%20fill%3D%22%23fff3dd%22%2F%3E%3Ccircle%20cx%3D%22300%22%20cy%3D%22250%22%20r%3D%22180%22%20fill%3D%22%238342b0%22%2F%3E%3Ccircle%20cx%3D%221120%22%20cy%3D%22250%22%20r%3D%22180%22%20fill%3D%22%23f6b33d%22%2F%3E%3Crect%20x%3D%22430%22%20y%3D%22160%22%20width%3D%22720%22%20height%3D%22420%22%20rx%3D%2240%22%20fill%3D%22%23261c2d%22%2F%3E%3Crect%20x%3D%22570%22%20y%3D%22290%22%20width%3D%22120%22%20height%3D%22120%22%20rx%3D%2260%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%221060%22%20y%3D%2270%22%20width%3D%22200%22%20height%3D%2280%22%20rx%3D%2220%22%20fill%3D%22%23dd4c14%22%2F%3E%3Crect%20x%3D%2280%22%20y%3D%22700%22%20width%3D%22560%22%20height%3D%2260%22%20rx%3D%2230%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22130%22%20y%3D%22750%22%20width%3D%22420%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%3Crect%20x%3D%22130%22%20y%3D%22798%22%20width%3D%22620%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.10%22%2F%3E%3C%2Fsvg%3E" alt="Video placeholder">
+      <span class="play" aria-hidden="true">▶</span>
+      <figcaption>Full-width video slot: embed preview or player here.</figcaption>
+    </figure>
+
+    <h2>Open with one strong media block.</h2>
+    <p>The page should tell you, immediately, what kind of content it supports. That makes it easier to plan a story with a mix of narrative and media.</p>
+
+    <div class="split-wide">
+      <figure>
+        <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%20900%22%3E%3Crect%20width%3D%221600%22%20height%3D%22900%22%20fill%3D%22%23fff7ea%22%2F%3E%3Ccircle%20cx%3D%22260%22%20cy%3D%22220%22%20r%3D%22150%22%20fill%3D%22%23f6b33d%22%2F%3E%3Ccircle%20cx%3D%221160%22%20cy%3D%22600%22%20r%3D%22250%22%20fill%3D%22%238342b0%22%2F%3E%3Crect%20x%3D%22140%22%20y%3D%22130%22%20width%3D%22560%22%20height%3D%22280%22%20rx%3D%2236%22%20fill%3D%22%23dd4c14%22%2F%3E%3Crect%20x%3D%22720%22%20y%3D%22120%22%20width%3D%22560%22%20height%3D%22320%22%20rx%3D%2236%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22760%22%20y%3D%22540%22%20width%3D%22690%22%20height%3D%22220%22%20rx%3D%2240%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22760%22%20y%3D%22430%22%20width%3D%22500%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%3Crect%20x%3D%22760%22%20y%3D%22478%22%20width%3D%22620%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.10%22%2F%3E%3C%2Fsvg%3E" alt="Extra wide figure">
+        <figcaption>Extra-wide figure for a key screenshot or diagram.</figcaption>
+      </figure>
+      <aside class="callout">
+        <b>Why it matters</b>
+        <p>A feature article needs rhythms: text, media, text, media. This layout shows where those beats can live.</p>
+      </aside>
+    </div>
+
+    <h2>Break the story into sections.</h2>
+    <p>Section headings do the heavy lifting. They keep the article scannable and give each media block a purpose. Without them, the page becomes a gallery instead of an article.</p>
+
+    <blockquote class="quote">A strong article layout makes media feel like evidence, not decoration.</blockquote>
+
+    <figure class="wide">
+      <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%20900%22%3E%3Crect%20width%3D%221600%22%20height%3D%22900%22%20fill%3D%22%23fff4e7%22%2F%3E%3Ccircle%20cx%3D%22260%22%20cy%3D%22240%22%20r%3D%22150%22%20fill%3D%22%23f6b33d%22%2F%3E%3Ccircle%20cx%3D%221210%22%20cy%3D%22230%22%20r%3D%22170%22%20fill%3D%22%23dd4c14%22%2F%3E%3Ccircle%20cx%3D%221090%22%20cy%3D%22650%22%20r%3D%22260%22%20fill%3D%22%238342b0%22%2F%3E%3Crect%20x%3D%2290%22%20y%3D%22120%22%20width%3D%22700%22%20height%3D%22280%22%20rx%3D%2240%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22840%22%20y%3D%22140%22%20width%3D%22620%22%20height%3D%22260%22%20rx%3D%2240%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%221600%22%20height%3D%22110%22%20rx%3D%220%22%20fill%3D%22%23f6b33d%22%2F%3E%3Crect%20x%3D%22120%22%20y%3D%22520%22%20width%3D%22420%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.14%22%2F%3E%3Crect%20x%3D%22120%22%20y%3D%22566%22%20width%3D%22760%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.11%22%2F%3E%3C%2Fsvg%3E" alt="Secondary wide image">
+      <figcaption>Another wide image: use for transitions, close-ups, or proof.</figcaption>
+    </figure>
+  </article>
+</main>
+<footer>Design Lasagna · feature media exploration</footer>
+</body>
+</html>

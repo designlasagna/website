@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Lasagna — layout explorations</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Tilt+Warp&display=swap">
+<style>
+:root { --ink:#261c2d; --paper:#fffaf1; --gold:#f6b33d; --orange:#dd4c14; --purple:#8342b0; --lede:#3c4841; }
+* { box-sizing:border-box; } body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; min-height:100svh; display:flex; flex-direction:column; }
+main { flex:1; width:min(56rem,100%); margin:auto; padding:3rem 1.5rem; }
+.eyebrow { margin:0 0 1rem; color:var(--purple); font:500 .7rem "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+h1 { margin:0 0 1rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; font-size:clamp(2.2rem,5vw,3.5rem); letter-spacing:-.05em; line-height:.9; }
+h1 em { color:var(--orange); font-style:normal; }
+p { max-width:60ch; line-height:1.55; color:var(--lede); }
+ul { list-style:none; margin:2.5rem 0 0; padding:0; }
+li { margin:0 0 1rem; }
+a.card { display:grid; grid-template-columns:4rem 1fr; gap:1rem; align-items:baseline; padding:1.25rem 1.4rem; border:1px solid color-mix(in srgb,var(--purple) 25%,var(--paper)); border-radius:.9rem; background:#fffdf8; box-shadow:5px 5px 0 color-mix(in srgb,var(--gold) 42%,transparent); text-decoration:none; color:inherit; }
+a.card:hover { box-shadow:9px 9px 0 color-mix(in srgb,var(--gold) 60%,transparent); transform:translate(-2px,-2px); }
+a.card .no { font-family:"Tilt Warp","DM Sans",sans-serif; font-size:1.9rem; color:var(--gold); -webkit-text-stroke:1.5px var(--purple); }
+a.card b { font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; color:var(--purple); text-transform:uppercase; font-size:1.15rem; display:block; }
+a.card span { font-size:.92rem; color:var(--lede); }
+.note { margin-top:2.5rem; padding:1rem 1.25rem; border-left:.35rem solid var(--gold); background:color-mix(in srgb,var(--gold) 12%,transparent); font:400 .8rem/1.7 "DM Mono",monospace; }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Design Lasagna · exploration</p>
+  <h1>Twenty-seven <em>layouts.</em></h1>
+  <p>Concept explorations for the home page / site structure. Each file is self-contained, uses the current type &amp; colour, and touches nothing in <code>src/</code>. Open one to browse it, then come back and pick (or mix) favourites.</p>
+  <ul>
+    <li><a class="card" href="01-poster-oversize/"><span class="no">01</span><span><b>Poster</b><span>One gigantic statement, thin chrome, a single rule and a link strip. Maximum type, minimum furniture.</span></span></a></li>
+    <li><a class="card" href="02-menu-bento/"><span class="no">02</span><span><b>Menu / Bento</b><span>"Today's menu" — every section is a dish card sized by importance (schemas = signature dish).</span></span></a></li>
+    <li><a class="card" href="03-dev-sidebar/"><span class="no">03</span><span><b>Dev Sidebar</b><span>Docs-app feel: permanent left nav, a terminal install panel, right-hand table of contents.</span></span></a></li>
+    <li><a class="card" href="04-recipe-courses/"><span class="no">04</span><span><b>Recipe / Courses</b><span>Numbered courses 01–04: prep (schemas) → cook (language server) → serve (docs) → dine (writing &amp; about).</span></span></a></li>
+    <li><a class="card" href="05-split-sticky/"><span class="no">05</span><span><b>Split / Sticky</b><span>Permanent purple side panel with nav &amp; contact; content scrolls past in bold ruled sections.</span></span></a></li>
+    <li><a class="card" href="06-article-essay/"><span class="no">06</span><span><b>Article Essay</b><span>Long-form writing column with a sticky TOC and editorial side notes.</span></span></a></li>
+    <li><a class="card" href="07-guide-playbook/"><span class="no">07</span><span><b>Guide Playbook</b><span>Step-by-step article layout for tutorials, onboarding, and how-to pages.</span></span></a></li>
+    <li><a class="card" href="08-magazine-spread/"><span class="no">08</span><span><b>Magazine Spread</b><span>A feature-style article with a big hero, summary panels, and editorial notes.</span></span></a></li>
+    <li><a class="card" href="09-image-led-article/"><span class="no">09</span><span><b>Image-led Article</b><span>More images woven through the content, captions included.</span></span></a></li>
+    <li><a class="card" href="10-image-mosaic-article/"><span class="no">10</span><span><b>Image Mosaic</b><span>Mixed-size collage opening with captions and image rhythm.</span></span></a></li>
+    <li><a class="card" href="11-diptych-article/"><span class="no">11</span><span><b>Diptych Article</b><span>Paired image/text sections that alternate as chapters.</span></span></a></li>
+    <li><a class="card" href="12-collage-guide/"><span class="no">12</span><span><b>Collage Guide</b><span>Guide article with layered images, notes, and callouts.</span></span></a></li>
+    <li><a class="card" href="13-full-bleed-opener/"><span class="no">13</span><span><b>Full-Bleed Opener</b><span>Cinematic hero image stretched edge-to-edge with overlay text.</span></span></a></li>
+    <li><a class="card" href="14-bleed-editorial/"><span class="no">14</span><span><b>Bleed Editorial</b><span>Magazine-style article with alternating full-width image bands.</span></span></a></li>
+    <li><a class="card" href="15-photo-strip-story/"><span class="no">15</span><span><b>Photo Strip Story</b><span>Repeated full-bleed image chapters with calm prose between.</span></span></a></li>
+    <li><a class="card" href="16-longform-editorial/"><span class="no">16</span><span><b>Longform Editorial</b><span>Text-heavy article with headings, tables, and pull quotes.</span></span></a></li>
+    <li><a class="card" href="17-report-reference/"><span class="no">17</span><span><b>Report / Reference</b><span>Structured page for charts, summary stats, and tables.</span></span></a></li>
+    <li><a class="card" href="18-feature-media/"><span class="no">18</span><span><b>Feature / Media</b><span>Feature article with video, wide images, and section headings.</span></span></a></li>
+    <li><a class="card" href="19-editorial-spine/"><span class="no">19</span><span><b>Editorial Spine</b><span>Recommended default Writing template: a calm article column, discreet TOC rail, and breakout evidence.</span></span></a></li>
+    <li><a class="card" href="20-guided-recipe/"><span class="no">20</span><span><b>Guided Recipe</b><span>Outcome-led Learn template with prerequisites, steps, code, troubleshooting, and verification.</span></span></a></li>
+    <li><a class="card" href="21-documentation-workbench/"><span class="no">21</span><span><b>Documentation Workbench</b><span>Technical reference built around a minimal example, field records, short definition links, and disclosure details.</span></span></a></li>
+    <li><a class="card" href="22-tool-and-library/"><span class="no">22</span><span><b>Tool Profile + Library</b><span>A product-oriented tool overview followed by grouped paths into Docs, Learn, and Writing.</span></span></a></li>
+    <li><a class="card" href="23-layered-explainer/"><span class="no">23</span><span><b>Layered Explainer</b><span>Concept article with alternating prose, diagrams, and visual chapter breaks.</span></span></a></li>
+    <li><a class="card" href="24-evidence-desk/"><span class="no">24</span><span><b>Evidence Desk</b><span>Report layout for key findings, accessible charts, responsive comparison data, and methodology.</span></span></a></li>
+    <li><a class="card" href="25-library-index/"><span class="no">25</span><span><b>Library Index</b><span>Grouped, repeatable content discovery for Docs, Learn, Writing, or topic archives.</span></span></a></li>
+    <li><a class="card" href="26-release-note/"><span class="no">26</span><span><b>Release Note</b><span>Version-specific changes, breaking-change alerts, migrations, and package links.</span></span></a></li>
+    <li><a class="card" href="27-front-door/"><span class="no">27</span><span><b>Front Door</b><span>Homepage route finder with a clear claim, concrete demo, three paths, and current activity.</span></span></a></li>
+  </ul>
+  <p class="note">These are scratch files for discussion only — not part of the Eleventy build, not linked from the live site. Safe to keep, delete, or promote any of them into <code>src/</code> later.</p>
+</main>
+</body>
+</html>

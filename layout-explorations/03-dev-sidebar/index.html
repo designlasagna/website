@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout 03 — Dev Sidebar (docs-first)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Tilt+Warp&display=swap">
+<style>
+:root { --ink:#261c2d; --paper:#fffaf1; --gold:#f6b33d; --orange:#dd4c14; --purple:#8342b0; --muted:#6e6276; --lede:#3c4841; }
+* { box-sizing:border-box; } html,body { min-height:100%; } body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; }
+.skip { position:absolute; top:-100vh; left:.75rem; background:var(--gold); padding:.6rem 1rem; font:500 .8rem "DM Mono",monospace; text-decoration:none; z-index:9; }
+.skip:focus { top:.75rem; }
+.wrap { display:grid; grid-template-columns:minmax(200px,14rem) minmax(0,1fr) minmax(140px,12rem); max-width:1440px; margin:auto; min-height:100svh; }
+aside { padding:1.5rem 1.25rem; border-right:1px solid color-mix(in srgb,var(--purple) 20%,var(--paper)); }
+aside.right { border-right:0; border-left:1px solid color-mix(in srgb,var(--purple) 20%,var(--paper)); }
+.side-title { margin:0 0 1rem; font:500 .64rem "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+aside nav { display:flex; flex-direction:column; gap:.15rem; font:500 .78rem "DM Mono",monospace; }
+aside nav a { color:var(--ink); text-decoration:none; padding:.35rem .5rem; border-radius:.3rem; }
+aside nav a:hover { background:color-mix(in srgb,var(--gold) 25%,white); }
+aside nav a[aria-current] { background:var(--purple); color:#fff; }
+.brand { display:block; width:4rem; margin-bottom:1rem; }
+.brand img { width:100%; display:block; }
+main { padding:clamp(2rem,4vw,3.5rem) clamp(1.5rem,4vw,4rem); display:flex; flex-direction:column; }
+.crumb { font:500 .7rem "DM Mono",monospace; color:var(--muted); margin-bottom:1.5rem; }
+.crumb a { color:var(--muted); }
+h1 { margin:0 0 .5rem; color:var(--purple); font-family:"Tilt Warm",sans-serif; }
+h1, h2 { font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; color:var(--purple); text-transform:uppercase; letter-spacing:-.05em; line-height:.9; }
+h1 { font-size:clamp(2.5rem,5vw,4rem); }
+h1 em { color:var(--orange); font-style:normal; }
+h2 { font-size:clamp(1.6rem,3vw,2.2rem); margin:2.5rem 0 1rem; }
+p { max-width:65ch; line-height:1.6; }
+.lede { color:var(--lede); font-size:1.15rem; }
+.term { margin:1.5rem 0; border:1px solid color-mix(in srgb,var(--purple) 25%,var(--paper)); border-radius:.8rem; background:#fffdf8; box-shadow:5px 5px 0 color-mix(in srgb,var(--gold) 42%,transparent); }
+.term-bar { display:flex; gap:.4rem; padding:.6rem .9rem; border-bottom:1px solid color-mix(in srgb,var(--purple) 18%,var(--paper)); }
+.term-bar i { width:.55rem; height:.55rem; border-radius:50%; background:var(--gold); }
+.term-bar i:nth-child(2){ background:var(--orange);} .term-bar i:nth-child(3){ background:var(--purple);}
+pre { margin:0; padding:1.1rem 1.25rem; overflow-x:auto; font:400 .82rem/1.7 "DM Mono",monospace; }
+.tok-c { color:var(--muted); } .tok-s { color:var(--purple); } .tok-k { color:var(--orange); } .tok-p { color:var(--ink); }
+.cols { display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr)); gap:1rem; margin-top:1rem; }
+.cols a { display:block; padding:1rem 1.1rem; border:1px solid color-mix(in srgb,var(--purple) 25%,var(--paper)); border-radius:.7rem; background:#fffdf8; text-decoration:none; color:inherit; }
+.cols a:hover { box-shadow:4px 4px 0 color-mix(in srgb,var(--gold) 45%,transparent); transform:translate(-1px,-1px); }
+.cols strong { display:block; font:500 .72rem "DM Mono",monospace; color:var(--orange); text-transform:uppercase; letter-spacing:.06em; margin-bottom:.3rem; }
+.cols span { font-size:.9rem; color:var(--lede); }
+.toctitle { margin:0 0 .75rem; font:500 .64rem "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+.toc { font:400 .74rem/2 "DM Mono",monospace; padding-left:.9rem; border-left:2px solid color-mix(in srgb,var(--gold) 50%,transparent); margin:0; list-style:none; }
+.toc a { color:var(--muted); text-decoration:none; }
+.toc a:hover { color:var(--orange); text-decoration:underline; }
+footer { padding:1rem clamp(1.5rem,4vw,4rem) 2rem; font:500 .68rem "DM Mono",monospace; color:var(--muted); }
+.concept-note { padding:.8rem 1.25rem; background:var(--gold); font:500 .75rem "DM Mono",monospace; }
+@media (max-width:900px){ .wrap { grid-template-columns:1fr; } aside { display:none; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="concept-note">LAYOUT EXPLORATION 03 — "DEV SIDEBAR". Docs-app feel: permanent left navigation, terminal panels, right-hand table of contents. (Exploration file — not part of the build.)</div>
+<div class="wrap">
+  <aside>
+    <a class="brand" href="../" aria-label="Design Lasagna home"><img src="../../src/assets/logotype.svg" alt=""></a>
+    <p class="side-title">Tools</p>
+    <nav aria-label="Tools"><a href="#">Schemas</a><a href="#">Language Server</a><a href="#">CLI (soon)</a></nav>
+    <p class="side-title">Learn</p>
+    <nav aria-label="Learn"><a href="#">Guides</a><a href="#">Docs</a><a href="#">Writing</a></nav>
+    <p class="side-title">Site</p>
+    <nav aria-label="Site"><a href="#">About</a><a href="#">GitHub</a></nav>
+  </aside>
+  <main id="main">
+    <p class="crumb">/ <a href="#">home</a> / <a href="#">install</a></p>
+    <h1>Make systems <em>make sense.</em></h1>
+    <p class="lede">Open tools for design tokens, schemas, and better editor workflows. Install, point an editor at your tokens, and start reading your system.</p>
+    <div class="term">
+      <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+<pre><span class="tok-c"># add the schemas to your project</span>
+<span class="tok-p">$</span> npm install @designlasagna/schemas
+
+<span class="tok-c"># or just point your editor at them</span>
+<span class="tok-p">$</span> git clone https://github.com/designlasagna/schemas</pre>
+    </div>
+    <h2>The tasty parts</h2>
+    <p>We are deliberately not another format or platform. Design Lasagna works <em>with</em> the Design Tokens Community Group standard — if it has a DTCG file, it should work here.</p>
+    <div class="cols">
+      <a href="#"><strong>Schemas</strong><span>Versioned JSON schemas for tokens & CEM data.</span></a>
+      <a href="#"><strong>Language Server</strong><span>Diagnostics and completions that explain why.</span></a>
+      <a href="#"><strong>Learn</strong><span>Task-oriented guides, written as recipes.</span></a>
+      <a href="#"><strong>Writing</strong><span>Dated essays and notes from the kitchen.</span></a>
+    </div>
+    <footer>Design Lasagna · admin@designlasagna.recipes</footer>
+  </main>
+  <aside class="right">
+    <p class="toctitle">On this page</p>
+    <ul class="toc">
+      <li><a href="#">Installation</a></li>
+      <li><a href="#">Schema versions</a></li>
+      <li><a href="#">Editor setup</a></li>
+      <li><a href="#">The tasty parts</a></li>
+      <li><a href="#">Principles</a></li>
+    </ul>
+    <p class="toctitle" style="margin-top:2rem">Status</p>
+    <ul class="toc">
+      <li><a href="#">schemas v0.3 · stable</a></li>
+      <li><a href="#">language server · active</a></li>
+    </ul>
+  </aside>
+</div>
+</body>
+</html>

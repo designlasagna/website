@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout 06 — Article (essay column)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Tilt+Warp&display=swap">
+<style>
+:root { --ink:#261c2d; --paper:#fffaf1; --gold:#f6b33d; --orange:#dd4c14; --purple:#8342b0; --muted:#6e6276; --lede:#3c4841; }
+* { box-sizing:border-box; }
+html,body { min-height:100%; }
+body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; }
+.skip { position:absolute; top:-100vh; left:.75rem; background:var(--gold); padding:.6rem 1rem; font:500 .8rem "DM Mono",monospace; text-decoration:none; z-index:9; }
+.skip:focus { top:.75rem; }
+.concept-note { padding:.8rem clamp(1.5rem,5vw,5rem); background:var(--gold); font:500 .75rem "DM Mono",monospace; }
+.site-header { display:flex; align-items:center; gap:1.25rem; padding:1.1rem clamp(1.5rem,5vw,5rem); border-bottom:1px dashed color-mix(in srgb,var(--purple) 40%,transparent); }
+.brand { width:4.4rem; display:block; }
+.brand img { width:100%; display:block; }
+.site-nav { margin-left:auto; display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; font:500 .76rem "DM Mono",monospace; }
+.site-nav a { color:inherit; text-decoration:none; }
+.site-nav a:hover { color:var(--orange); text-decoration:underline; text-decoration-color:var(--gold); }
+main { width:min(84rem,100%); margin:auto; padding:clamp(1.5rem,4vw,3.5rem) clamp(1.5rem,5vw,5rem) 3rem; }
+.article-shell { display:grid; grid-template-columns:minmax(0,1fr) 18rem; gap:2rem 3rem; align-items:start; }
+.article { max-width:48rem; }
+.kicker { margin:0 0 .9rem; color:var(--purple); font:500 .7rem "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+h1 { margin:0; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; font-size:clamp(2.8rem,6vw,5.8rem); line-height:.88; letter-spacing:-.05em; text-transform:uppercase; }
+h1 em { color:var(--orange); font-style:normal; }
+.deck { margin:1.25rem 0 0; max-width:42ch; color:var(--lede); font-size:1.15rem; line-height:1.55; }
+.byline { display:flex; flex-wrap:wrap; gap:.5rem 1rem; margin:1.5rem 0 0; padding:1rem 0; border-top:1px solid color-mix(in srgb,var(--purple) 18%,transparent); border-bottom:1px solid color-mix(in srgb,var(--purple) 18%,transparent); font:500 .75rem "DM Mono",monospace; color:var(--muted); }
+.byline b { color:var(--ink); }
+.article p { max-width:68ch; line-height:1.7; margin:1.25rem 0; }
+.article h2 { margin:2.25rem 0 .9rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; font-size:clamp(1.45rem,2.6vw,2.15rem); line-height:.95; text-transform:uppercase; letter-spacing:-.03em; }
+.article a { color:var(--purple); text-decoration-thickness:.08em; text-underline-offset:.18em; }
+.article a:hover { color:var(--orange); }
+.pull { margin:1.75rem 0; padding:1.25rem 1.5rem; border-left:.4rem solid var(--gold); background:color-mix(in srgb,var(--gold) 12%,white); font-size:1.1rem; line-height:1.55; }
+.pull strong { color:var(--purple); }
+.inline-cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin:1.5rem 0; }
+.inline-cards .card { padding:1rem 1.1rem; border:1px solid color-mix(in srgb,var(--purple) 24%,transparent); border-radius:.85rem; background:#fffdf8; box-shadow:4px 4px 0 color-mix(in srgb,var(--gold) 38%,transparent); }
+.inline-cards .card b { display:block; margin-bottom:.4rem; font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; color:var(--purple); text-transform:uppercase; }
+.inline-cards .card span { color:var(--muted); font-size:.9rem; line-height:1.45; }
+.sidebar { position:sticky; top:1rem; padding:1.25rem; border:1px solid color-mix(in srgb,var(--purple) 22%,transparent); border-radius:1rem; background:#fffdf8; box-shadow:6px 6px 0 color-mix(in srgb,var(--gold) 42%,transparent); }
+.sidebar h2 { margin:0 0 .75rem; color:var(--orange); font-size:1rem; }
+.sidebar .toc { display:grid; gap:.35rem; font:500 .8rem "DM Mono",monospace; }
+.sidebar .toc a { color:inherit; text-decoration:none; padding:.15rem 0; border-bottom:1px dotted color-mix(in srgb,var(--purple) 30%,transparent); }
+.sidebar .toc a:hover { color:var(--orange); }
+.sidebar .meta { margin-top:1rem; padding-top:1rem; border-top:1px solid color-mix(in srgb,var(--purple) 18%,transparent); font:400 .78rem/1.6 "DM Mono",monospace; color:var(--muted); }
+.sidebar .meta a { color:var(--purple); text-decoration:none; }
+.sidebar .meta a:hover { color:var(--orange); text-decoration:underline; }
+footer { padding:0 clamp(1.5rem,5vw,5rem) 2rem; font:500 .68rem "DM Mono",monospace; color:var(--muted); }
+@media (max-width:920px){ .article-shell { grid-template-columns:1fr; } .sidebar { position:static; } }
+@media (max-width:700px){ .site-header { align-items:flex-start; flex-direction:column; } .site-nav { margin-left:0; } .inline-cards { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="concept-note">LAYOUT EXPLORATION 06 — "ARTICLE / ESSAY". A calm, long-form writing layout with a narrow reading column, sticky notes, and a side table of contents. (Exploration file — not part of the build.)</div>
+<header class="site-header">
+  <a class="brand" href="../" aria-label="Design Lasagna home"><img src="../../src/assets/logotype.svg" alt=""></a>
+  <nav class="site-nav" aria-label="Primary"><a href="#">Tools</a><a href="#">Docs</a><a href="#">Learn</a><a href="#">Writing</a><a href="#">About</a></nav>
+</header>
+<main id="main">
+  <div class="article-shell">
+    <article class="article">
+      <p class="kicker">Writing · field note</p>
+      <h1>Why <em>open</em> design tools read better when they look like an essay.</h1>
+      <p class="deck">An article-first layout for longer writing: fewer chrome elements, more rhythm, and just enough supporting structure for readers who want to skim, then settle in.</p>
+
+      <div class="byline"><span><b>By</b> Design Lasagna</span><span><b>Read time</b> 6 min</span><span><b>Updated</b> 2025-01-01</span></div>
+
+      <p>Some pages are built to persuade with density. Others work best by slowing the reader down. This exploration treats the home page like a magazine essay: one clear title, one clear promise, and a single reading path that makes the system feel editorial rather than dashboard-like.</p>
+
+      <p>That matters for a project about schemas, language servers, and docs. The audience is often already motivated; the page does not need to shout. It needs to organize.</p>
+
+      <div class="pull"><strong>Editorial rule:</strong> use type hierarchy to guide attention, then let whitespace do the rest.</div>
+
+      <h2 id="structure">Structure that feels like prose.</h2>
+      <p>The layout uses a wide canvas with a narrow content column and a separate rail for navigation. The article stays calm, while the rail carries utility: anchors, metadata, and links to adjacent pages. That keeps the reading experience focused without making the page feel sparse.</p>
+      <p>In practice, this suits documentation-overview pages, launch essays, and thoughtful “start here” pages. It is especially good when the prose itself is doing the work.</p>
+
+      <div class="inline-cards">
+        <div class="card"><b>Lead</b><span>One paragraph that tells the reader why this matters now.</span></div>
+        <div class="card"><b>Evidence</b><span>Short sections, pull quotes, and supporting examples.</span></div>
+        <div class="card"><b>Navigation</b><span>Light TOC and nearby links, never louder than the text.</span></div>
+        <div class="card"><b>Ending</b><span>A clean, memorable outro that invites the next page.</span></div>
+      </div>
+
+      <h2 id="tone">A tone of calm confidence.</h2>
+      <p>The visual language borrows from print: tight titles, generous leading, a small overline, and a restrained accent palette. It is still unmistakably the brand, but it reads more like an essay than a product landing page.</p>
+      <p>For a project that already has a strong point of view, this is often enough. The layout should support the voice, not compete with it.</p>
+    </article>
+
+    <aside class="sidebar" aria-label="Article extras">
+      <h2>On this page</h2>
+      <div class="toc"><a href="#structure">Structure</a><a href="#tone">Tone</a><a href="#formats">Best for</a></div>
+      <div class="meta">
+        <p><strong>Best for:</strong> essays, launch notes, longer writing, and editorial intros.</p>
+        <p><strong>Also works for:</strong> docs landing pages that should feel human.</p>
+        <p><a href="#">Read more writing</a></p>
+      </div>
+    </aside>
+  </div>
+</main>
+<footer>Design Lasagna · article layout exploration</footer>
+</body>
+</html>

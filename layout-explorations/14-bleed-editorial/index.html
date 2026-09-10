@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout 14 — Bleed editorial</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Tilt+Warp&display=swap">
+<style>
+:root { --ink:#261c2d; --paper:#fffaf1; --gold:#f6b33d; --orange:#dd4c14; --purple:#8342b0; --muted:#6e6276; --lede:#3c4841; }
+* { box-sizing:border-box; }
+html,body { min-height:100%; }
+body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; }
+.skip { position:absolute; top:-100vh; left:.75rem; background:var(--gold); padding:.6rem 1rem; font:500 .8rem "DM Mono",monospace; text-decoration:none; z-index:9; }
+.skip:focus { top:.75rem; }
+.concept-note { padding:.8rem clamp(1.5rem,5vw,5rem); background:var(--gold); font:500 .75rem "DM Mono",monospace; }
+.site-header { display:flex; align-items:center; gap:1.25rem; padding:1.1rem clamp(1.5rem,5vw,5rem); border-bottom:1px dashed color-mix(in srgb,var(--purple) 40%,transparent); }
+.brand { width:4.4rem; display:block; }
+.brand img { width:100%; display:block; }
+.site-nav { margin-left:auto; display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; font:500 .76rem "DM Mono",monospace; }
+.site-nav a { color:inherit; text-decoration:none; }
+.site-nav a:hover { color:var(--orange); text-decoration:underline; text-decoration-color:var(--gold); }
+main { width:min(92rem,100%); margin:auto; padding:clamp(1.5rem,4vw,3.5rem) 0 3rem; }
+.kicker { margin:0 0 .9rem; color:var(--purple); font:500 .7rem "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+h1 { margin:0; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; font-size:clamp(3rem,7vw,6.5rem); line-height:.84; letter-spacing:-.06em; text-transform:uppercase; }
+h1 em { color:var(--orange); font-style:normal; }
+.deck { margin:1rem 0 0; max-width:44ch; color:var(--lede); font-size:1.15rem; line-height:1.6; }
+.article { width:min(74rem,100%); margin:auto; padding:0 clamp(1.5rem,4vw,3rem); }
+.article p { max-width:68ch; line-height:1.75; margin:1.1rem 0; }
+.article h2 { margin:2rem 0 .8rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:-.03em; font-size:clamp(1.35rem,2.6vw,2rem); line-height:.95; }
+.hero-bleed { position:relative; min-height:92svh; display:flex; align-items:end; color:#fff; overflow:hidden; }
+.hero-bleed::before { content:""; position:absolute; inset:0; background-image:linear-gradient(180deg,rgba(38,28,45,.05),rgba(38,28,45,.62)), url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%201000%22%3E%3Crect%20width%3D%221600%22%20height%3D%221000%22%20rx%3D%220%22%20fill%3D%22%23f5e8ff%22%2F%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22180%22%20r%3D%22130%22%20fill%3D%22%238342b0%22%2F%3E%3Ccircle%20cx%3D%221240%22%20cy%3D%22270%22%20r%3D%22170%22%20fill%3D%22%23f6b33d%22%2F%3E%3Ccircle%20cx%3D%22920%22%20cy%3D%22680%22%20r%3D%22260%22%20fill%3D%22%23dd4c14%22%2F%3E%3Crect%20x%3D%2270%22%20y%3D%22120%22%20width%3D%22560%22%20height%3D%22300%22%20rx%3D%2244%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22640%22%20y%3D%22470%22%20width%3D%22880%22%20height%3D%22420%22%20rx%3D%2248%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22110%22%20y%3D%22550%22%20width%3D%22420%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%3Crect%20x%3D%22700%22%20y%3D%22130%22%20width%3D%22520%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%3Crect%20x%3D%22700%22%20y%3D%22200%22%20width%3D%22360%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.10%22%2F%3E%3C%2Fsvg%3E'); background-size:cover; background-position:center; }
+.hero-bleed .inner { position:relative; width:min(74rem,100%); margin:auto; padding:clamp(2rem,8vw,7rem) clamp(1.5rem,4vw,3rem) 4rem; }
+.hero-bleed .card { max-width:42rem; padding:1.4rem 1.5rem; border-radius:1.3rem; background:rgba(255,250,241,.9); color:var(--ink); backdrop-filter:blur(10px); box-shadow:8px 8px 0 color-mix(in srgb,var(--gold) 55%,transparent); }
+.hero-bleed .card p { margin:0; line-height:1.6; color:var(--lede); }
+.bleed { width:100vw; margin-left:calc(50% - 50vw); }
+.bleed img { width:100%; display:block; }
+.band { position:relative; margin:2rem 0; }
+.band img { min-height:38svh; object-fit:cover; }
+.band .caption { position:absolute; left:clamp(1rem,4vw,3rem); bottom:clamp(1rem,4vw,2rem); max-width:34rem; padding:.8rem 1rem; background:rgba(255,250,241,.92); border-left:.35rem solid var(--gold); color:var(--ink); box-shadow:6px 6px 0 color-mix(in srgb,var(--orange) 28%,transparent); }
+.band .caption b { display:block; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; margin-bottom:.25rem; }
+.grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin:1.5rem 0; }
+.grid figure, .split figure { margin:0; }
+.grid img, .split img { width:100%; display:block; border-radius:1rem; border:1px solid color-mix(in srgb,var(--purple) 18%,transparent); box-shadow:5px 5px 0 color-mix(in srgb,var(--gold) 42%,transparent); }
+.grid figcaption, .split figcaption { margin-top:.45rem; font:500 .72rem "DM Mono",monospace; color:var(--muted); }
+.pull { margin:1.8rem 0; padding:1.1rem 1.25rem; background:color-mix(in srgb,var(--gold) 10%,white); border-left:.45rem solid var(--gold); font-size:1.08rem; line-height:1.6; }
+.pull em { color:var(--purple); font-style:normal; }
+.split { display:grid; grid-template-columns:minmax(0,1fr) 18rem; gap:2rem; align-items:start; }
+.notes { position:sticky; top:1rem; padding:1.25rem; border-radius:1rem; background:var(--purple); color:#fff; }
+.notes h2 { margin:0 0 .75rem; color:var(--gold); font-size:1rem; }
+.notes p { margin:.6rem 0; line-height:1.6; color:rgba(255,255,255,.86); }
+.notes a { color:var(--gold); text-decoration:none; }
+.notes a:hover { text-decoration:underline; }
+footer { padding:1.25rem clamp(1.5rem,5vw,5rem) 2rem; font:500 .68rem "DM Mono",monospace; color:var(--muted); }
+@media (max-width:980px) { .split { grid-template-columns:1fr; } .notes { position:static; } .hero-bleed { min-height:72svh; } }
+@media (max-width:720px) { .site-header { align-items:flex-start; flex-direction:column; } .site-nav { margin-left:0; } .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="concept-note">LAYOUT EXPLORATION 14 — "BLEED EDITORIAL". A magazine-like article built from alternating full-width image bands and narrow prose blocks. (Exploration file — not part of the build.)</div>
+<header class="site-header">
+  <a class="brand" href="../" aria-label="Design Lasagna home"><img src="../../src/assets/logotype.svg" alt=""></a>
+  <nav class="site-nav" aria-label="Primary"><a href="#">Tools</a><a href="#">Docs</a><a href="#">Learn</a><a href="#">Writing</a><a href="#">About</a></nav>
+</header>
+<main id="main">
+  <section class="hero-bleed">
+    <div class="inner">
+      <div class="card">
+        <p class="kicker">Writing · wide image bands</p>
+        <h1>An <em>editorial</em> layout with image bands.</h1>
+        <p class="deck">A feature page that alternates between wide photographic moments and a tighter reading column, creating a steady visual cadence.</p>
+      </div>
+    </div>
+  </section>
+  <section class="article">
+    <p>Full-bleed imagery gives the page a stronger opening beat. Instead of using a small image as decoration, the picture becomes the stage for the title and the first idea.</p>
+
+    <div class="band bleed">
+      <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%201000%22%3E%3Crect%20width%3D%221600%22%20height%3D%221000%22%20rx%3D%220%22%20fill%3D%22%23fff4e7%22%2F%3E%3Ccircle%20cx%3D%22250%22%20cy%3D%22260%22%20r%3D%22150%22%20fill%3D%22%23dd4c14%22%2F%3E%3Ccircle%20cx%3D%221120%22%20cy%3D%22220%22%20r%3D%22200%22%20fill%3D%22%23f6b33d%22%2F%3E%3Ccircle%20cx%3D%22960%22%20cy%3D%22730%22%20r%3D%22280%22%20fill%3D%22%238342b0%22%2F%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%221600%22%20height%3D%22160%22%20rx%3D%220%22%20fill%3D%22%23f6b33d%22%2F%3E%3Crect%20x%3D%22180%22%20y%3D%22170%22%20width%3D%22540%22%20height%3D%22240%22%20rx%3D%2240%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22720%22%20y%3D%22160%22%20width%3D%22620%22%20height%3D%22240%22%20rx%3D%2240%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22220%22%20y%3D%22490%22%20width%3D%22960%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.11%22%2F%3E%3Crect%20x%3D%22220%22%20y%3D%22540%22%20width%3D%22760%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.09%22%2F%3E%3C%2Fsvg%3E" alt="Wide image band">
+      <div class="caption"><b>Image band</b>Use it to transition from the opener into the body text.</div>
+    </div>
+
+    <div class="split">
+      <div>
+        <p>After the first image, the page can alternate between narrower prose and another full-width visual hit. That creates a feature-article cadence without losing readability.</p>
+        <div class="grid">
+          <figure><img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%201000%22%3E%3Crect%20width%3D%221600%22%20height%3D%221000%22%20rx%3D%220%22%20fill%3D%22%23fff3dd%22%2F%3E%3Ccircle%20cx%3D%22280%22%20cy%3D%22240%22%20r%3D%22160%22%20fill%3D%22%23f6b33d%22%2F%3E%3Ccircle%20cx%3D%221180%22%20cy%3D%22700%22%20r%3D%22300%22%20fill%3D%22%238342b0%22%2F%3E%3Ccircle%20cx%3D%22760%22%20cy%3D%22370%22%20r%3D%22210%22%20fill%3D%22%23dd4c14%22%2F%3E%3Crect%20x%3D%220%22%20y%3D%22760%22%20width%3D%221600%22%20height%3D%22240%22%20rx%3D%220%22%20fill%3D%22%23fff8f0%22%2F%3E%3Crect%20x%3D%22620%22%20y%3D%22120%22%20width%3D%22420%22%20height%3D%22160%22%20rx%3D%2280%22%20fill%3D%22%23261c2d%22%2F%3E%3Crect%20x%3D%22340%22%20y%3D%22470%22%20width%3D%22860%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.16%22%2F%3E%3Crect%20x%3D%22340%22%20y%3D%22520%22%20width%3D%22620%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%3C%2Fsvg%3E" alt="Supporting image"><figcaption>Support frame</figcaption></figure>
+          <figure><img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%201000%22%3E%3Crect%20width%3D%221600%22%20height%3D%221000%22%20rx%3D%220%22%20fill%3D%22%23f5e8ff%22%2F%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22180%22%20r%3D%22130%22%20fill%3D%22%238342b0%22%2F%3E%3Ccircle%20cx%3D%221240%22%20cy%3D%22270%22%20r%3D%22170%22%20fill%3D%22%23f6b33d%22%2F%3E%3Ccircle%20cx%3D%22920%22%20cy%3D%22680%22%20r%3D%22260%22%20fill%3D%22%23dd4c14%22%2F%3E%3Crect%20x%3D%2270%22%20y%3D%22120%22%20width%3D%22560%22%20height%3D%22300%22%20rx%3D%2244%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22640%22%20y%3D%22470%22%20width%3D%22880%22%20height%3D%22420%22%20rx%3D%2248%22%20fill%3D%22%23fffaf1%22%2F%3E%3Crect%20x%3D%22110%22%20y%3D%22550%22%20width%3D%22420%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%3Crect%20x%3D%22700%22%20y%3D%22130%22%20width%3D%22520%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.12%22%2F%3E%3Crect%20x%3D%22700%22%20y%3D%22200%22%20width%3D%22360%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23261c2d%22%20opacity%3D%22.10%22%2F%3E%3C%2Fsvg%3E" alt="Supporting image"><figcaption>Return frame</figcaption></figure>
+        </div>
+        <h2>Keep the images chapter-sized.</h2>
+        <p>The trick is to let each image feel like a section divider, not a random block. The article still reads smoothly, but the visuals do more of the storytelling.</p>
+        <div class="pull">This is where <em>full bleed</em> pays off: the page feels like a story, not a stack of cards.</div>
+        <p>That makes the layout especially useful for essays, launches, interviews, and any page where the images deserve as much presence as the copy.</p>
+      </div>
+      <aside class="notes" aria-label="Layout notes">
+        <h2>Notes</h2>
+        <p><strong>Best for:</strong> essays, features, and visual launch stories.</p>
+        <p><strong>Pattern:</strong> bleed hero → image band → text → image band.</p>
+        <p><a href="#">Browse related layouts</a></p>
+      </aside>
+    </div>
+  </section>
+</main>
+<footer>Design Lasagna · bleed editorial exploration</footer>
+</body>
+</html>

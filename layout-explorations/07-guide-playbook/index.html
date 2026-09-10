@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout 07 — Guide (playbook article)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Tilt+Warp&display=swap">
+<style>
+:root { --ink:#261c2d; --paper:#fffaf1; --gold:#f6b33d; --orange:#dd4c14; --purple:#8342b0; --muted:#6e6276; --lede:#3c4841; }
+* { box-sizing:border-box; }
+html,body { min-height:100%; }
+body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; }
+.skip { position:absolute; top:-100vh; left:.75rem; background:var(--gold); padding:.6rem 1rem; font:500 .8rem "DM Mono",monospace; text-decoration:none; z-index:9; }
+.skip:focus { top:.75rem; }
+.concept-note { padding:.8rem clamp(1.5rem,5vw,5rem); background:var(--gold); font:500 .75rem "DM Mono",monospace; }
+.site-header { display:flex; align-items:center; gap:1.25rem; padding:1.1rem clamp(1.5rem,5vw,5rem); border-bottom:1px dashed color-mix(in srgb,var(--purple) 40%,transparent); }
+.brand { width:4.4rem; display:block; }
+.brand img { width:100%; display:block; }
+.site-nav { margin-left:auto; display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; font:500 .76rem "DM Mono",monospace; }
+.site-nav a { color:inherit; text-decoration:none; }
+.site-nav a:hover { color:var(--orange); text-decoration:underline; text-decoration-color:var(--gold); }
+main { width:min(86rem,100%); margin:auto; padding:clamp(1.5rem,4vw,3.5rem) clamp(1.5rem,5vw,5rem) 3rem; }
+.guide { display:grid; grid-template-columns:15rem minmax(0,1fr) 18rem; gap:2rem; align-items:start; }
+.toc, .aside { position:sticky; top:1rem; }
+.toc { padding:1.25rem; border:1px solid color-mix(in srgb,var(--purple) 22%,transparent); border-radius:1rem; background:#fffdf8; box-shadow:6px 6px 0 color-mix(in srgb,var(--gold) 42%,transparent); }
+.toc p { margin:0 0 .75rem; color:var(--purple); font:500 .7rem "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+.toc a { display:block; padding:.4rem 0; color:inherit; text-decoration:none; font:500 .8rem "DM Mono",monospace; border-bottom:1px dotted color-mix(in srgb,var(--purple) 25%,transparent); }
+.toc a:hover { color:var(--orange); }
+.article { max-width:44rem; }
+.eyebrow { margin:0 0 .9rem; color:var(--orange); font:500 .7rem "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+h1 { margin:0; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; font-size:clamp(2.6rem,5.8vw,5.4rem); line-height:.88; letter-spacing:-.05em; text-transform:uppercase; }
+h1 em { color:var(--orange); font-style:normal; }
+summary { list-style:none; }
+.deck { margin:1.25rem 0 0; max-width:44ch; color:var(--lede); font-size:1.1rem; line-height:1.6; }
+.badges { display:flex; flex-wrap:wrap; gap:.5rem; margin:1.25rem 0 1.75rem; }
+.badges span { padding:.35rem .65rem; border-radius:999px; background:color-mix(in srgb,var(--gold) 18%,white); border:1px solid color-mix(in srgb,var(--purple) 18%,transparent); font:500 .72rem "DM Mono",monospace; color:var(--purple); }
+.step { margin:1.5rem 0; padding:1.35rem 1.4rem 1.25rem; border:1px solid color-mix(in srgb,var(--purple) 18%,transparent); border-radius:1rem; background:#fffdf8; box-shadow:4px 4px 0 color-mix(in srgb,var(--gold) 32%,transparent); }
+.step h2 { margin:0 0 .8rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:-.03em; font-size:clamp(1.3rem,2.2vw,1.9rem); line-height:.95; }
+.step h2 .n { display:inline-flex; align-items:center; justify-content:center; width:2rem; height:2rem; margin-right:.45rem; border-radius:999px; background:var(--gold); color:var(--ink); font-size:.9rem; -webkit-text-stroke:0; }
+.step p { margin:.85rem 0 0; line-height:1.65; color:var(--lede); }
+.step ul { margin:.85rem 0 0 1.2rem; padding:0; line-height:1.65; color:var(--lede); }
+.step li { margin:.2rem 0; }
+.callout { margin:1.75rem 0; padding:1rem 1.1rem; border-left:.4rem solid var(--orange); background:color-mix(in srgb,var(--orange) 8%,white); }
+.callout b { display:block; margin-bottom:.35rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; }
+.callout p { margin:0; color:var(--lede); line-height:1.55; }
+.aside { padding:1.25rem; border:1px solid color-mix(in srgb,var(--purple) 22%,transparent); border-radius:1rem; background:#fffdf8; }
+.aside h2 { margin:0 0 .75rem; color:var(--orange); font-size:1rem; }
+.aside p { margin:.6rem 0; line-height:1.6; color:var(--lede); }
+.aside a { color:var(--purple); text-decoration:none; }
+.aside a:hover { color:var(--orange); text-decoration:underline; }
+.aside .fact { padding-top:.85rem; margin-top:.85rem; border-top:1px solid color-mix(in srgb,var(--purple) 18%,transparent); font:500 .78rem "DM Mono",monospace; color:var(--muted); }
+footer { padding:1.25rem clamp(1.5rem,5vw,5rem) 2rem; font:500 .68rem "DM Mono",monospace; color:var(--muted); }
+@media (max-width:1060px){ .guide { grid-template-columns:15rem minmax(0,1fr); } .aside { position:static; } }
+@media (max-width:760px){ .guide { grid-template-columns:1fr; } .toc { position:static; } .site-header { align-items:flex-start; flex-direction:column; } .site-nav { margin-left:0; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="concept-note">LAYOUT EXPLORATION 07 — "GUIDE / PLAYBOOK". A task-oriented article layout with a table of contents, numbered steps, and a right rail for quick facts. (Exploration file — not part of the build.)</div>
+<header class="site-header">
+  <a class="brand" href="../" aria-label="Design Lasagna home"><img src="../../src/assets/logotype.svg" alt=""></a>
+  <nav class="site-nav" aria-label="Primary"><a href="#">Tools</a><a href="#">Docs</a><a href="#">Learn</a><a href="#">Writing</a><a href="#">About</a></nav>
+</header>
+<main id="main">
+  <div class="guide">
+    <nav class="toc" aria-label="Table of contents">
+      <p>Guide sections</p>
+      <a href="#start">Start here</a>
+      <a href="#setup">Set up the page</a>
+      <a href="#type">Choose your type</a>
+      <a href="#components">Add supporting components</a>
+      <a href="#finish">Finish with a clear next step</a>
+    </nav>
+
+    <article class="article">
+      <p class="eyebrow">Learn · playbook</p>
+      <h1>How to make a <em>guide page</em> feel useful at a glance.</h1>
+      <p class="deck">This layout is meant for practical articles: setup instructions, “how we work” pages, and guides that need to stay readable even when the reader is scanning for one answer.</p>
+      <div class="badges"><span>How-to</span><span>Step-by-step</span><span>Reference-friendly</span></div>
+
+      <section class="step" id="start">
+        <h2><span class="n">1</span> Start with a promise.</h2>
+        <p>The headline should tell readers what they will be able to do by the end. For example: “Set up tokens in your editor,” or “Write a docs page that is easy to scan.”</p>
+      </section>
+
+      <section class="step" id="setup">
+        <h2><span class="n">2</span> Set up the page with wayfinding.</h2>
+        <p>Use a TOC, short section labels, and visible hierarchy. The reader should always know where they are and what comes next.</p>
+        <ul>
+          <li>Keep the main column narrow enough to read.</li>
+          <li>Use anchors for every meaningful section.</li>
+          <li>Keep navigation adjacent, not dominant.</li>
+        </ul>
+      </section>
+
+      <section class="step" id="type">
+        <h2><span class="n">3</span> Let type do the heavy lifting.</h2>
+        <p>Big title, small eyebrow, generous line height. This page uses a magazine-grade heading system, but the body copy stays quiet and approachable.</p>
+        <div class="callout"><b>Tip</b><p>If your guide has more than one idea, break it into numbered chunks instead of stacking paragraphs.</p></div>
+      </section>
+
+      <section class="step" id="components">
+        <h2><span class="n">4</span> Add supporting components.</h2>
+        <p>Notes, code blocks, quick facts, and side cards are excellent here. They help the reader skim without losing the shape of the article.</p>
+      </section>
+
+      <section class="step" id="finish">
+        <h2><span class="n">5</span> End with a next action.</h2>
+        <p>A guide is more useful when it points somewhere specific: the docs, the writing archive, or the tool that solves the problem.</p>
+      </section>
+    </article>
+
+    <aside class="aside" aria-label="Guide facts">
+      <h2>Quick facts</h2>
+      <p><strong>Use when:</strong> the page is instructional and readers want to jump around.</p>
+      <p><strong>Works well for:</strong> onboarding, tutorials, setup docs, and process pages.</p>
+      <p><strong>Pattern:</strong> intro → steps → tips → related links.</p>
+      <div class="fact">This layout keeps the “article” feel while behaving like a guide.</div>
+      <p><a href="#">See related docs</a></p>
+    </aside>
+  </div>
+</main>
+<footer>Design Lasagna · guide article exploration</footer>
+</body>
+</html>

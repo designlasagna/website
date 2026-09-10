@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout 05 — Split (sticky side panel)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Tilt+Warp&display=swap">
+<style>
+:root { --ink:#261c2d; --paper:#fffaf1; --gold:#f6b33d; --orange:#dd4c14; --purple:#8342b0; --muted:#6e6276; --lede:#3c4841; }
+* { box-sizing:border-box; } html,body { min-height:100%; } body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; }
+.skip { position:absolute; top:-100vh; left:.75rem; background:var(--gold); padding:.6rem 1rem; font:500 .8rem "DM Mono",monospace; text-decoration:none; z-index:9; }
+.skip:focus { top:.75rem; }
+.split { display:grid; grid-template-columns:minmax(220px,24rem) minmax(0,1fr); max-width:1500px; margin:auto; min-height:100svh; }
+.panel { position:sticky; top:0; height:100svh; background:var(--purple); color:#fff; padding:2rem 1.75rem; display:flex; flex-direction:column; border-right:3px solid var(--ink); }
+.panel .brand { width:4.5rem; margin-bottom:1.5rem; }
+.panel .brand img { width:100%; display:block; filter:brightness(0) invert(1); }
+.panel h1 { margin:0; font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; text-transform:uppercase; line-height:.85; letter-spacing:-.05em; font-size:clamp(2rem,2.6vw,2.8rem); }
+.panel h1 em { color:var(--gold); font-style:normal; }
+.panel .lede { margin:1.25rem 0 0; color:rgba(255,255,255,.82); line-height:1.5; font-size:.95rem; }
+.panel nav { margin-top:2.5rem; display:flex; flex-direction:column; gap:.35rem; font:500 .8rem "DM Mono",monospace; }
+.panel nav a { color:#fff; text-decoration:none; padding:.45rem .6rem; border-left:3px solid transparent; }
+.panel nav a:hover { border-left-color:var(--gold); background:rgba(255,255,255,.08); }
+.panel nav a[aria-current] { border-left-color:var(--gold); background:rgba(255,255,255,.12); }
+.panel .foot { margin-top:auto; font:500 .66rem/1.7 "DM Mono",monospace; color:rgba(255,255,255,.7); }
+.panel .foot a { color:var(--gold); text-decoration:none; }
+main { padding:clamp(2rem,5vw,4.5rem) clamp(1.5rem,4vw,4rem); }
+.block { max-width:52rem; padding:2.5rem 0; border-bottom:2px solid var(--ink); }
+.block:last-child { border-bottom:0; }
+.eyebrow { margin:0 0 1rem; color:var(--orange); font:500 .7rem "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+h2 { margin:0 0 1rem; color:var(--purple); font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; font-size:clamp(1.9rem,3.5vw,3rem); text-transform:uppercase; letter-spacing:-.04em; line-height:.9; }
+h2 em { color:var(--orange); font-style:normal; }
+p { max-width:62ch; line-height:1.6; }
+.lede-main { color:var(--lede); font-size:1.2rem; }
+.dishes { display:grid; grid-template-columns:repeat(auto-fit,minmax(11rem,1fr)); gap:.9rem; margin-top:1.5rem; }
+.dishes a { display:flex; flex-direction:column; gap:.4rem; padding:1rem 1.1rem; border:1px dashed color-mix(in srgb,var(--orange) 60%,transparent); border-radius:.6rem; background:color-mix(in srgb,var(--orange) 5%,white); text-decoration:none; color:inherit; }
+.dishes a:hover { background:color-mix(in srgb,var(--gold) 20%,white); text-decoration:underline; text-decoration-color:var(--orange); text-underline-offset:.25em; }
+.dishes b { font-family:"Tilt Warp","DM Sans",sans-serif; font-weight:400; color:var(--purple); text-transform:uppercase; font-size:1.05rem; }
+.dishes span { font-size:.85rem; color:var(--muted); }
+footer { padding:1.25rem clamp(1.5rem,4vw,4rem) 2rem; font:500 .68rem "DM Mono",monospace; color:var(--muted); }
+.concept-note { padding:.8rem clamp(1.5rem,5vw,5rem); background:var(--gold); font:500 .75rem "DM Mono",monospace; }
+@media (max-width:820px){
+  .split { grid-template-columns:1fr; }
+  .panel { position:static; height:auto; }
+  .panel nav { flex-direction:row; flex-wrap:wrap; margin-top:1.5rem; }
+  .panel nav a { border-left:0; border-top:3px solid transparent; }
+  .panel .foot { margin-top:1.5rem; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="concept-note">LAYOUT EXPLORATION 05 — "SPLIT / STICKY". A permanent purple side panel like a restaurant ticket rail; content scrolls past in bold sections. (Exploration file — not part of the build.)</div>
+<div class="split">
+  <aside class="panel">
+    <a class="brand" href="../" aria-label="Design Lasagna home"><img src="../../src/assets/logotype.svg" alt=""></a>
+    <h1>Design <em>Lasagna</em></h1>
+    <p class="lede">Open tools for design tokens, schemas, and better editor workflows. Mechanism, not policy.</p>
+    <nav aria-label="Primary">
+      <a href="#" aria-current="page">Home</a>
+      <a href="#">Tools</a>
+      <a href="#">Docs</a>
+      <a href="#">Learn</a>
+      <a href="#">Writing</a>
+      <a href="#">About</a>
+    </nav>
+    <p class="foot">admin@<a href="mailto:designlasagna.recipes">designlasagna.recipes</a><br>github.com/designlasagna</p>
+  </aside>
+  <main id="main">
+    <section class="block">
+      <p class="eyebrow">The short version</p>
+      <h2>Make systems <em>make sense.</em></h2>
+      <p class="lede-main">A design system is never only its components — it's a living body of data: tokens, constraints, conventions, and the decisions behind them. Our tools make that data legible and dependable, so it can be worked with in editors, pipelines, and governance processes alike.</p>
+      <p>We are deliberately not another format or platform. Design Lasagna works with the Design Tokens Community Group standard rather than replacing it.</p>
+    </section>
+    <section class="block">
+      <p class="eyebrow">Order from the kitchen</p>
+      <h2>The <em>tasty parts.</em></h2>
+      <div class="dishes">
+        <a href="#"><b>Schemas</b><span>Versioned contracts for token data.</span></a>
+        <a href="#"><b>Language Server</b><span>Editor feedback that explains why.</span></a>
+        <a href="#"><b>Docs</b><span>Concrete usage, per tool.</span></a>
+        <a href="#"><b>Learn</b><span>Task-oriented recipes.</span></a>
+        <a href="#"><b>Writing</b><span>Dated notes from the kitchen.</span></a>
+        <a href="#"><b>About</b><span>Principles and purpose.</span></a>
+      </div>
+    </section>
+    <section class="block">
+      <p class="eyebrow">Guarantees</p>
+      <h2>What we <em>optimize for.</em></h2>
+      <p>Interoperability with open standards. Clear, versioned contracts. Useful editor feedback. And mechanism over policy — we provide the tools to model, check, and govern your system; the rules themselves stay yours.</p>
+    </section>
+    <footer>Design Lasagna · est. in the kitchen</footer>
+  </main>
+</div>
+</body>
+</html>
