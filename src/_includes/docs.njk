@@ -1,0 +1,64 @@
+---
+layout: base.njk
+---
+<div class="docs-shell">
+  <aside class="docs-sidebar">
+    <details class="docs-sidebar__menu" open>
+      <summary>Documentation navigation</summary>
+      <nav aria-label="Documentation">
+        <a href="/docs/">Docs home</a>
+        <p class="docs-sidebar__heading">Schemas</p>
+        <a href="/docs/schemas/">Schema overview</a>
+        <a href="/docs/schemas/v0.3/dtcg-extensions/"{% if page.url == '/docs/schemas/v0.3/dtcg-extensions/' %} aria-current="page"{% endif %}>DTCG token extensions</a>
+        {% if page.url == '/docs/schemas/v0.3/dtcg-extensions/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="DTCG token extensions sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+        <a href="/docs/schemas/v0.3/components/"{% if page.url == '/docs/schemas/v0.3/components/' %} aria-current="page"{% endif %}>CEM extensions</a>
+        {% if page.url == '/docs/schemas/v0.3/components/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="CEM extensions sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+        <a href="/docs/schemas/v0.3/tokens/"{% if page.url == '/docs/schemas/v0.3/tokens/' %} aria-current="page"{% endif %}>Resolved token manifest</a>
+        {% if page.url == '/docs/schemas/v0.3/tokens/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Resolved token manifest sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+        <a href="/docs/schemas/v0.3/utilities/"{% if page.url == '/docs/schemas/v0.3/utilities/' %} aria-current="page"{% endif %}>Utility manifest</a>
+        {% if page.url == '/docs/schemas/v0.3/utilities/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Utility manifest sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+        <p class="docs-sidebar__heading">Language Server</p>
+        <a href="/tools/language-server/">Tool overview ↗</a>
+      </nav>
+    </details>
+  </aside>
+  <article class="docs-content">
+    {{ content | safe }}
+  </article>
+</div>
+<script>
+  // Progressive enhancement: keep the nested section navigation aligned with
+  // the reader's scroll position. The native anchor behaviour remains useful
+  // when JavaScript is unavailable.
+  (() => {
+    document.documentElement.classList.add('docs-scroll-nav');
+    const links = [...document.querySelectorAll('.docs-sidebar__subnav a[href^="#"]')];
+    const entries = links.map((link) => ({
+      link,
+      section: document.getElementById(decodeURIComponent(link.hash.slice(1))),
+    })).filter(({ section }) => section);
+    if (!entries.length) return;
+
+    const update = () => {
+      const readingLine = 180;
+      let active = entries[0];
+      for (const entry of entries) {
+        if (entry.section.getBoundingClientRect().top <= readingLine) active = entry;
+      }
+      for (const entry of entries) {
+        if (entry === active) entry.link.setAttribute('aria-current', 'location');
+        else entry.link.removeAttribute('aria-current');
+      }
+    };
+
+    let queued = false;
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; update(); });
+    };
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll);
+    update();
+  })();
+</script>

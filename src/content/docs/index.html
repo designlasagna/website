@@ -2,19 +2,62 @@
 layout: base.njk
 permalink: /docs/
 title: Docs
-description: Documentation for Design Lasagna tools.
+description: Documentation for Design Lasagna schemas and design-system tooling.
 ---
-<section>
-  <p class="eyebrow">Docs</p>
-  <h1>Docs</h1>
-  <p class="lede">Hand-written guides and references are being written.</p>
+<div class="library-page">
+  <header class="library-page__header">
+    <p class="eyebrow">Docs</p>
+    <h1>Understand the source.<br><em>Use the output.</em></h1>
+    <p class="lede">References for the optional metadata you author in existing standards and the generated manifests your tools consume.</p>
+  </header>
 
-  <h2>Schema references</h2>
-  <ul>
-    <li><a href="/docs/schemas/">Schemas</a> — format versions and raw schema URLs</li>
-    <li>
-      <a href="/docs/schemas/v0.3/tokens/">v0.3 tokens</a> — the v0.3 tokens
-      manifest reference
-    </li>
-  </ul>
-</section>
+  <section class="library-feature">
+    <p class="eyebrow">Start here · schemas</p>
+    <h2>Two layers, one system</h2>
+    <p>Design Lasagna extends DTCG and CEM source files where they need more context, then generates dependable manifests for validation, automated documentation, and editor tooling.</p>
+    <p><a href="/tools/schemas/">See how Schemas fit together →</a> · <a href="/docs/schemas/">Browse all references</a></p>
+  </section>
+
+  <section class="library-section">
+    <p class="eyebrow">Authoring extensions</p>
+    <h2>Enrich existing standards</h2>
+    <p>These optional, human-authored fields live inside the source files your team already maintains. They do not replace DTCG or CEM.</p>
+    <div class="library-rows">
+      <article class="library-row">
+        <p class="library-row__meta">v0.3 · DTCG</p>
+        <div><h3><a href="/docs/schemas/v0.3/dtcg-extensions/">DTCG token extensions</a></h3><p>Documentation, usage, lifecycle, accessibility, search, and governance metadata authored under <code>$extensions[&quot;recipes.designlasagna&quot;]</code>.</p></div>
+        <a class="library-row__link" href="/docs/schemas/v0.3/dtcg-extensions/" aria-label="Open DTCG token extensions reference">Open →</a>
+      </article>
+      <article class="library-row">
+        <p class="library-row__meta">v0.3 · CEM</p>
+        <div><h3><a href="/docs/schemas/v0.3/components/">CEM extensions</a></h3><p>Optional lifecycle status, deprecation details, and migration targets for Custom Elements Manifest declarations and members.</p></div>
+        <a class="library-row__link" href="/docs/schemas/v0.3/components/" aria-label="Open CEM extensions reference">Open →</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="library-section">
+    <p class="eyebrow">Generated manifests</p>
+    <h2>Publish derived views</h2>
+    <p>These references describe generated output files—not another source format for your team to maintain.</p>
+    <div class="library-rows">
+      <article class="library-row">
+        <p class="library-row__meta">v0.3 · tokens</p>
+        <div><h3><a href="/docs/schemas/v0.3/tokens/">Resolved token manifest</a></h3><p>Token identifiers, paths, resolved values, modes, and source-side metadata for documentation and tool consumers.</p></div>
+        <a class="library-row__link" href="/docs/schemas/v0.3/tokens/" aria-label="Open resolved token manifest reference">Open →</a>
+      </article>
+      <article class="library-row">
+        <p class="library-row__meta">v0.3 · utilities</p>
+        <div><h3><a href="/docs/schemas/v0.3/utilities/">Utility manifest</a></h3><p>Utility classes, categories, and the structured information needed for editor-aware CSS workflows.</p></div>
+        <a class="library-row__link" href="/docs/schemas/v0.3/utilities/" aria-label="Open utility manifest reference">Open →</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="library-note">
+    <p class="eyebrow">Editor workflow</p>
+    <h2>Looking for editor support?</h2>
+    <p>The Design System Language Server reads published manifests to provide completions, hover information, diagnostics, and migration guidance where work happens.</p>
+    <p><a href="/tools/language-server/">Explore the Language Server →</a></p>
+  </section>
+</div>

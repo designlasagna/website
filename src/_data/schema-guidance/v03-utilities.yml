@@ -11,7 +11,7 @@ v03Utilities:
       related:
         - schemaVersion
       example:
-        $schema: https://designlasagna.recipes/v0.3/utilities.json
+        $schema: https://designlasagna.recipes/schemas/v0.3/utilities.json
     schemaVersion:
       summary: States the Design Lasagna manifest format version.
       useWhen: Always set this so readers and tools select the correct

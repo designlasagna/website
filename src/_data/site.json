@@ -2,6 +2,7 @@
   "title": "Design Lasagna",
   "description": "Design Lasagna — open tooling for design systems.",
   "nav": [
+    { "label": "Tools", "href": "/tools/" },
     { "label": "Docs", "href": "/docs/" }
   ],
   "external": [

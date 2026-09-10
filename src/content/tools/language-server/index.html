@@ -1,0 +1,83 @@
+---
+layout: base.njk
+permalink: /tools/language-server/
+title: Design System Language Server
+description: Local-first design-system IntelliSense, diagnostics, and migration guidance.
+---
+<div class="tool-page">
+  <section class="tool-hero">
+    <div>
+      <p class="eyebrow">Tool · editor workflow</p>
+      <h1>Design System<br><em>Language Server.</em></h1>
+      <p class="lede">Bring the components, tokens, and utility classes your team already publishes into the editor.</p>
+      <p>Local-first and editor-agnostic, the server reads existing manifests or discovers them from installed packages. It does not ask you to adopt a new all-in-one format.</p>
+      <div class="tool-actions">
+        <a class="tool-action" href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">Install for VS Code ↗</a>
+        <a class="tool-action tool-action--secondary" href="https://github.com/designlasagna/ds-language-server">View source on GitHub ↗</a>
+      </div>
+      <p class="tool-meta-link"><a href="/tools/language-server/changelog/">Changelog</a></p>
+    </div>
+  </section>
+
+
+  <section class="tool-section tool-media">
+    <h2>Features</h2>
+    <p>The Language Server gives feedback in the context where it matters: while you are writing code.</p>
+    <div class="lsp-screenshots">
+      <figure>
+        <img src="/assets/language-server-token-completion.png" alt="VS Code suggesting the design token --acme-spacing-lg in a CSS var() expression.">
+        <figcaption><strong>Token completion.</strong> Discover available tokens as you write CSS.</figcaption>
+      </figure>
+      <figure>
+        <img src="/assets/language-server-token-deprecation-hover.png" alt="VS Code hover explaining that a deprecated CSS token should be replaced with a new token.">
+        <figcaption><strong>Token migration guidance.</strong> See why a token is being removed and what replaces it.</figcaption>
+      </figure>
+      <figure>
+        <img src="/assets/language-server-attribute-deprecation-hover.png" alt="VS Code hover explaining that the tertiary variant attribute value is deprecated in favour of secondary.">
+        <figcaption><strong>Attribute migration guidance.</strong> Find an element’s valid values and the recommended replacement.</figcaption>
+      </figure>
+      <figure>
+        <img src="/assets/language-server-component-hover.png" alt="VS Code hover showing the status, package, slots, and attributes of the acme-button custom element.">
+        <figcaption><strong>Component details.</strong> Inspect an element’s API without leaving the editor.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+
+  <section class="tool-section">
+    <p class="eyebrow">One server, three sources</p>
+    <h2>Use the data you already publish</h2>
+    <p>The Language Server combines these three familiar sources into one editor experience—without asking a team to move its data into a new format.</p>
+    <div class="tool-flow" aria-label="Components, tokens, and utilities flow into the Design System Language Server">
+      <div class="tool-flow__sources">
+        <article class="tool-flow__source"><h3>Components</h3><p>Custom Elements Manifest</p></article>
+        <article class="tool-flow__source"><h3>Tokens</h3><p>Token document</p></article>
+        <article class="tool-flow__source"><h3>Utilities</h3><p>Utility manifest</p></article>
+      </div>
+      <div class="tool-flow__connector" aria-hidden="true">↓</div>
+      <div class="tool-flow__metadata">
+        <p class="tool-flow__config-label"><code>package.json</code> · published package metadata</p>
+        <pre class="tool-flow__config" aria-label="Example package.json design-system metadata"><code>{
+  "customElements": "dist/custom-elements.json",
+  "designSystem": {
+    "tokens": "dist/tokens.json",
+    "utilities": "dist/utilities.manifest.json"
+  }
+}</code></pre>
+      </div>
+      <div class="tool-flow__connector" aria-hidden="true">↓</div>
+      <div class="tool-flow__server"><p class="eyebrow">One local process</p><h3>Design System Language Server</h3><p>Completions, hovers, diagnostics, and migration actions in the editor.</p></div>
+    </div>
+  </section>
+
+  <section class="tool-section tool-editors">
+    <p class="eyebrow">Get started</p>
+    <h2>Use it in your editor</h2>
+    <p>The same local Language Server powers both editor integrations. Each integration activates for web-focused files and connects to the manifests in your workspace.</p>
+    <div class="tool-cards">
+      <article class="tool-card"><p class="eyebrow">Editor integration</p><h3>VS Code</h3><p>Completions, diagnostics, hover details, and migration actions in HTML, CSS, SCSS, JavaScript, TypeScript, JSX, and TSX.</p><p><a href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">Install from the VS Code Marketplace ↗</a></p></article>
+      <article class="tool-card"><p class="eyebrow">Editor integration</p><h3>Zed</h3><p>A Zed extension registers and starts the same server for HTML, CSS, JavaScript, TypeScript, JSX, and TSX workflows.</p><p><strong>Coming soon</strong></p></article>
+    </div>
+  </section>
+
+</div>

@@ -2,10 +2,27 @@
 layout: base.njk
 permalink: /tools/
 title: Tasty parts
-description: The tools Design Lasagna is made of.
+description: Open Design Lasagna tools for design-system data and editor workflows.
 ---
-<section>
-  <p class="eyebrow">Tasty parts</p>
-  <h1>Tasty parts</h1>
-  <p class="lede">Overviews of each tool are simmering.</p>
-</section>
+<div class="tool-page tool-library">
+  <header class="tool-page__header">
+    <p class="eyebrow">Tasty parts</p>
+    <h1>Tools with<br><em>good layers.</em></h1>
+    <p class="lede">Small, open tools for making design-system data easier to publish, understand, and use where work happens.</p>
+  </header>
+
+  <section class="tool-library__list" aria-label="Design Lasagna tools">
+    <article class="tool-card tool-card--featured">
+      <p class="eyebrow">Editor workflow</p>
+      <h2>Design System<br>Language Server</h2>
+      <p>A local-first language server for VS Code and Zed that turns component, token, and utility manifests into completions, schema diagnostics, and lifecycle-aware migration guidance.</p>
+      <p><a href="/tools/language-server/">Explore the language server →</a> · <a href="/tools/language-server/changelog/">Changelog</a></p>
+    </article>
+    <article class="tool-card">
+      <p class="eyebrow">Shared contracts</p>
+      <h2>Schemas</h2>
+      <p>Versioned JSON Schemas for token, utility, and component-manifest data—made for validation, editor support, and a stable public contract.</p>
+      <p><a href="/tools/schemas/">Explore Schemas →</a> · <a href="/docs/schemas/">References</a> · <a href="/tools/schemas/changelog/">Changelog</a></p>
+    </article>
+  </section>
+</div>

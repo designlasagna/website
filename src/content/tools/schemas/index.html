@@ -1,0 +1,125 @@
+---
+layout: base.njk
+permalink: /tools/schemas/
+title: Schemas
+description: Versioned contracts for Design Lasagna extensions and derived design-system manifests.
+---
+<div class="tool-page schemas-tool-page">
+  <section class="tool-hero">
+    <div>
+      <p class="eyebrow">Tool · shared contracts</p>
+      <h1>Keep your source<br><em>of truth.</em></h1>
+      <p class="lede">Extend the standards you author in, then generate dependable manifests for documentation and tools.</p>
+      <p>Your DTCG token documents and Custom Elements Manifest remain authoritative. Design Lasagna adds optional source-side metadata where those standards need more context, then analyses that source data into derived manifests for consumers.</p>
+      <div class="tool-actions">
+        <a class="tool-action" href="/docs/schemas/">Browse schema references</a>
+        <a class="tool-action tool-action--secondary" href="https://github.com/designlasagna/schemas">View source on GitHub ↗</a>
+      </div>
+      <p class="tool-meta-link"><a href="/tools/schemas/changelog/">Changelog</a> · <a href="https://www.npmjs.com/package/@designlasagna/schemas">npm package ↗</a></p>
+    </div>
+  </section>
+
+  <section class="tool-section schemas-overview">
+    <p class="eyebrow">The big picture</p>
+    <h2>Two layers.<br>One useful system.</h2>
+    <p>Extensions and manifests have different jobs. Keeping that boundary clear means your team can retain its existing source files while tools get the data they need.</p>
+    <div class="schema-layers">
+      <article class="schema-layer schema-layer--extensions">
+        <p class="eyebrow">Layer one · authored additions</p>
+        <h3>Extensions</h3>
+        <p>Add optional Design Lasagna context to the standards your team already authors.</p>
+        <dl>
+          <div><dt>Lives in</dt><dd>DTCG token files and Custom Elements Manifests</dd></div>
+          <div><dt>Written by</dt><dd>People maintaining the source data</dd></div>
+          <div><dt>Validated by</dt><dd>DTCG and CEM extension schemas</dd></div>
+        </dl>
+      </article>
+      <article class="schema-layer schema-layer--manifests">
+        <p class="eyebrow">Layer two · generated views</p>
+        <h3>Manifests</h3>
+        <p>Publish resolved, tool-oriented views of that source data for consumers.</p>
+        <dl>
+          <div><dt>Lives in</dt><dd>Generated JSON files alongside your published package</dd></div>
+          <div><dt>Written by</dt><dd>Analysis and build tooling</dd></div>
+          <div><dt>Validated by</dt><dd>Token, utility, and icon manifest schemas</dd></div>
+        </dl>
+      </article>
+    </div>
+  </section>
+
+  <section class="tool-section">
+    <p class="eyebrow">Layer one · extensions</p>
+    <h2>Enrich existing<br>standards.</h2>
+    <p>Extensions are optional, human-authored additions. They do not replace DTCG or CEM; they carry the design-system context those formats do not model.</p>
+    <div class="tool-cards schemas-tool-cards">
+      <article class="tool-card">
+        <p class="eyebrow">DTCG source files</p>
+        <h3>Token extensions</h3>
+        <p>Use <code>$extensions[&quot;recipes.designlasagna&quot;]</code> for documentation, usage, lifecycle, search, accessibility, and governance metadata that cannot be inferred by a resolver.</p>
+        <p><a href="/docs/schemas/v0.3/dtcg-extensions/">Open DTCG extension reference →</a></p>
+      </article>
+      <article class="tool-card">
+        <p class="eyebrow">Custom Elements Manifest</p>
+        <h3>CEM extensions</h3>
+        <p>Add lifecycle status, deprecation details, and migration targets to CEM declarations and members. A normal CEM remains valid without them.</p>
+        <p><a href="/docs/schemas/v0.3/components/">Open CEM extension reference →</a></p>
+      </article>
+    </div>
+  </section>
+
+  <section class="tool-section">
+    <p class="eyebrow">Layer two · manifests</p>
+    <h2>Publish derived<br>views.</h2>
+    <p>Manifests are generated outputs, not another source file to maintain. They make resolved design-system data dependable for consumers.</p>
+    <div class="tool-cards schemas-manifest-cards">
+      <article class="tool-card">
+        <p class="eyebrow">Generated manifest</p>
+        <h3>Resolved tokens</h3>
+        <p>Resolved values, identifiers, paths, modes, and the source-side metadata that tools and documentation need.</p>
+        <p><a href="/docs/schemas/v0.3/tokens/">Open token-manifest reference →</a></p>
+      </article>
+      <article class="tool-card">
+        <p class="eyebrow">Generated manifest</p>
+        <h3>Utilities</h3>
+        <p>A structured inventory of available utility classes and categories for consumers and editor integrations.</p>
+        <p><a href="/docs/schemas/v0.3/utilities/">Open utility-manifest reference →</a></p>
+      </article>
+      <article class="tool-card">
+        <p class="eyebrow">Generated manifest</p>
+        <h3>Icons</h3>
+        <p>A stable, machine-readable view of an icon library for the tools that need to discover and describe it.</p>
+        <p><a href="/schemas/v0.3/icons.json">Open icon-manifest schema →</a></p>
+      </article>
+    </div>
+  </section>
+
+  <section class="tool-section schemas-tool-flow-section">
+    <p class="eyebrow">How the layers connect</p>
+    <h2>Source in.<br>Useful output out.</h2>
+    <div class="schemas-flow" aria-label="Authoritative design-system source files can carry optional Design Lasagna extensions. Analysis generates derived manifests, which are validated and used for automated documentation and editor tooling.">
+      <div class="schemas-flow__sources">
+        <article><h3>Authoritative sources</h3><p>DTCG token files, CEM, and other published design-system data.</p></article>
+        <article><h3>Optional extensions</h3><p>Human-authored Design Lasagna metadata where the source standard needs more context.</p></article>
+        <article><h3>Analyse and generate</h3><p>Resolve source data into manifest files for consumers.</p></article>
+      </div>
+      <p class="schemas-flow__arrow" aria-hidden="true">↓</p>
+      <div class="schemas-flow__derived"><p class="eyebrow">Published output</p><h3>Derived manifests</h3><p>Versioned JSON views that make the system’s published data consistent and consumable.</p></div>
+      <p class="schemas-flow__arrow" aria-hidden="true">↓</p>
+      <div class="schemas-flow__outcomes">
+        <article><h3>Validation</h3><p>Check authored extensions and generated shapes before consumers rely on them.</p></article>
+        <article><h3>Automated documentation</h3><p>Turn structured data into an accurate, readable reference.</p></article>
+        <article><h3>Editor tooling</h3><p>Give tools dependable data for help, diagnostics, and migration guidance.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool-section schemas-tool-start">
+    <p class="eyebrow">Start with the contract</p>
+    <h2>Readable for people.<br>Dependable for tools.</h2>
+    <p>Every version has stable raw URLs, package exports, and human-readable references. Use the references to understand a field; use the raw schema wherever a tool needs the exact contract.</p>
+    <div class="tool-actions">
+      <a class="tool-action" href="/docs/schemas/">Explore schemas v0.3</a>
+      <a class="tool-action tool-action--secondary" href="/tools/schemas/changelog/">See release history</a>
+    </div>
+  </section>
+</div>

@@ -23,14 +23,19 @@ module.exports = async function () {
   const cemExtensionsSchema = await loadSchema(
     '@designlasagna/schemas/v0.3/cem-extensions.json',
   );
+  const dtcgExtensionsSchema = await loadSchema(
+    '@designlasagna/schemas/v0.3/dtcg-extensions.json',
+  );
 
   const ref = describeSchema(tokensSchema);
   const utilitiesRef = describeSchema(utilitiesSchema);
   const cemExtensionsRef = describeSchema(cemExtensionsSchema);
+  const dtcgExtensionsRef = describeSchema(dtcgExtensionsSchema);
 
   // Hand-written minimal valid manifest (required root fields:
   // schemaVersion, tokens; required token fields: id, resolved).
   const minimalExample = {
+    $schema: 'https://designlasagna.recipes/schemas/v0.3/tokens.json',
     schemaVersion: '0.3.0',
     tokens: [
       {
@@ -44,6 +49,7 @@ module.exports = async function () {
   // Hand-written minimal valid utilities manifest (required root field:
   // schemaVersion; oneOf requires either categories or utilities).
   const utilitiesMinimalExample = {
+    $schema: 'https://designlasagna.recipes/schemas/v0.3/utilities.json',
     schemaVersion: '0.3.0',
     utilities: [
       {
@@ -103,9 +109,15 @@ module.exports = async function () {
       minimalExampleJson: JSON.stringify(minimalExample, null, 2),
       refJson: JSON.stringify(ref, null, 2),
     },
+    v03DtcgExtensions: {
+      ref: dtcgExtensionsRef,
+      canonicalUrl: 'https://designlasagna.recipes/schemas/v0.3/dtcg-extensions.json',
+      npmPackage: '@designlasagna/schemas',
+      npmImportPath: '@designlasagna/schemas/v0.3/dtcg-extensions.json',
+    },
     v03CemExtensions: {
       ref: cemExtensionsRef,
-      canonicalUrl: cemExtensionsSchema.$id,
+      canonicalUrl: 'https://designlasagna.recipes/schemas/v0.3/cem-extensions.json',
       npmPackage: '@designlasagna/schemas',
       npmImportPath: '@designlasagna/schemas/v0.3/cem-extensions.json',
       // Pre-formatted (2-space indent) JSON strings for <pre><code> blocks,
@@ -116,7 +128,7 @@ module.exports = async function () {
     },
     v03Utilities: {
       ref: utilitiesRef,
-      canonicalUrl: utilitiesSchema.$id,
+      canonicalUrl: 'https://designlasagna.recipes/schemas/v0.3/utilities.json',
       npmPackage: '@designlasagna/schemas',
       npmImportPath: '@designlasagna/schemas/v0.3/utilities.json',
       // Pre-formatted (2-space indent) JSON strings for <pre><code> blocks,

@@ -1,0 +1,73 @@
+# Reader-facing examples for Design Lasagna metadata authored in DTCG $extensions.
+v03DtcgExtensions:
+  # Shared token-field guidance, examples, and relationships come from
+  # v03Tokens.Token. This file retains source-only additions and the
+  # supporting-definition examples that belong specifically to DTCG authoring.
+  TokenExtensions:
+    relations: { example: { relations: [{ type: pairs-with, tokens: [color.background.default] }] } }
+  GroupExtensions: {}
+  _definitions:
+    TokenExtensions:
+      summary: Human-authored Design Lasagna metadata on one DTCG token. These fields supplement the standard token record and flow into generated manifests where relevant.
+      example:
+        tier: semantic
+        label: Primary action
+        usage:
+          allowedProperties: [background-color]
+        docs:
+          url: https://example.com/tokens/action-primary
+    GroupExtensions:
+      summary: Inheritable Design Lasagna metadata on a DTCG group. Descendant tokens receive these values unless they provide a permitted override.
+      example:
+        tier: primitive
+        category: color
+        keywords: [brand, palette]
+    Deprecated:
+      summary: Lifecycle metadata with the reader-facing migration message, the planned removal, and a machine-readable replacement token.
+      example:
+        message: Use color.action.primary instead.
+        replacement: color.action.primary
+        removal: 3.0.0
+    Usage:
+      summary: Guidance that tells consumers where a token is appropriate and where it should not be used.
+      example:
+        allowedProperties: [color, background-color]
+        context: Interactive controls
+        doNot: [Use for body copy]
+    A11y:
+      summary: Accessibility context for a token, including its measured contrast or interaction requirements.
+      example:
+        wcagContrast:
+          ratio: 4.8
+          against: color.background.default
+          level: AA
+        minTargetSize: 44px
+        motionSafe: true
+    ContrastInfo:
+      summary: A contrast measurement and the token it was measured against.
+      example:
+        ratio: 4.8
+        against: color.background.default
+        level: AA
+    Docs:
+      summary: Links to the places where people can learn more about the token.
+      example:
+        url: https://example.com/tokens/brand
+        figma: https://figma.com/file/example
+        storybook: https://storybook.example.com/?path=/docs/tokens
+    Format:
+      summary: Output preferences for consumers, distinct from the authored DTCG token value.
+      example:
+        colorSpace: srgb
+        unit: rem
+    PlatformMapping:
+      summary: A platform-specific implementation reference, optionally with usage guidance.
+      example:
+        reference: Color.Brand.Primary
+        usage: Use on primary actions.
+    TokenRelationRef:
+      summary: A relationship declared from one token to one or more other token identifiers.
+      example:
+        type: pairs-with
+        tokens: [color.background.default]
+        description: Pair this foreground with the default background.

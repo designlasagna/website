@@ -21,8 +21,26 @@ module.exports = function (eleventyConfig) {
     );
   });
 
+  // Local schema references are presented as links to their reader-facing
+  // definition rather than exposing JSON Pointer internals in the UI.
+  eleventyConfig.addFilter("schemaDefinitionName", (reference) => {
+    const prefix = "#/definitions/";
+    return typeof reference === "string" && reference.startsWith(prefix)
+      ? reference.slice(prefix.length)
+      : null;
+  });
+
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/CNAME");
+
+  // Raw schemas are published at their documented, versioned URLs. Keep the
+  // package-relative layout so, for example, v0.3/cem-extensions.json is
+  // available as /schemas/v0.3/cem-extensions.json in the deployed site.
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/@designlasagna/schemas/v0.2": "schemas/v0.2",
+    "node_modules/@designlasagna/schemas/v0.3": "schemas/v0.3",
+    "node_modules/@designlasagna/schemas/dtcg/2025.10": "schemas/dtcg/2025.10",
+  });
 
   return {
     dir: {

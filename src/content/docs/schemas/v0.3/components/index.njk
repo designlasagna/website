@@ -1,8 +1,15 @@
 ---
-layout: base.njk
+layout: docs.njk
 permalink: /docs/schemas/v0.3/components/
 title: Components — v0.3
 description: JSON Schema reference for the Design Lasagna v0.3 Custom Elements Manifest lifecycle extensions.
+docsToc:
+  - label: Start here
+    href: "#start"
+  - label: Lifecycle fields
+    href: "#lifecycle-fields"
+  - label: Extension definitions
+    href: "#definitions"
 ---
 {%- set st = schemas.v03CemExtensions -%}
 {%- set ref = st.ref -%}
@@ -36,9 +43,13 @@ description: JSON Schema reference for the Design Lasagna v0.3 Custom Elements M
       <td>
         {% if field.type %}
           {% if field.type is string %}<code>{{ field.type }}</code>{% else %}<code>{{ field.type | join(', ') }}</code>{% endif %}
-          {% if field.additionalProperties and field.additionalProperties.$ref %}<br><code>values: {{ field.additionalProperties.$ref }}</code>{% endif %}
+          {% if field.additionalProperties and field.additionalProperties.$ref %}
+            {% set valueDefinition = field.additionalProperties.$ref | schemaDefinitionName %}
+            <br>values: {% if valueDefinition %}<a class="schema-ref" href="#definition-{{ valueDefinition }}"><code>{{ valueDefinition }}</code></a>{% else %}<code>{{ field.additionalProperties.$ref }}</code>{% endif %}
+          {% endif %}
         {% elif field.$ref %}
-          <code>{{ field.$ref }}</code>
+          {% set fieldDefinition = field.$ref | schemaDefinitionName %}
+          {% if fieldDefinition %}<a class="schema-ref" href="#definition-{{ fieldDefinition }}"><code>{{ fieldDefinition }}</code></a>{% else %}<code>{{ field.$ref }}</code>{% endif %}
         {% else %}—{% endif %}
       </td>
         <td>
@@ -51,7 +62,6 @@ description: JSON Schema reference for the Design Lasagna v0.3 Custom Elements M
         <td colspan="3">
           <div class="field-details__content">
             <div>
-              <p>{{ guide.summary or field.description or 'No additional guidance is available.' }}</p>
               {% if guide.useWhen %}<p><strong>Use when:</strong> {{ guide.useWhen }}</p>{% endif %}
               {% if guide.provenance %}<p><strong>Origin:</strong> {{ guide.provenance }}</p>{% endif %}
               {% if guide.related and guide.related.length %}<p><strong>Related:</strong> {% for related in guide.related %}<code>{{ related }}</code>{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
@@ -66,7 +76,7 @@ description: JSON Schema reference for the Design Lasagna v0.3 Custom Elements M
 </div>
 {% endmacro %}
 
-<section>
+<section id="start">
   <p class="eyebrow">Schemas / v0.3</p>
   <h1>Components</h1>
   <p class="lede">{{ ref.description }}</p>
@@ -74,13 +84,17 @@ description: JSON Schema reference for the Design Lasagna v0.3 Custom Elements M
   defines no component format. It defines <em>extension</em> fields that a design
   system may add to CEM declarations and members to record lifecycle metadata:
   status, deprecation details, and migration targets.</p>
-  <p><strong>Raw schema:</strong> <code>{{ st.canonicalUrl }}</code></p>
-  <p><strong>npm:</strong> <code>{{ st.npmImportPath }}</code></p>
-  <p>Reference an extension definition by <code>$ref</code> when composing a
-  component manifest schema:</p>
-  <pre><code>{% raw %}{
-  "$ref": "https://designlasagna.recipes/v0.3/cem-extensions.json#/definitions/LifecycleFields"
-}{% endraw %}</code></pre>
+  <aside class="schema-install" aria-labelledby="use-components-schema">
+    <div class="schema-install__intro">
+      <p class="schema-install__kicker">Start here</p>
+      <h2 id="use-components-schema">Use these extensions</h2>
+      <p>Reference a definition with <code>$ref</code> when composing a component manifest schema.</p>
+    </div>
+    <dl class="schema-install__sources">
+      <div><dt>Schema URL</dt><dd><a href="{{ st.canonicalUrl }}"><code>{{ st.canonicalUrl }}</code></a></dd></div>
+      <div><dt>npm package</dt><dd><code>{{ st.npmImportPath }}</code></dd></div>
+    </dl>
+  </aside>
 
   <h2>Applying the extensions</h2>
   <p>The snippet below is a Custom Elements Manifest declaration with the
@@ -90,14 +104,14 @@ description: JSON Schema reference for the Design Lasagna v0.3 Custom Elements M
   <pre class="json-example"><code>{{ st.minimalExample | jsonCode | safe }}</code></pre>
 </section>
 
-<section>
+<section id="lifecycle-fields">
   <h2>Lifecycle fields</h2>
   <p>These optional fields may be added to a CEM declaration or to its members
   (attributes, methods, properties).</p>
   {{ fieldTable(lifecycle.properties, 'LifecycleFields') }}
 </section>
 
-<section>
+<section id="definitions">
   <h2>Extension definitions</h2>
   {% for entry in ref.definitions | dictsort %}
     {% set name = entry[0] %}
@@ -105,7 +119,7 @@ description: JSON Schema reference for the Design Lasagna v0.3 Custom Elements M
     {% if name != 'LifecycleFields' %}
     {% set definitionGuide = schemaDocs.v03CemExtensions._definitions[name] or {} %}
     <article class="schema-definition">
-      <h3><code>{{ name }}</code></h3>
+      <h3 id="definition-{{ name }}"><code>{{ name }}</code></h3>
       <p>{{ definitionGuide.summary or definition.description or 'See the raw schema for this definition.' }}</p>
       {% if definition.properties %}
         {{ fieldTable(definition.properties, name) }}
