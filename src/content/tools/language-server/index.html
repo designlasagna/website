@@ -20,6 +20,27 @@ description: Local-first design-system IntelliSense, diagnostics, and migration 
   </section>
 
 
+  <section class="tool-section">
+    <p class="eyebrow">First run</p>
+    <h2>Connect your first manifest</h2>
+    <p>You need VS Code and at least one existing component, token, or utility manifest. The extension reads your data; it does not generate these files.</p>
+    <ol>
+      <li>Install the <a href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">VS Code extension</a>, then open the workspace that uses your design system.</li>
+      <li>For local manifests, add <code>ds.config.json</code> at the workspace root. Replace these example paths with your own and include only the source types you have:</li>
+    </ol>
+    <pre class="json-example quickstart-config" aria-label="Example ds.config.json"><code>{
+  "sources": {
+    "components": ["dist/custom-elements.json"],
+    "tokens": ["dist/tokens.json"],
+    "utilities": ["dist/utilities.manifest.json"]
+  }
+}</code></pre>
+    <ol start="3">
+      <li>Check the source you connected: in CSS, type <code>var(--</code> for token suggestions; in HTML, start a component tag or a utility name inside <code>class=""</code>. Suggestions should contain names from your manifest.</li>
+    </ol>
+    <p>Installed packages with <code>customElements</code> or <code>designSystem</code> discovery fields in <code>package.json</code> do not need a config file. No suggestions? Confirm each configured path exists, then set <code>dsLanguageServer.trace.server</code> to <code>messages</code> and inspect the VS Code Output panel. <a href="https://github.com/designlasagna/ds-language-server/blob/main/editors/vscode/SETUP.md">Read the VS Code setup guide ↗</a></p>
+  </section>
+
   <section class="tool-section tool-media">
     <h2>Features</h2>
     <p>The Language Server gives feedback in the context where it matters: while you are writing code.</p>
@@ -28,19 +49,24 @@ description: Local-first design-system IntelliSense, diagnostics, and migration 
         <img src="/assets/language-server-token-completion.png" alt="VS Code suggesting the design token --acme-spacing-lg in a CSS var() expression.">
         <figcaption><strong>Token completion.</strong> Discover available tokens as you write CSS.</figcaption>
       </figure>
+    </div>
+    <details class="tool-examples">
+      <summary>More examples: migration guidance and component details</summary>
+      <div class="lsp-screenshots">
       <figure>
-        <img src="/assets/language-server-token-deprecation-hover.png" alt="VS Code hover explaining that a deprecated CSS token should be replaced with a new token.">
+        <img loading="lazy" src="/assets/language-server-token-deprecation-hover.png" alt="VS Code hover explaining that a deprecated CSS token should be replaced with a new token.">
         <figcaption><strong>Token migration guidance.</strong> See why a token is being removed and what replaces it.</figcaption>
       </figure>
       <figure>
-        <img src="/assets/language-server-attribute-deprecation-hover.png" alt="VS Code hover explaining that the tertiary variant attribute value is deprecated in favour of secondary.">
+        <img loading="lazy" src="/assets/language-server-attribute-deprecation-hover.png" alt="VS Code hover explaining that the tertiary variant attribute value is deprecated in favour of secondary.">
         <figcaption><strong>Attribute migration guidance.</strong> Find an element’s valid values and the recommended replacement.</figcaption>
       </figure>
       <figure>
-        <img src="/assets/language-server-component-hover.png" alt="VS Code hover showing the status, package, slots, and attributes of the acme-button custom element.">
+        <img loading="lazy" src="/assets/language-server-component-hover.png" alt="VS Code hover showing the status, package, slots, and attributes of the acme-button custom element.">
         <figcaption><strong>Component details.</strong> Inspect an element’s API without leaving the editor.</figcaption>
       </figure>
-    </div>
+      </div>
+    </details>
   </section>
 
 
@@ -73,10 +99,10 @@ description: Local-first design-system IntelliSense, diagnostics, and migration 
   <section class="tool-section tool-editors">
     <p class="eyebrow">Get started</p>
     <h2>Use it in your editor</h2>
-    <p>The same local Language Server powers both editor integrations. Each integration activates for web-focused files and connects to the manifests in your workspace.</p>
+    <p>The VS Code integration activates for web-focused files and connects to the manifests in your workspace. Zed support is still on the way.</p>
     <div class="tool-cards">
       <article class="tool-card"><p class="eyebrow">Editor integration</p><h3>VS Code</h3><p>Completions, diagnostics, hover details, and migration actions in HTML, CSS, SCSS, JavaScript, TypeScript, JSX, and TSX.</p><p><a href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">Install from the VS Code Marketplace ↗</a></p></article>
-      <article class="tool-card"><p class="eyebrow">Editor integration</p><h3>Zed</h3><p>A Zed extension registers and starts the same server for HTML, CSS, JavaScript, TypeScript, JSX, and TSX workflows.</p><p><strong>Coming soon</strong></p></article>
+      <article class="tool-card"><p class="eyebrow">Editor integration</p><h3>Zed</h3><p>Support for Zed is in the works.</p><p><strong>Coming soon</strong></p></article>
     </div>
   </section>
 

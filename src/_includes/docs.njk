@@ -31,6 +31,13 @@ layout: base.njk
   // the reader's scroll position. The native anchor behaviour remains useful
   // when JavaScript is unavailable.
   (() => {
+    // Keep the no-JavaScript navigation available; on phones, let readers
+    // reach the reference before expanding the full documentation menu.
+    const menu = document.querySelector('.docs-sidebar__menu');
+    const wideScreen = matchMedia('(min-width: 64rem)');
+    const syncMenu = () => { menu.open = wideScreen.matches; };
+    syncMenu();
+    wideScreen.addEventListener('change', syncMenu);
     document.documentElement.classList.add('docs-scroll-nav');
     const links = [...document.querySelectorAll('.docs-sidebar__subnav a[href^="#"]')];
     const entries = links.map((link) => ({

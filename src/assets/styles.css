@@ -33,7 +33,17 @@ h2 { margin: 0 0 1.35rem; color: var(--purple); font-family: "Tilt Warp", "DM Sa
 /* Tool profile and library index: the product canvas is deliberately narrower
    than the site shell; prose stays in a calm spine and only demos break out. */
 .tool-page { width: min(100%, 68rem); margin-inline: auto; }
-.tool-page__header { max-width: 46rem; padding-block: clamp(2.5rem, 7vw, 6rem) clamp(2.5rem, 5vw, 4rem); }
+.tool-page__header { max-width: 46rem; padding-block: clamp(1.5rem, 3vw, 3rem) 1rem; }
+.tool-library .tool-library__list { margin-top: 0; padding-top: 1.5rem; }
+.home-perspective, .home-tools { width: min(100%, 68rem); margin-inline: auto; }
+.home-perspective { border-top: 3px solid var(--gold); scroll-margin-top: 1.5rem; }
+.home-perspective .lede { max-width: 38rem; }
+.home-tools__intro { max-width: 42rem; }
+.home-tools__grid { display: grid; gap: 1.5rem; margin-top: 2rem; }
+.home-tools h3 { margin: 0; color: var(--purple); font: 500 1.5rem/1.2 "DM Sans", sans-serif; }
+.home-tools__demo { margin: 1.5rem 0 0; }
+.home-tools__demo img { display: block; width: 100%; height: auto; border-radius: .45rem; }
+.home-tools__demo figcaption { margin-top: .65rem; color: var(--lede); font-size: .9rem; line-height: 1.5; }
 .tool-page h1 { max-width: 12ch; font-size: clamp(3.25rem, 8vw, 7rem); }
 .tool-page section { padding-block: clamp(2.5rem, 5vw, 4.5rem); }
 .tool-page h2 { max-width: 18ch; margin-bottom: 1rem; font-size: clamp(2rem, 4vw, 3.5rem); }
@@ -45,6 +55,10 @@ h2 { margin: 0 0 1.35rem; color: var(--purple); font-family: "Tilt Warp", "DM Sa
 .tool-action--secondary { border: 1px solid var(--purple); background: transparent; color: var(--purple); }
 .tool-action--secondary:hover { border-color: var(--orange); background: transparent; color: var(--orange); }
 .tool-meta-link { margin-top: .8rem; font-size: .9rem; }
+.quickstart-config { max-width: 42rem; margin-block: 1.25rem; }
+.tool-examples { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid color-mix(in srgb, var(--purple) 25%, var(--paper)); }
+.tool-examples summary { padding-block: .75rem; color: var(--purple); font-weight: 500; cursor: pointer; }
+summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .tool-cards, .tool-library__list { display: grid; gap: 1.25rem; margin-top: 1.75rem; }
 .tool-card { padding: 1.5rem; border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-radius: .85rem; background: #fffdf8; box-shadow: 4px 4px 0 color-mix(in srgb, var(--gold) 38%, transparent); }
 .tool-card .eyebrow { margin-bottom: .8rem; }
@@ -102,7 +116,8 @@ h2 { margin: 0 0 1.35rem; color: var(--purple); font-family: "Tilt Warp", "DM Sa
 
 /* Documentation discovery uses a calm index rather than a broad card wall. */
 .library-page { width: min(100%, 68rem); margin-inline: auto; }
-.library-page__header { max-width: 52rem; padding-block: clamp(2.5rem, 7vw, 6rem) clamp(2.5rem, 5vw, 4rem); }
+.library-page__header { max-width: 52rem; padding-block: clamp(1.5rem, 3vw, 3rem) 1.5rem; }
+.tool-library .tool-page__header h1, .library-page .library-page__header h1 { max-width: 18ch; font-size: clamp(2.75rem, 6vw, 4.5rem); line-height: .95; }
 .library-page h1 { max-width: 15ch; font-size: clamp(3.25rem, 8vw, 7rem); }
 .library-page h2 { max-width: 18ch; font-size: clamp(2rem, 4vw, 3.5rem); }
 .library-feature { max-width: 56rem; padding: clamp(1.5rem, 4vw, 2.5rem); border-top: .45rem solid var(--gold); background: color-mix(in srgb, var(--gold) 10%, #fffdf8); }
@@ -138,7 +153,14 @@ pre { max-width: 100%; overflow-x: auto; }
 
 .skip-link { position: absolute; top: -100vh; left: .75rem; z-index: 100; padding: .6rem 1rem; background: var(--gold); color: var(--ink); font: 500 .8rem "DM Mono", monospace; text-decoration: none; }
 .skip-link:focus { top: .75rem; }
+a { color: var(--purple); text-decoration-thickness: 1px; text-underline-offset: .2em; }
+a:visited { color: #654178; }
 a:hover { color: var(--orange); text-decoration-thickness: 3px; }
+.tool-action:visited { color: var(--paper); }
+.tool-action--secondary:visited { color: var(--purple); }
+.tool-action--secondary:hover { color: var(--orange); }
+.site-nav { font-size: .875rem; }
+.site-header nav a:visited, .site-footer nav a:visited { color: inherit; }
 a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
 .site-header, .site-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; padding-inline: 1.25rem; }
@@ -253,7 +275,8 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
 @media (min-width: 44rem) {
   main { padding: clamp(1.5rem, 5vw, 5rem); }
   section { padding-block: 3rem; }
-  .hero { margin: auto 0; }
+  .hero { padding-block: clamp(3rem, 6vw, 6rem); }
+  .home-tools__grid { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: start; }
   h1 { font-size: clamp(3.5rem, 10vw, 9.5rem); line-height: .83; }
   h2 { margin-bottom: 1.6rem; font-size: clamp(2rem, 4.5vw, 3.25rem); line-height: .95; }
   .lede { margin-block: 2.3rem; }

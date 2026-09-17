@@ -1,10 +1,46 @@
 ---
 layout: base.njk
 title: Design Lasagna
-description: Design Lasagna — tooling for design systems.
+description: Tools and ideas for design-system teams. Different people, workflows, and architectures call for different recipes—not one prescribed stack.
 ---
 <section class="hero">
-  <p class="eyebrow">Design-system tooling</p>
+  <p class="eyebrow">Tools and ideas for design-system teams</p>
   <h1>Make systems<br><em>make sense.</em></h1>
-  <p class="lede">Open tools for design tokens, schemas, and better editor workflows.</p>
+  <p class="lede">Design Lasagna builds tools and shares ideas for the teams who build and maintain design systems. Different people, workflows, and architectures call for different recipes—not one prescribed stack.</p>
+  <div class="tool-actions">
+    <a class="tool-action" href="/tools/">Explore the tools →</a>
+    <a class="tool-action tool-action--secondary" href="#different-recipes">The idea behind the layers ↓</a>
+  </div>
+</section>
+<section class="home-perspective" id="different-recipes" aria-labelledby="home-perspective-title">
+  <p class="eyebrow">Many layers · no single recipe</p>
+  <h2 id="home-perspective-title">Different systems.<br>Different recipes.</h2>
+  <p class="lede">More than a design file. More than a component library.</p>
+  <p>A design system brings together people, practices, governance, documentation, design, and code. Like a lasagna, it is made of layers. How those layers fit together depends on the organization.</p>
+  <p>It is shared across disciplines—not something the design team owns alone. No single tool, whether Figma or a code repository, defines the whole system.</p>
+  <p>Design Lasagna explores ways to make those layers work together: connecting design and code, keeping tokens in sync, and making systems understandable and usable by humans and AI. Different approaches suit different teams; there is no single recipe to sell.</p>
+</section>
+<section class="home-tools" aria-labelledby="home-tools-title">
+  <div class="home-tools__intro">
+    <p class="eyebrow">Available now</p>
+    <h2 id="home-tools-title">Tools for<br>some of the layers.</h2>
+    <p>These open tools focus on published design-system data and editor workflows. Use what fits your system—they are individual ingredients, not a complete stack.</p>
+  </div>
+  <div class="home-tools__grid">
+    <article class="tool-card">
+      <h3>Design System Language Server</h3>
+      <p>Discover tokens and component APIs without leaving VS Code. See which values are deprecated and what replaces them.</p>
+      <p><a href="/tools/language-server/">Explore the language server →</a></p>
+      <figure class="home-tools__demo">
+        <img src="/assets/language-server-token-completion.png" alt="VS Code suggesting the design token --acme-spacing-lg inside a CSS var() expression." loading="lazy">
+        <figcaption>Find the right token as you write CSS.</figcaption>
+      </figure>
+    </article>
+    <article class="tool-card">
+      <h3>Schemas</h3>
+      <p>Validate design-system metadata and published manifests with versioned JSON Schemas. Keep your existing source formats.</p>
+      <p><a href="/tools/schemas/">Explore schemas →</a></p>
+      <p><a href="/docs/schemas/">Browse the references →</a></p>
+    </article>
+  </div>
 </section>
