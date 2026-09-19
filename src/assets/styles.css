@@ -35,15 +35,6 @@ h2 { margin: 0 0 1.35rem; color: var(--purple); font-family: "Tilt Warp", "DM Sa
 .tool-page { width: min(100%, 68rem); margin-inline: auto; }
 .tool-page__header { max-width: 46rem; padding-block: clamp(1.5rem, 3vw, 3rem) 1rem; }
 .tool-library .tool-library__list { margin-top: 0; padding-top: 1.5rem; }
-.home-perspective, .home-tools { width: min(100%, 68rem); margin-inline: auto; }
-.home-perspective { border-top: 3px solid var(--gold); scroll-margin-top: 1.5rem; }
-.home-perspective .lede { max-width: 38rem; }
-.home-tools__intro { max-width: 42rem; }
-.home-tools__grid { display: grid; gap: 1.5rem; margin-top: 2rem; }
-.home-tools h3 { margin: 0; color: var(--purple); font: 500 1.5rem/1.2 "DM Sans", sans-serif; }
-.home-tools__demo { margin: 1.5rem 0 0; }
-.home-tools__demo img { display: block; width: 100%; height: auto; border-radius: .45rem; }
-.home-tools__demo figcaption { margin-top: .65rem; color: var(--lede); font-size: .9rem; line-height: 1.5; }
 .tool-page h1 { max-width: 12ch; font-size: clamp(3.25rem, 8vw, 7rem); }
 .tool-page section { padding-block: clamp(2.5rem, 5vw, 4.5rem); }
 .tool-page h2 { max-width: 18ch; margin-bottom: 1rem; font-size: clamp(2rem, 4vw, 3.5rem); }
@@ -276,7 +267,6 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
   main { padding: clamp(1.5rem, 5vw, 5rem); }
   section { padding-block: 3rem; }
   .hero { padding-block: clamp(3rem, 6vw, 6rem); }
-  .home-tools__grid { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: start; }
   h1 { font-size: clamp(3.5rem, 10vw, 9.5rem); line-height: .83; }
   h2 { margin-bottom: 1.6rem; font-size: clamp(2rem, 4.5vw, 3.25rem); line-height: .95; }
   .lede { margin-block: 2.3rem; }
