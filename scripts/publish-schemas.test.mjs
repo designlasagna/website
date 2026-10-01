@@ -94,6 +94,27 @@ test('publishes all exported schemas, preserving package-relative paths', () => 
   assert.equal(fs.existsSync(path.join(output, 'package.json')), false, 'package.json must not be published');
 });
 
+test('can limit publication to a version prefix without copying other exports', () => {
+  const source = makeSource();
+  const schemaPath = path.join(source, 'v0.4', 'lifecycle.json');
+  fs.mkdirSync(path.dirname(schemaPath), { recursive: true });
+  fs.writeFileSync(schemaPath, JSON.stringify({ $id: `${CANNONICAL_BASE}/schemas/v0.4/lifecycle.json` }) + '\n');
+  const pkgPath = path.join(source, 'package.json');
+  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+  pkg.exports['./v0.4/lifecycle.json'] = './v0.4/lifecycle.json';
+  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
+
+  const output = path.join(tmpdir('publish-schemas-prefix-'), 'schemas');
+  const result = publishSchemas({ source, output, prefix: 'v0.4' });
+  assert.deepEqual(result.copied, ['v0.4/lifecycle.json']);
+  assert.ok(fs.existsSync(path.join(output, 'v0.4/lifecycle.json')));
+  assert.equal(fs.existsSync(path.join(output, 'v0.3/tokens.json')), false);
+  assert.throws(
+    () => publishSchemas({ source, output, prefix: 'v9.9' }),
+    /no exported schema files found below prefix/,
+  );
+});
+
 test('copies the vendored DTCG schema while exempting it from the $id rule', () => {
   const source = makeSource();
   const output = path.join(tmpdir('publish-schemas-out-'), 'schemas');
@@ -302,10 +323,12 @@ test('listSchemaFiles picks only v0.x / dtcg JSON exports', () => {
 
 test('parseArgs handles flags, values, help, and errors', () => {
   assert.deepEqual(
-    parseArgs(['--source', '/a', '--output', '/b', '--base-url', 'https://x.test']),
-    { source: '/a', output: '/b', baseUrl: 'https://x.test', help: false },
+    parseArgs(['--source', '/a', '--output', '/b', '--base-url', 'https://x.test', '--prefix', 'v0.4']),
+    { source: '/a', output: '/b', baseUrl: 'https://x.test', prefix: 'v0.4', help: false },
   );
+  assert.equal(parseArgs(['--prefix', './v0.4/']).prefix, 'v0.4');
   assert.equal(parseArgs(['--help']).help, true);
+  assert.throws(() => parseArgs(['--prefix', '/']), /non-empty path/);
   assert.throws(() => parseArgs(['--bogus']), /unknown argument/);
   assert.throws(() => parseArgs(['--source']), /requires a value/);
 });

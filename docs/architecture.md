@@ -58,16 +58,16 @@ dist/                           Generated deployment output; never hand-edit
 
 The website consumes the published `@designlasagna/schemas` package. The two infrastructure scripts live in `scripts/` and are standalone (Node built-ins only):
 
-1. `schema-reference.mjs` reads schema files from the installed package and produces a plain, JSON-serializable reference structure for the reference templates.
+1. `schema-reference.mjs` reads the immutable v0.3 snapshots used by existing reference pages and produces a plain, JSON-serializable reference structure for the reference templates.
 2. Eleventy renders hand-written guides plus generated schema-reference sections into `dist/`.
-3. `publish-schemas.mjs` copies the package's exported JSON files into `dist/schemas/` and, before writing anything, verifies that every Design Lasagna schema `$id` equals its deployed `<base-url>/schemas/<path>` URL.
-4. CI verifies each schema `$id` equals its deployed `/schemas/...` path, every published schema has a documentation page, and all examples validate.
+3. Immutable v0.2/v0.3/DTCG snapshots in `src/schemas/` are copied to retain already-published bytes. `publish-schemas.mjs --prefix v0.4` then copies every released v0.4 JSON export into `dist/schemas/` and, before writing anything, verifies every v0.4 `$id` equals its deployed `<base-url>/schemas/<path>` URL.
+4. CI runs the built-artifact checks: exact v0.4 package bytes, JSON parsing, canonical `$id`s, and AJV compilation including cross-file references.
 
 **DTCG `$id` exception.** The exemption in step 3 is scoped to exactly one vendored file: `dtcg/2025.10/format.json`. That file is copied verbatim from the Design Tokens Community Group and intentionally keeps its upstream `$id` — `https://www.designtokens.org/schemas/2025.10/format.json` — so tooling that resolves identifiers against designtokens.org keeps working. No other path is exempt: any *other* schema under `dtcg/...` must still carry a designlasagna.recipes `$id`. Reusing the upstream identifier for a file we author would make the same `$id` URL serve two different documents, so the exemption is an exact-path allowlist, not a `dtcg/` prefix.
 
 A schema release must be published before the website dependency is bumped. This keeps raw files, `$id` values, and generated reference documentation synchronized from one source.
 
-**Build integration is pending.** As of writing, the npm-published `@designlasagna/schemas` package still carries pre-migration `$id`s, so `publish-schemas.mjs` correctly FAILS its `$id` check against the installed package. Both scripts are therefore not yet wired into `npm run build`; they run standalone (or against a canonical migrated package via `--source`) and will be integrated into the build once the migrated package release lands.
+The build is integrated for the released v0.4 package. Historical files are deliberately not sourced from that package because its changed v0.2/v0.3 `$id`s would rewrite published bytes; see `docs/schema-hosting.md`.
 
 ## Tooling and commands
 

@@ -33,14 +33,9 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/CNAME");
 
-  // Raw schemas are published at their documented, versioned URLs. Keep the
-  // package-relative layout so, for example, v0.3/cem-extensions.json is
-  // available as /schemas/v0.3/cem-extensions.json in the deployed site.
-  eleventyConfig.addPassthroughCopy({
-    "node_modules/@designlasagna/schemas/v0.2": "schemas/v0.2",
-    "node_modules/@designlasagna/schemas/v0.3": "schemas/v0.3",
-    "node_modules/@designlasagna/schemas/dtcg/2025.10": "schemas/dtcg/2025.10",
-  });
+  // Historical raw contracts are immutable snapshots. The build then adds
+  // v0.4 directly from the released package via publish-schemas.mjs.
+  eleventyConfig.addPassthroughCopy("src/schemas");
 
   return {
     dir: {

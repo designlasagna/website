@@ -1,8 +1,8 @@
 /**
  * publish-schemas.mjs — raw-schema publication infrastructure.
  *
- * Copies every JSON Schema exported by the `@designlasagna/schemas` package
- * (v0.2, v0.3, and the vendored DTCG 2025.10 format schema) into a
+ * Copies selected JSON Schema exports from the `@designlasagna/schemas`
+ * package into a
  * `<output>/` directory, preserving each file's package-relative path, so
  * that schemas are deployable at `https://designlasagna.recipes/schemas/...`.
  *
@@ -28,14 +28,9 @@
  *   --output  <project root>/dist/schemas
  *   --base-url https://designlasagna.recipes
  *
- * Local verification note: as of writing the npm-published package still
- * carries pre-migration `$id`s, so the default (installed-package) flow is
- * expected to FAIL the `$id` check until a migrated package is published.
- * Use `--source` pointing at a canonical, migrated checkout and a matching
- * `--base-url` for local verification.
- *
- * This script is standalone (Node built-ins only), not yet wired into the
- * npm build.
+ * The site build invokes this script with `--prefix v0.4`. Historical v0.2
+ * and v0.3 files are immutable snapshots copied by Eleventy instead of being
+ * replaced from a newer package release.
  */
 
 import fs from 'node:fs';
@@ -76,6 +71,8 @@ Options:
                      <project root>/dist/schemas)
   --base-url <url>   Base URL used for the expected $id
                      (default: ${DEFAULT_BASE_URL})
+  --prefix <path>    Publish only exported schema paths below this prefix
+                     (for example: v0.4)
   -h, --help         Show this help
 
 Exit status is 0 on success, 1 on any validation or copy error.
@@ -122,7 +119,7 @@ export function expectedSchemaUrl(baseUrl, packageRelativePath) {
  * Parse CLI arguments. Throws on unknown flags or missing values.
  */
 export function parseArgs(argv) {
-  const opts = { source: undefined, output: undefined, baseUrl: undefined, help: false };
+  const opts = { source: undefined, output: undefined, baseUrl: undefined, prefix: undefined, help: false };
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     const next = (flag) => {
@@ -131,6 +128,10 @@ export function parseArgs(argv) {
       return argv[i];
     };
     switch (arg) {
+      case '--prefix':
+        opts.prefix = next(arg).replace(/^\.\//, '').replace(/\/+$/, '');
+        if (!opts.prefix) throw new Error('--prefix requires a non-empty path');
+        break;
       case '--source':
         opts.source = next(arg);
         break;
@@ -317,11 +318,12 @@ function writeStaged(outputRoot, lexicalSourceRoot, realSourceRoot, staged) {
  *   source  (required) absolute package source root
  *   output  (required) absolute output directory
  *   baseUrl (optional) base URL for expected $ids (default DEFAULT_BASE_URL)
+ *   prefix  (optional) only copy exported schema paths below this prefix
  *
  * Returns { output, baseUrl, copied: [...] }.
  * Throws before writing any file if any validation fails.
  */
-export function publishSchemas({ source, output, baseUrl = DEFAULT_BASE_URL }) {
+export function publishSchemas({ source, output, baseUrl = DEFAULT_BASE_URL, prefix }) {
   if (typeof source !== 'string' || source.length === 0) {
     throw new Error('publishSchemas: missing "source"');
   }
@@ -357,9 +359,16 @@ export function publishSchemas({ source, output, baseUrl = DEFAULT_BASE_URL }) {
     );
   }
 
-  const files = listSchemaFiles(sourceRoot, pkg);
+  const allFiles = listSchemaFiles(sourceRoot, pkg);
+  const files = prefix === undefined
+    ? allFiles
+    : new Map([...allFiles].filter(([relPath]) => relPath === prefix || relPath.startsWith(`${prefix}/`)));
   if (files.size === 0) {
-    throw new Error(`unsafe source: no exported schema files found in ${sourceRoot}`);
+    throw new Error(
+      prefix === undefined
+        ? `unsafe source: no exported schema files found in ${sourceRoot}`
+        : `unsafe source: no exported schema files found below prefix ${JSON.stringify(prefix)}`,
+    );
   }
 
   const staged = verifyAndStage(sourceRoot, files, base);
@@ -396,7 +405,7 @@ export function main(argv = process.argv.slice(2)) {
   const output = opts.output ?? DEFAULT_OUTPUT;
   const baseUrl = opts.baseUrl ?? DEFAULT_BASE_URL;
 
-  const result = publishSchemas({ source, output, baseUrl });
+  const result = publishSchemas({ source, output, baseUrl, prefix: opts.prefix });
 
   const lines = [
     `Published ${result.copied.length} schema file(s) to ${result.output}`,

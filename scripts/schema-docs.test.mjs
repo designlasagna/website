@@ -8,19 +8,19 @@ const docs = require('../src/_data/schemaDocs.js');
 const suites = [
   {
     label: 'token',
-    schema: require('@designlasagna/schemas/v0.3/tokens.json'),
+    schema: require('../src/schemas/v0.3/tokens.json'),
     docs: docs.v03Tokens,
     mainDefinition: 'Token', // introduced by the dedicated Token fields section
   },
   {
     label: 'utility',
-    schema: require('@designlasagna/schemas/v0.3/utilities.json'),
+    schema: require('../src/schemas/v0.3/utilities.json'),
     docs: docs.v03Utilities,
     mainDefinition: 'UtilityClass', // introduced by the dedicated utility class section
   },
   {
     label: 'component (CEM extensions)',
-    schema: require('@designlasagna/schemas/v0.3/cem-extensions.json'),
+    schema: require('../src/schemas/v0.3/cem-extensions.json'),
     docs: docs.v03CemExtensions,
     mainDefinition: 'LifecycleFields', // introduced by the dedicated lifecycle fields section
   },
