@@ -5,13 +5,16 @@
   "description": "Design Lasagna public site — Eleventy static site.",
   "scripts": {
     "dev": "eleventy --serve",
-    "build": "eleventy",
-    "check": "eleventy --quiet && test -f dist/index.html && test -f dist/404.html && test -f dist/CNAME && test -f dist/assets/styles.css && test -f dist/assets/logotype.svg && test -f dist/schemas/v0.3/cem-extensions.json",
+    "build": "eleventy && node scripts/publish-schemas.mjs --prefix v0.4",
+    "test": "node --test scripts/*.test.mjs",
+    "check": "npm run build && npm test && test -f dist/index.html && test -f dist/404.html && test -f dist/CNAME && test -f dist/assets/styles.css && test -f dist/assets/logotype.svg && test -f dist/schemas/v0.2/cem-extensions.json && test -f dist/schemas/v0.3/cem-extensions.json && test -f dist/schemas/v0.4/lifecycle.json",
+    "verify-schema-hosting": "node scripts/verify-schema-hosting.mjs",
     "deploy-preview": "npx serve dist"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0",
-    "@designlasagna/schemas": "^0.3.4",
+    "@designlasagna/schemas": "^0.4.0",
+    "ajv": "^8.20.0",
     "yaml": "^2.9.0"
   }
 }

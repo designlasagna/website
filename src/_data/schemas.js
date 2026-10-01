@@ -1,8 +1,7 @@
 // Build-time data for the schema reference docs.
 //
-// Reads the v0.3 tokens, utilities, and CEM-extensions schemas from the
-// installed @designlasagna/schemas package and runs them through
-// scripts/schema-reference.mjs so pages get a plain, JSON-serializable
+// Reads the immutable v0.3 snapshots that are served at /schemas/ and runs
+// them through scripts/schema-reference.mjs so pages get a plain, JSON-serializable
 // "ref" structure at build time.
 //
 // Exposed on every page as `schemas.v03Tokens`, `schemas.v03Utilities`,
@@ -10,22 +9,16 @@
 
 module.exports = async function () {
   const fs = await import('node:fs/promises');
-  const { createRequire } = await import('node:module');
+  const path = await import('node:path');
   const { describeSchema } = await import('../../scripts/schema-reference.mjs');
 
-  const require = createRequire(__filename);
+  const loadSchema = async (filename) =>
+    JSON.parse(await fs.readFile(path.join(__dirname, '..', 'schemas', 'v0.3', filename), 'utf8'));
 
-  const loadSchema = async (importPath) =>
-    JSON.parse(await fs.readFile(require.resolve(importPath), 'utf8'));
-
-  const tokensSchema = await loadSchema('@designlasagna/schemas/v0.3/tokens.json');
-  const utilitiesSchema = await loadSchema('@designlasagna/schemas/v0.3/utilities.json');
-  const cemExtensionsSchema = await loadSchema(
-    '@designlasagna/schemas/v0.3/cem-extensions.json',
-  );
-  const dtcgExtensionsSchema = await loadSchema(
-    '@designlasagna/schemas/v0.3/dtcg-extensions.json',
-  );
+  const tokensSchema = await loadSchema('tokens.json');
+  const utilitiesSchema = await loadSchema('utilities.json');
+  const cemExtensionsSchema = await loadSchema('cem-extensions.json');
+  const dtcgExtensionsSchema = await loadSchema('dtcg-extensions.json');
 
   const ref = describeSchema(tokensSchema);
   const utilitiesRef = describeSchema(utilitiesSchema);
