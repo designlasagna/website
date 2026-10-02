@@ -18,6 +18,8 @@ layout: base.njk
         <a href="/docs/schemas/v0.3/utilities/"{% if page.url == '/docs/schemas/v0.3/utilities/' %} aria-current="page"{% endif %}>Utility manifest</a>
         {% if page.url == '/docs/schemas/v0.3/utilities/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Utility manifest sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
         <p class="docs-sidebar__heading">Language Server</p>
+        <a href="/docs/language-server/"{% if page.url == '/docs/language-server/' %} aria-current="page"{% endif %}>Install and configure</a>
+        {% if page.url == '/docs/language-server/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Language Server sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
         <a href="/tools/language-server/">Tool overview ↗</a>
       </nav>
     </details>

@@ -1,49 +1,28 @@
 ---
 layout: base.njk
 permalink: /tools/language-server/
-title: Design System Language Server
+title: "Design Lasagna: Design System Language Server"
 description: Local-first design-system IntelliSense, diagnostics, and migration guidance.
 ---
 <div class="tool-page">
   <section class="tool-hero">
     <div>
       <p class="eyebrow">Tool · editor workflow</p>
-      <h1>Design System<br><em>Language Server.</em></h1>
+      <h1>Design Lasagna:<br><em>Design System Language Server.</em></h1>
       <p class="lede">Bring the components, tokens, and utility classes your team already publishes into the editor.</p>
       <p>Local-first and editor-agnostic, the server reads existing manifests or discovers them from installed packages. It does not ask you to adopt a new all-in-one format.</p>
       <div class="tool-actions">
-        <a class="tool-action" href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">Install for VS Code ↗</a>
+        <a class="tool-action" href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">Install Pre-Release for VS Code ↗</a>
         <a class="tool-action tool-action--secondary" href="https://github.com/designlasagna/ds-language-server">View source on GitHub ↗</a>
       </div>
-      <p class="tool-meta-link"><a href="/tools/language-server/changelog/">Changelog</a></p>
+      <p>VS Code v0.2.0 · Pre-Release · Minimum VS Code 1.90</p>
+      <p class="tool-meta-link"><a href="/docs/language-server/">Setup documentation</a> · <a href="/tools/language-server/changelog/">Changelog</a></p>
     </div>
   </section>
 
-
-  <section class="tool-section">
-    <p class="eyebrow">First run</p>
-    <h2>Connect your first manifest</h2>
-    <p>You need VS Code and at least one existing component, token, or utility manifest. The extension reads your data; it does not generate these files.</p>
-    <ol>
-      <li>Install the <a href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">VS Code extension</a>, then open the workspace that uses your design system.</li>
-      <li>For local manifests, add <code>ds.config.json</code> at the workspace root. Replace these example paths with your own and include only the source types you have:</li>
-    </ol>
-    <pre class="json-example quickstart-config" aria-label="Example ds.config.json"><code>{
-  "sources": {
-    "components": ["dist/custom-elements.json"],
-    "tokens": ["dist/tokens.json"],
-    "utilities": ["dist/utilities.manifest.json"]
-  }
-}</code></pre>
-    <ol start="3">
-      <li>Check the source you connected: in CSS, type <code>var(--</code> for token suggestions; in HTML, start a component tag or a utility name inside <code>class=""</code>. Suggestions should contain names from your manifest.</li>
-    </ol>
-    <p>Installed packages with <code>customElements</code> or <code>designSystem</code> discovery fields in <code>package.json</code> do not need a config file. No suggestions? Confirm each configured path exists, then set <code>dsLanguageServer.trace.server</code> to <code>messages</code> and inspect the VS Code Output panel. <a href="https://github.com/designlasagna/ds-language-server/blob/main/editors/vscode/SETUP.md">Read the VS Code setup guide ↗</a></p>
-  </section>
-
   <section class="tool-section tool-media">
-    <h2>Features</h2>
-    <p>The Language Server gives feedback in the context where it matters: while you are writing code.</p>
+    <h2>See it in action</h2>
+    <p>The extension provides manifest-backed completions, hovers, diagnostics, and migration actions. The Language Server gives feedback in the context where it matters: while you are writing code.</p>
     <div class="lsp-screenshots">
       <figure>
         <img src="/assets/language-server-token-completion.png" alt="VS Code suggesting the design token --acme-spacing-lg in a CSS var() expression.">
@@ -67,6 +46,63 @@ description: Local-first design-system IntelliSense, diagnostics, and migration 
       </figure>
       </div>
     </details>
+
+  </section>
+
+  <section class="tool-section" id="features">
+    <h2>What the language server can do</h2>
+    <p>Features draw on the information in your manifests and the syntax supported by your editor integration.</p>
+    <div class="tool-cards">
+      <article class="tool-card">
+        <h3>Component completions</h3>
+        <ul>
+          <li>Custom-element tags, attributes, and allowed values</li>
+          <li>Named slot suggestions</li>
+          <li>Lit <code>.property</code> and <code>@event</code> bindings</li>
+        </ul>
+      </article>
+      <article class="tool-card">
+        <h3>Tokens and CSS</h3>
+        <ul>
+          <li>Token suggestions in <code>var()</code>, with resolved values</li>
+          <li>Component-scoped CSS custom properties</li>
+          <li>Exposed CSS part names in <code>::part()</code></li>
+        </ul>
+      </article>
+      <article class="tool-card">
+        <h3>Utility classes</h3>
+        <ul>
+          <li>Class suggestions and descriptions from utility manifests</li>
+          <li>Configurable class attribute names</li>
+          <li>Static class names in Lit <code>classMap</code> calls</li>
+        </ul>
+      </article>
+      <article class="tool-card">
+        <h3>Hover information</h3>
+        <ul>
+          <li>Component APIs, attributes, values, and slots</li>
+          <li>Token values and utility descriptions</li>
+          <li>Deprecation details and replacement guidance where provided</li>
+        </ul>
+      </article>
+      <article class="tool-card">
+        <h3>Diagnostics</h3>
+        <ul>
+          <li>Deprecation warnings for components, attributes, individual values, tokens, and classes</li>
+          <li>Severity that escalates as removal dates approach</li>
+          <li>Schema validation for discovered token documents, with JSON and JSONC error locations</li>
+        </ul>
+      </article>
+      <article class="tool-card">
+        <h3>Migration quick fixes</h3>
+        <ul>
+          <li>Replace deprecated tokens and utility classes</li>
+          <li>Update deprecated attributes and individual attribute values</li>
+          <li>Apply targeted edits when the manifest supplies a valid replacement</li>
+        </ul>
+      </article>
+    </div>
+    <p>Discover manifests from installed packages or connect local files. <a href="/docs/language-server/">Read the setup documentation →</a></p>
   </section>
 
 
@@ -99,10 +135,10 @@ description: Local-first design-system IntelliSense, diagnostics, and migration 
   <section class="tool-section tool-editors">
     <p class="eyebrow">Get started</p>
     <h2>Use it in your editor</h2>
-    <p>The VS Code integration activates for web-focused files and connects to the manifests in your workspace. Zed support is still on the way.</p>
+    <p>The VS Code integration activates for web-focused files and connects to the manifests in your workspace. Zed status: Registry submission awaiting review.</p>
     <div class="tool-cards">
-      <article class="tool-card"><p class="eyebrow">Editor integration</p><h3>VS Code</h3><p>Completions, diagnostics, hover details, and migration actions in HTML, CSS, SCSS, JavaScript, TypeScript, JSX, and TSX.</p><p><a href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">Install from the VS Code Marketplace ↗</a></p></article>
-      <article class="tool-card"><p class="eyebrow">Editor integration</p><h3>Zed</h3><p>Support for Zed is in the works.</p><p><strong>Coming soon</strong></p></article>
+      <article class="tool-card"><p class="eyebrow">Editor integration</p><h3>VS Code</h3><p>Completions, diagnostics, hover details, and migration actions in supported web files.</p><p><a href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">Install Pre-Release from the VS Code Marketplace ↗</a></p><p>v0.2.0 · Pre-Release · Minimum VS Code 1.90</p></article>
+      <article class="tool-card"><p class="eyebrow">Development integration</p><h3>Zed</h3><p><strong>Registry submission awaiting review.</strong> No public registry install is available yet.</p><p><a href="https://github.com/zed-industries/extensions/pull/7741">View PR ↗</a> · <a href="https://github.com/designlasagna/ds-language-server/blob/main/editors/zed/SETUP.md">Optional development setup ↗</a></p></article>
     </div>
   </section>
 

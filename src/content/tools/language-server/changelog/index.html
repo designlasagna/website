@@ -2,18 +2,26 @@
 layout: base.njk
 permalink: /tools/language-server/changelog/
 title: Language Server changelog
-description: Release history for the Design System Language Server.
+description: "Released server and editor artifacts for Design Lasagna: Design System Language Server."
 ---
 <div class="changelog-page">
   <header class="changelog-page__header">
-    <p class="eyebrow">Design System Language Server · releases</p>
+    <p class="eyebrow">Design Lasagna: Design System Language Server · releases</p>
     <h1>Language Server<br><em>changelog.</em></h1>
-    <p class="lede">Release notes for the local-first editor integration.</p>
-    <p><a href="/tools/language-server/">← Back to the Language Server</a> · <a href="https://github.com/designlasagna/ds-language-server/releases">View releases on GitHub ↗</a></p>
+    <p class="lede">Released artifacts for the local-first server and its editor integrations.</p>
+    <p><a href="/tools/language-server/">← Back to the Language Server</a> · <a href="https://github.com/designlasagna/ds-language-server/tags">GitHub tags ↗</a> · <a href="https://github.com/designlasagna/ds-language-server/blob/main/CHANGELOG.md">npm server changelog ↗</a> · <a href="https://github.com/designlasagna/ds-language-server/blob/main/editors/vscode/CHANGELOG.md">VS Code changelog ↗</a></p>
   </header>
 
   <section class="change-entry">
-    <div class="change-entry__meta"><span>v0.1.4</span><span class="change-entry__kind">VS Code extension</span><span>Latest</span></div>
+    <div class="change-entry__meta"><span>v0.2.0</span><span class="change-entry__kind">VS Code extension</span><span>Pre-Release</span><span>2026-10-02</span></div>
+    <div><h2>VS Code Pre-Release</h2><p>Published the VS Code extension v0.2.0 as a pre-release. Verified on VS Code 1.90.2 and 1.138. Includes completion, hover, diagnostics, settings reload, and Quick Fix actions. Minimum VS Code version is 1.90. The extension bundles the server; no separate npm install is needed in VS Code.</p></div>
+  </section>
+  <section class="change-entry">
+    <div class="change-entry__meta"><span>v0.2.0</span><span class="change-entry__kind">npm server</span><span>Latest server</span></div>
+    <div><h2>Published server package</h2><p>Added the <code>@designlasagna/ds-language-server</code> npm distribution, configurable recognition and deprecation severity, additional Lit and component CSS completions, capability-aware configuration and manifest watching, and opt-in v0.4 lifecycle support.</p></div>
+  </section>
+  <section class="change-entry">
+    <div class="change-entry__meta"><span>v0.1.4</span><span class="change-entry__kind">VS Code extension</span></div>
     <div><h2>Extension naming</h2><p>Capitalized the VS Code extension display name.</p></div>
   </section>
   <section class="change-entry">
