@@ -42,4 +42,7 @@ module.exports = {
     fs.readFileSync(path.join(dir, 'v03-cem-extensions.yml'), 'utf8'),
   ).v03CemExtensions,
   v03DtcgExtensions,
+  v04Tokens: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v04-tokens.yml'), 'utf8'),
+  ).v04Tokens,
 };

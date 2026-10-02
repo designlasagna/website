@@ -6,15 +6,22 @@
   The navigation lists schema format versions current-first and, on
   non-current versions, renders a maintenance notice.
 
-  v0.4 is the current schema format, but per-schema v0.4 reference pages do
-  not exist yet. Its entry therefore falls back to the schema overview
-  (/docs/schemas/) — this partial must never invent a /docs/schemas/v0.4/...
-  URL. When v0.4 reference pages are published, update the v0.4 href below
-  (and the allowlist in scripts/schema-version-nav.test.mjs).
+  v0.4 is the current schema format. Only the v0.4 tokens reference page
+  exists so far, so the v0.4 entry falls back to the schema overview
+  (/docs/schemas/) — this partial must never invent /docs/schemas/v0.4/... URLs
+  for reference pages that do not exist yet. When all v0.4 reference pages are
+  published, update the v0.4 href below (and the allowlist in
+  scripts/schema-version-nav.test.mjs).
+
+  The v0.3 entry links to the including page itself; v0.4 pages override it
+  with schemaDocV03Href so readers reach the v0.3 sibling reference. V0.3
+  pages that have a published v0.4 sibling override the v0.4 fallback with
+  schemaDocV04Href (currently only the v0.3 tokens page, which points at
+  /docs/schemas/v0.4/tokens/).
 -#}
 {%- set versions = [
-  { version: 'v0.4', status: 'current', href: '/docs/schemas/' },
-  { version: 'v0.3', status: 'previous', href: page.url }
+  { version: 'v0.4', status: 'current', href: schemaDocV04Href or '/docs/schemas/' },
+  { version: 'v0.3', status: 'previous', href: schemaDocV03Href or page.url }
 ] -%}
 <aside class="schema-version-nav">
   {%- if schemaDocVersion and schemaDocVersion != 'v0.4' %}
@@ -22,8 +29,8 @@
     <strong>Previous version:</strong> this reference documents schema format
     <code>{{ schemaDocVersion }}</code>, which is kept for compatibility.
     The current and default format is
-    <a href="/docs/schemas/">v0.4</a>. v0.4 reference pages are not published
-    yet, so the v0.4 entry links to the schema overview.
+    <a href="{{ schemaDocV04Href or '/docs/schemas/' }}">v0.4</a>
+    {%- if schemaDocV04Href %}. The v0.4 entry links to this reference's successor page.{% else %}. Published v0.4 reference pages are listed on the schema overview, so the v0.4 entry links there.{% endif %}
   </p>
   {%- endif %}
   <nav class="schema-version-nav__list" aria-label="Schema format versions">
