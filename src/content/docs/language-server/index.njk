@@ -1,0 +1,93 @@
+---
+layout: docs.njk
+permalink: /docs/language-server/
+title: "Design Lasagna: Design System Language Server"
+description: Install, configure, verify, and troubleshoot the Design Lasagna language server.
+docsToc:
+  - label: Overview
+    href: "#start"
+  - label: Install
+    href: "#install"
+  - label: Configure
+    href: "#configure"
+  - label: Manifest references
+    href: "#manifest-references"
+  - label: Verify
+    href: "#verify"
+  - label: Troubleshoot
+    href: "#troubleshoot"
+---
+<section id="start">
+  <p class="eyebrow">Docs · editor workflow</p>
+  <h1>Language Server</h1>
+  <p class="lede">Install and connect <strong>Design Lasagna: Design System Language Server</strong> to the component, token, and utility manifests your team already publishes.</p>
+  <p>Choose your editor, connect a manifest, and check that its names appear in your code.</p>
+</section>
+
+<section id="install">
+  <p class="eyebrow">Step 1</p>
+  <h2>Install an editor integration</h2>
+  <h3>VS Code</h3>
+  <p>Install <a href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">Design Lasagna: Design System Language Server from the Visual Studio Marketplace ↗</a>. Select <strong>Install Pre-Release</strong> or <strong>Switch to Pre-Release Version</strong> to get the current v0.2.0 build. The extension starts the server for supported web files; no separate npm install is needed. Minimum VS Code version is 1.90.</p>
+
+  <h3>Zed</h3>
+  <p><strong>Registry submission awaiting review.</strong> There is no Zed registry install action yet. If you want to help develop or evaluate the integration before review completes, follow the repository’s <a href="https://github.com/designlasagna/ds-language-server/blob/main/editors/zed/SETUP.md">optional development installation ↗</a>; it is not the public installation path. See <a href="https://github.com/zed-industries/extensions/pull/7741">PR #7741 ↗</a>.</p>
+
+  <h3>Other LSP clients</h3>
+  <p>Compatible clients that can start an LSP over stdio can install the server locally (Node.js 20 or newer):</p>
+  <pre class="json-example"><code>npm install --save-dev @designlasagna/ds-language-server@0.2.0
+npx ds-language-server --stdio</code></pre>
+  <p>Your client is responsible for launching that command and forwarding supported document language IDs. For additional settings, see the <a href="https://github.com/designlasagna/ds-language-server/blob/v0.2.0/docs/configuration-and-recognition.md">standalone server configuration reference ↗</a>.</p>
+</section>
+
+<section id="configure">
+  <p class="eyebrow">Step 2</p>
+  <h2>Connect manifests</h2>
+  <p>Installed design-system packages are discovered from <code>package.json</code> fields named <code>customElements</code> and <code>designSystem.tokens</code> or <code>designSystem.utilities</code>. For local manifests, add <code>ds.config.json</code> at the workspace root:</p>
+  <pre class="json-example" aria-label="Example ds.config.json"><code>{
+  "sources": {
+    "components": ["packages/components/dist/custom-elements.json"],
+    "tokens": ["packages/tokens/dist/tokens.json"],
+    "utilities": ["packages/css/dist/utilities.manifest.json"]
+  }
+}</code></pre>
+  <p>Include only the source types you have. Explicit sources are merged with package discovery unless you set <code>"discovery": { "enabled": false }</code>.</p>
+</section>
+
+<section id="manifest-references">
+  <p class="eyebrow">Related documentation</p>
+  <h2>Manifest references</h2>
+  <p>See the site’s v0.3 references for <a href="/docs/schemas/v0.3/tokens/">token manifests</a>, <a href="/docs/schemas/v0.3/components/">component manifest extensions</a>, and <a href="/docs/schemas/v0.3/utilities/">utility manifests</a>, or start with the <a href="/tools/schemas/">Schemas tool overview</a>. These v0.3 pages are compatibility references, not complete v0.4 documentation.</p>
+  <p>For lifecycle profiles and migration behavior, see the <a href="https://github.com/designlasagna/ds-language-server/blob/vscode-v0.2.0/editors/vscode/README.md#lifecycle-profile">VS Code lifecycle reference ↗</a> or the <a href="https://github.com/designlasagna/ds-language-server/blob/v0.2.0/docs/configuration-and-recognition.md">standalone server configuration reference ↗</a>.</p>
+  <p>Raw v0.4 schemas are available for <a href="/schemas/v0.4/tokens.json">tokens</a>, <a href="/schemas/v0.4/utilities.json">utilities</a>, <a href="/schemas/v0.4/icons.json">icons</a>, <a href="/schemas/v0.4/cem-extensions.json">CEM extensions</a>, <a href="/schemas/v0.4/dtcg-extensions.json">DTCG extensions</a>, and <a href="/schemas/v0.4/lifecycle.json">lifecycle</a>.</p>
+  <p>Native token and utility manifests select v0.4 automatically when <code>schemaVersion</code> is <code>"0.4.0"</code>. CEM and DTCG lifecycle support is opt-in through <code>lifecycle.profile</code> in <code>ds.config.json</code>:</p>
+  <pre class="json-example" aria-label="Opt-in lifecycle configuration"><code>{
+  "lifecycle": {
+    "profile": "0.4"
+  }
+}</code></pre>
+</section>
+
+<section id="verify">
+  <p class="eyebrow">Step 3</p>
+  <h2>Verify the connection</h2>
+  <ol>
+    <li>Open a file in the workspace—not an untitled file—and use a language enabled for the integration.</li>
+    <li>In CSS, type <code>var(--</code> and look for token names from your manifest.</li>
+    <li>In HTML, start a custom-element tag, attribute, or utility name inside <code>class=""</code>.</li>
+    <li>Hover a known item to confirm its source details. A deprecated item should also show lifecycle guidance when that metadata exists.</li>
+  </ol>
+</section>
+
+<section id="troubleshoot">
+  <p class="eyebrow">If suggestions are missing</p>
+  <h2>Troubleshoot</h2>
+  <ul>
+    <li>Confirm <code>ds.config.json</code> is at the workspace root and every source path exists relative to it.</li>
+    <li>In VS Code, confirm the file uses one of the extension’s supported web language modes. Set <code>dsLanguageServer.trace.server</code> to <code>messages</code>, then inspect the Language Server output.</li>
+    <li>After changing configuration, package metadata, or manifests, reload the editor window if the new data is not picked up.</li>
+    <li>In Zed development installs, inspect the Language Server log and confirm the extension supports the document language.</li>
+    <li>For schema diagnostics, make sure the open token document is one of the discovered token source URIs.</li>
+  </ul>
+  <p>Still stuck? Check the <a href="https://github.com/designlasagna/ds-language-server/blob/main/README.md">server README ↗</a>, then <a href="https://github.com/designlasagna/ds-language-server/issues">report an issue with editor, server version, config, language ID, and trace output ↗</a>.</p>
+</section>
