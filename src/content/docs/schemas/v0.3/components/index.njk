@@ -3,6 +3,7 @@ layout: docs.njk
 permalink: /docs/schemas/v0.3/components/
 title: Components — v0.3
 description: JSON Schema reference for the Design Lasagna v0.3 Custom Elements Manifest lifecycle extensions.
+schemaDocVersion: v0.3
 docsToc:
   - label: Start here
     href: "#start"
@@ -80,6 +81,7 @@ docsToc:
   <p class="eyebrow">Schemas / v0.3</p>
   <h1>Components</h1>
   <p class="lede">{{ ref.description }}</p>
+  {% include "schema-version-nav.njk" %}
   <p>This is <strong>not</strong> the Custom Elements Manifest (CEM) schema itself, and it
   defines no component format. It defines <em>extension</em> fields that a design
   system may add to CEM declarations and members to record lifecycle metadata:

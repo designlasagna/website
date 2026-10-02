@@ -256,6 +256,17 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
 .schema-install__sources > div { min-width: 0; padding-top: .7rem; border-top: 1px solid color-mix(in srgb, var(--purple) 18%, var(--paper)); }
 .schema-install__sources dd { margin: .3rem 0 0; overflow-wrap: anywhere; }
 .schema-install__sources a { color: var(--purple); text-decoration-color: var(--gold); }
+
+/* Shared schema-format version navigation and maintenance notice for the
+   reference pages, plus the overview's version status labels. */
+.schema-version-nav { display: grid; gap: .7rem; margin: 0 0 1.75rem; padding: .9rem 1.1rem; border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-radius: .6rem; background: color-mix(in srgb, var(--gold) 8%, #fffdf8); }
+.schema-version-nav__notice { margin: 0; font-size: .92rem; }
+.schema-version-nav__list ul { display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin: 0; padding: 0; list-style: none; }
+.schema-version-nav__list a { color: var(--purple); text-decoration: underline; text-decoration-color: var(--gold); }
+.schema-version-nav__list a[aria-current="page"] { text-decoration-thickness: 2px; }
+.schema-version-nav__status, .version-status { margin-left: .45em; color: var(--muted); font: 500 .68rem "DM Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
+.schema-version-note { margin: 0 0 2rem; padding: 1rem 1.25rem; border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-radius: .6rem; background: color-mix(in srgb, var(--gold) 8%, #fffdf8); }
+.schema-version-note p { margin: 0; }
 .json-key { color: #f6b33d; }
 .json-value { color: #bfa4d4; }
 .schema-definition { margin: 2rem 0; padding: 1rem; border-left: .35rem solid var(--gold); background: color-mix(in srgb, var(--gold) 7%, transparent); }

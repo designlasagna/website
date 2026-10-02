@@ -3,6 +3,7 @@ layout: docs.njk
 permalink: /docs/schemas/v0.3/dtcg-extensions/
 title: DTCG token extensions — v0.3
 description: JSON Schema reference for Design Lasagna metadata authored in DTCG token-file extensions.
+schemaDocVersion: v0.3
 docsToc:
   - label: Start here
     href: "#start"
@@ -71,6 +72,7 @@ docsToc:
   <p class="eyebrow">Schemas / v0.3</p>
   <h1>DTCG token<br><em>extensions.</em></h1>
   <p class="lede">{{ ref.description }}</p>
+  {% include "schema-version-nav.njk" %}
   <p>This schema validates optional Design Lasagna metadata authored inside a DTCG token file. It does not replace the DTCG format or describe the generated resolved token manifest.</p>
   <aside class="schema-install" aria-labelledby="use-dtcg-extensions">
     <div class="schema-install__intro">
