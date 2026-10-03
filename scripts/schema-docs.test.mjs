@@ -40,6 +40,15 @@ const suites = [
     docs: docs.v04Tokens,
     mainDefinition: 'Token', // introduced by the dedicated Token fields section
   },
+  {
+    version: 'v0.4',
+    label: 'utility',
+    schema: JSON.parse(
+      fs.readFileSync(require.resolve('@designlasagna/schemas/v0.4/utilities.json'), 'utf8'),
+    ),
+    docs: docs.v04Utilities,
+    mainDefinition: 'UtilityClass', // introduced by the dedicated utility class section
+  },
 ];
 
 function propertyGroups(schema) {

@@ -6,8 +6,8 @@
   The navigation lists schema format versions current-first and, on
   non-current versions, renders a maintenance notice.
 
-  v0.4 is the current schema format. Only the v0.4 tokens reference page
-  exists so far, so the v0.4 entry falls back to the schema overview
+  v0.4 is the current schema format. The v0.4 tokens and utilities reference
+  pages exist so far, so the v0.4 entry falls back to the schema overview
   (/docs/schemas/) — this partial must never invent /docs/schemas/v0.4/... URLs
   for reference pages that do not exist yet. When all v0.4 reference pages are
   published, update the v0.4 href below (and the allowlist in
@@ -16,8 +16,8 @@
   The v0.3 entry links to the including page itself; v0.4 pages override it
   with schemaDocV03Href so readers reach the v0.3 sibling reference. V0.3
   pages that have a published v0.4 sibling override the v0.4 fallback with
-  schemaDocV04Href (currently only the v0.3 tokens page, which points at
-  /docs/schemas/v0.4/tokens/).
+  schemaDocV04Href (currently the v0.3 tokens and v0.3 utilities pages,
+  which point at /docs/schemas/v0.4/tokens/ and /docs/schemas/v0.4/utilities/).
 -#}
 {%- set versions = [
   { version: 'v0.4', status: 'current', href: schemaDocV04Href or '/docs/schemas/' },

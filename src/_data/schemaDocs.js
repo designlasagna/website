@@ -45,4 +45,7 @@ module.exports = {
   v04Tokens: YAML.parse(
     fs.readFileSync(path.join(dir, 'v04-tokens.yml'), 'utf8'),
   ).v04Tokens,
+  v04Utilities: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v04-utilities.yml'), 'utf8'),
+  ).v04Utilities,
 };

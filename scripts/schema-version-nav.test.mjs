@@ -4,15 +4,16 @@
  *
  *   - the schemas overview presents v0.4 as the current/default format and
  *     v0.3 as previous compatibility documentation, linking the published
- *     v0.4 tokens reference page and not inventing any other
- *     /docs/schemas/v0.4/... reference-page URL;
+ *     v0.4 reference pages (tokens and utilities) and not inventing any
+ *     other /docs/schemas/v0.4/... reference-page URL;
  *   - every existing v0.3 reference page keeps its route, links, and
  *     contract sources, and carries the shared version nav + maintenance
  *     notice;
  *   - the shared version nav maps published sibling pairs in both
- *     directions (v0.3 tokens -> v0.4 tokens via schemaDocV04Href, v0.4
- *     tokens -> v0.3 tokens via schemaDocV03Href) and falls back to the
- *     schema overview for versions without a published sibling page;
+ *     directions (v0.3 tokens -> v0.4 tokens and v0.3 utilities -> v0.4
+ *     utilities via schemaDocV04Href, v0.4 tokens -> v0.3 tokens and v0.4
+ *     utilities -> v0.3 utilities via schemaDocV03Href) and falls back to
+ *     the schema overview for versions without a published sibling page;
  *   - the schema format v0.4 stays distinct from the npm package 0.4.0.
  *
  * Pure file checks: no build, no network, no installed dependencies.
@@ -34,14 +35,16 @@ const v03Pages = [
   { version: 'v0.3', rel: 'src/content/docs/schemas/v0.3/dtcg-extensions/index.njk', route: '/docs/schemas/v0.3/dtcg-extensions/' },
   // v04Href: the published v0.4 sibling the shared nav must link to.
   { version: 'v0.3', rel: 'src/content/docs/schemas/v0.3/tokens/index.njk', route: '/docs/schemas/v0.3/tokens/', v04Href: '/docs/schemas/v0.4/tokens/' },
-  { version: 'v0.3', rel: 'src/content/docs/schemas/v0.3/utilities/index.njk', route: '/docs/schemas/v0.3/utilities/' },
+  { version: 'v0.3', rel: 'src/content/docs/schemas/v0.3/utilities/index.njk', route: '/docs/schemas/v0.3/utilities/', v04Href: '/docs/schemas/v0.4/utilities/' },
   { version: 'v0.3', rel: 'src/content/docs/schemas/v0.3/components/index.njk', route: '/docs/schemas/v0.3/components/' },
 ];
 
 // v0.4 reference pages published so far. The shared version nav must not
 // link any other /docs/schemas/v0.4/... route until the page exists.
+// v03Href: the published v0.3 sibling each page must link back to.
 const v04Pages = [
-  { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/tokens/index.njk', route: '/docs/schemas/v0.4/tokens/' },
+  { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/tokens/index.njk', route: '/docs/schemas/v0.4/tokens/', v03Href: '/docs/schemas/v0.3/tokens/' },
+  { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/utilities/index.njk', route: '/docs/schemas/v0.4/utilities/', v03Href: '/docs/schemas/v0.3/utilities/' },
 ];
 
 // The v0.4 files shipped by the @designlasagna/schemas package release
@@ -109,7 +112,7 @@ test('overview links the v0.4 raw contracts and only published v0.4 reference pa
     v04Pages.map(({ route }) => route),
     'overview must link exactly the published v0.4 reference pages',
   );
-  assert.match(plain(overview), /the other v0\.4 reference pages are not published yet/i, 'overview must say the remaining v0.4 reference pages do not exist yet');
+  assert.match(plain(overview), /the remaining v0\.4 reference pages are not published yet/i, 'overview must say the remaining v0.4 reference pages do not exist yet');
 });
 
 test('overview keeps schema format v0.4 distinct from npm package 0.4.0', () => {
@@ -133,9 +136,9 @@ test('reference pages keep their routes and carry the shared version nav', () =>
 });
 
 test('v0.4 pages point the shared nav back at their v0.3 sibling reference', () => {
-  for (const { rel } of v04Pages) {
+  for (const { rel, v03Href } of v04Pages) {
     const source = read(rel);
-    assert.ok(source.includes('schemaDocV03Href: /docs/schemas/v0.3/tokens/'), `${rel} must override the nav's previous-version href`);
+    assert.ok(source.includes(`schemaDocV03Href: ${v03Href}`), `${rel} must override the nav's previous-version href to its v0.3 sibling`);
   }
 });
 
