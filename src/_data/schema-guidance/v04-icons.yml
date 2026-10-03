@@ -1,0 +1,256 @@
+# Reader-facing guidance for the v0.4 icons schema reference.
+#
+# Top-level scopes match the property groups exposed by
+# scripts/schema-reference.mjs for @designlasagna/schemas v0.4/icons.json:
+#   - manifest          the root manifest object
+#   - definition names  the nested definitions (DesignSystemMeta, Icon,
+#                       PlatformIcon, and Docs)
+#   - _definitions      intro paragraphs for the nested definitions
+#
+# Keep every field of a scope present, even when unchanged: the coverage
+# test treats a missing field as a regression. Use `example` (an object)
+# for concrete snippet content.
+v04Icons:
+  manifest:
+    $schema:
+      summary: "Identifier of the schema that validates the manifest."
+      useWhen: "Always set it so editors and validators can find the contract."
+      provenance: "Contract metadata; set by authors or generators."
+      example:
+        $schema: "https://designlasagna.recipes/schemas/v0.4/icons.json"
+    schemaVersion:
+      summary: "Schema version the manifest conforms to."
+      useWhen: "Keep it in sync with the $schema document the manifest is validated against."
+      provenance: "Contract metadata; set by authors or generators."
+      related: ["$schema"]
+      example:
+        schemaVersion: "0.4.0"
+    generatedAt:
+      summary: "ISO 8601 timestamp identifying the generation run that produced the manifest."
+      useWhen: "Set by generators so consumers can detect and track stale manifests."
+      provenance: "Computed by analysis or build tooling."
+      example:
+        generatedAt: "2026-01-15T08:30:00Z"
+    designSystem:
+      summary: "Identity of the design system the manifest describes."
+      useWhen: "Help tooling label, group, and switch between design systems."
+      provenance: "Authored metadata, carried through by generators."
+      related: ["icons"]
+      example:
+        designSystem:
+          name: "Design Lasagna"
+          version: "1.0.0"
+          package: "@designlasagna/design-system"
+    icons:
+      summary: "Resolved icons in the manifest."
+      useWhen: "Provide the icon data that tooling completes, documents, and consumes."
+      provenance: "Resolved by generators from authored icon sources."
+      related: ["designSystem"]
+      example:
+        icons:
+          - name: "lasagna"
+            platforms:
+              web:
+                import: "lasagna-icon.js"
+  DesignSystemMeta:
+    name:
+      summary: "Display name of the design system."
+      useWhen: "Identify the design system in documentation and tooling."
+      provenance: "Authored metadata."
+      example:
+        name: "Design Lasagna"
+    version:
+      summary: "Version of the design system."
+      useWhen: "Track which design-system version a manifest describes."
+      provenance: "Authored metadata; maintained with releases."
+      example:
+        version: "1.0.0"
+    documentation:
+      summary: "Documentation links for the design system."
+      useWhen: "Point consumers to the design system's documentation."
+      provenance: "Authored metadata."
+      example:
+        documentation: "https://designlasagna.recipes/docs"
+    package:
+      summary: "Package identifier of the design system."
+      useWhen: "Map the manifest to its published package."
+      provenance: "Authored metadata."
+      example:
+        package: "@designlasagna/design-system"
+    docsTemplates:
+      summary: "URL templates for generating documentation links."
+      useWhen: "Configure how tooling builds documentation links for icons."
+      provenance: "Authored metadata."
+      example:
+        docsTemplates:
+          url: "/docs/icons/{name}"
+  Icon:
+    name:
+      summary: "Stable icon identifier."
+      useWhen: "Always provide it; consumers use it as the durable icon identity."
+      provenance: "Authored metadata."
+      related: ["description", "keywords"]
+      example:
+        name: "lasagna"
+    description:
+      summary: "Human-readable description of the icon."
+      useWhen: "Use to give implementers the intent that a name cannot convey."
+      provenance: "Authored metadata."
+      related: ["name", "keywords"]
+      example:
+        description: "Layered pasta with ricotta."
+    keywords:
+      summary: "Search keywords for autocomplete and AI matching."
+      useWhen: "Use to improve discovery in autocomplete and documentation search."
+      provenance: "Authored metadata."
+      related: ["description", "name"]
+      example:
+        keywords:
+          - "pasta"
+          - "food"
+    category:
+      summary: "The icon's category, for grouping in browsing and autocomplete."
+      useWhen: "Use to organise icons into named categories."
+      provenance: "Authored metadata."
+      related: ["name"]
+      example:
+        category: "food"
+    sizes:
+      summary: "Available sizes, such as '16', '24', or '32'."
+      useWhen: "Use so tooling can offer and validate the icon's size variants."
+      provenance: "Authored metadata."
+      related: ["variants"]
+      example:
+        sizes:
+          - "16"
+          - "24"
+          - "32"
+    variants:
+      summary: "Style variants, such as 'outlined', 'filled', or 'rounded'."
+      useWhen: "Use so tooling can offer the icon's style variants."
+      provenance: "Authored metadata."
+      related: ["sizes"]
+      example:
+        variants:
+          - "outlined"
+          - "filled"
+    priority:
+      summary: "Sort weight for autocomplete, from 0 (lowest) to 100 (highest)."
+      useWhen: "Use to surface the most common icons first in tooling."
+      provenance: "Authored metadata."
+      related: ["keywords"]
+      example:
+        priority: 80
+    since:
+      summary: "Version or date when the icon was introduced."
+      useWhen: "Use to make compatibility and migration decisions."
+      provenance: "Authored metadata."
+      related: ["status", "deprecated"]
+      example:
+        since: "1.2.0"
+    status:
+      summary: "Lifecycle status from the shared v0.4 lifecycle fragment; 'deprecated' and 'removed' are normative, other values are informational."
+      useWhen: "Declare the normative lifecycle state of the icon, or carry informational states such as 'stable' or 'experimental'."
+      provenance: "Authored metadata."
+      related: ["deprecated"]
+      example:
+        status: "stable"
+    docs:
+      summary: "Links to the icon's supporting documentation."
+      useWhen: "Use when readers need to continue to design-system guidance outside the manifest."
+      provenance: "Authored metadata."
+      related: ["description"]
+      example:
+        docs:
+          url: "https://designlasagna.recipes/docs/icons/lasagna"
+    platforms:
+      summary: "Platform-specific icon references, keyed by platform identifier; at least one platform is required."
+      useWhen: "Always provide at least one platform so tooling can realise the icon."
+      provenance: "Generated or authored mapping."
+      related: ["name"]
+      example:
+        platforms:
+          web:
+            import: "lasagna-icon.js"
+    deprecated:
+      summary: "Native deprecation record from the shared v0.4 lifecycle fragment; may be false, null, or a record with a required message."
+      useWhen: "Guide consumers away from an icon while it remains available, recording its replacement and removal target."
+      provenance: "Authored metadata."
+      related: ["status", "since"]
+      example:
+        deprecated:
+          message: "Use the flat lasagna icon instead."
+          replacement: "lasagna-flat"
+    tags:
+      summary: "Arbitrary classification labels for the icon."
+      useWhen: "Use to classify icons for targeted lint rules and filtering."
+      provenance: "Authored metadata."
+      related: ["keywords", "category"]
+      example:
+        tags:
+          - "brand"
+  PlatformIcon:
+    import:
+      summary: "Module or asset path that imports the icon on this platform."
+      useWhen: "Use when the platform consumes the icon through an import or module reference."
+      provenance: "Generated or authored mapping."
+      related: ["usage", "component"]
+      example:
+        import: "lasagna-icon.js"
+    usage:
+      summary: "Usage snippet that renders the icon on this platform."
+      useWhen: "Use when the platform expresses the icon as ready-to-paste usage rather than an import."
+      provenance: "Generated or authored mapping."
+      related: ["import", "component"]
+      example:
+        usage: "LasagnaIcon({ name: 'lasagna' })"
+    component:
+      summary: "Component name that renders the icon on this platform."
+      useWhen: "Use when the platform exposes the icon as a named component."
+      provenance: "Generated or authored mapping."
+      related: ["import", "usage"]
+      example:
+        component: "LasagnaIcon"
+  Docs:
+    url:
+      summary: "Primary documentation page for this item."
+      useWhen: "Provide it as the canonical destination for detailed guidance."
+      provenance: "Authored metadata."
+      related: ["figma", "storybook"]
+      example:
+        url: "https://designlasagna.recipes/docs/icons/lasagna"
+    figma:
+      summary: "Figma reference for the design or component."
+      useWhen: "Use when implementers need to compare the rendered result with the design source."
+      provenance: "Authored metadata."
+      related: ["url"]
+      example:
+        figma: "https://figma.com/file/designlasagna/icons"
+    storybook:
+      summary: "Storybook reference for live component states."
+      useWhen: "Use when readers benefit from interactive examples."
+      provenance: "Authored metadata."
+      related: ["url"]
+      example:
+        storybook: "https://storybook.designlasagna.recipes/?path=/story/icons--lasagna"
+  _definitions:
+    DesignSystemMeta:
+      summary: "Identity and discovery metadata for the design system that produced the manifest."
+      useWhen: "Use when tooling needs to label, version, and document the design system."
+      provenance: "Defined by the v0.4 icons schema."
+    Icon:
+      summary: "One icon record: its identity, lifecycle status, and per-platform realisation."
+      useWhen: "Use for every icon declared in the manifest."
+      provenance: "Defined by the v0.4 icons schema."
+    PlatformIcon:
+      summary: "How one icon is realised on a specific platform: exactly one of an import path, a usage snippet, or a component name."
+      useWhen: "Use when tooling must realise the icon faithfully per platform."
+      provenance: "Defined by the v0.4 icons schema."
+    Docs:
+      summary: "Documentation and design-tool links for an icon."
+      useWhen: "Use when readers need to continue from the manifest to deeper guidance."
+      provenance: "Defined by the v0.4 icons schema."
+    Deprecated:
+      summary: "Deprecation record for a native manifest entity; defined in the shared lifecycle fragment (lifecycle.json) and referenced from this schema, permissive of unknown properties."
+      useWhen: "Use when an icon is being phased out and needs a recorded reason, removal target, and replacement."
+      provenance: "Defined in the shared v0.4 lifecycle fragment."

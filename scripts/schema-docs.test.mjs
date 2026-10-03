@@ -49,6 +49,15 @@ const suites = [
     docs: docs.v04Utilities,
     mainDefinition: 'UtilityClass', // introduced by the dedicated utility class section
   },
+  {
+    version: 'v0.4',
+    label: 'icon',
+    schema: JSON.parse(
+      fs.readFileSync(require.resolve('@designlasagna/schemas/v0.4/icons.json'), 'utf8'),
+    ),
+    docs: docs.v04Icons,
+    mainDefinition: 'Icon', // introduced by the dedicated icon section
+  },
 ];
 
 function propertyGroups(schema) {

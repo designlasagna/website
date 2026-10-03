@@ -48,4 +48,7 @@ module.exports = {
   v04Utilities: YAML.parse(
     fs.readFileSync(path.join(dir, 'v04-utilities.yml'), 'utf8'),
   ).v04Utilities,
+  v04Icons: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v04-icons.yml'), 'utf8'),
+  ).v04Icons,
 };

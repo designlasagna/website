@@ -264,7 +264,7 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
 .schema-version-nav__list ul { display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin: 0; padding: 0; list-style: none; }
 .schema-version-nav__list a { color: var(--purple); text-decoration: underline; text-decoration-color: var(--gold); }
 .schema-version-nav__list a[aria-current="page"] { text-decoration-thickness: 2px; }
-.schema-version-nav__status, .version-status { margin-left: .45em; color: var(--muted); font: 500 .68rem "DM Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
+.schema-version-nav__status, .schema-version-nav__fallback, .version-status { margin-left: .45em; color: var(--muted); font: 500 .68rem "DM Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
 .schema-version-note { margin: 0 0 2rem; padding: 1rem 1.25rem; border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-radius: .6rem; background: color-mix(in srgb, var(--gold) 8%, #fffdf8); }
 .schema-version-note p { margin: 0; }
 .json-key { color: #f6b33d; }

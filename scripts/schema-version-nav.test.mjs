@@ -4,16 +4,20 @@
  *
  *   - the schemas overview presents v0.4 as the current/default format and
  *     v0.3 as previous compatibility documentation, linking the published
- *     v0.4 reference pages (tokens and utilities) and not inventing any
- *     other /docs/schemas/v0.4/... reference-page URL;
+ *     v0.4 reference pages (tokens, utilities, and icons) and not
+ *     inventing any other /docs/schemas/v0.4/... reference-page URL;
  *   - every existing v0.3 reference page keeps its route, links, and
  *     contract sources, and carries the shared version nav + maintenance
  *     notice;
- *   - the shared version nav maps published sibling pairs in both
- *     directions (v0.3 tokens -> v0.4 tokens and v0.3 utilities -> v0.4
- *     utilities via schemaDocV04Href, v0.4 tokens -> v0.3 tokens and v0.4
- *     utilities -> v0.3 utilities via schemaDocV03Href) and falls back to
- *     the schema overview for versions without a published sibling page;
+ *   - the shared version nav links each page's own version entry to the
+ *     page itself, maps published sibling pairs in both directions
+ *     (v0.3 tokens -> v0.4 tokens and v0.3 utilities -> v0.4 utilities via
+ *     schemaDocV04Href, v0.4 tokens -> v0.3 tokens and v0.4 utilities ->
+ *     v0.3 utilities via schemaDocV03Href), and otherwise falls back to the
+ *     schema overview with an explicit visible "overview fallback" label
+ *     (currently the v0.4 icons page's v0.3 entry, which has no v0.3
+ *     sibling yet, and the v0.3 dtcg-extensions/components pages' v0.4
+ *     entries, which have no v0.4 sibling yet);
  *   - the schema format v0.4 stays distinct from the npm package 0.4.0.
  *
  * Pure file checks: no build, no network, no installed dependencies.
@@ -43,8 +47,13 @@ const v03Pages = [
 // link any other /docs/schemas/v0.4/... route until the page exists.
 // v03Href: the published v0.3 sibling each page must link back to.
 const v04Pages = [
+  // The v0.4 tokens and utilities reference pages exist, so they override
+  // the nav's previous-version href to point at their v0.3 siblings. The
+  // v0.4 icons page has no published v0.3 sibling yet, so its v0.3 entry
+  // keeps the explicit overview fallback (labeled in the nav).
   { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/tokens/index.njk', route: '/docs/schemas/v0.4/tokens/', v03Href: '/docs/schemas/v0.3/tokens/' },
   { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/utilities/index.njk', route: '/docs/schemas/v0.4/utilities/', v03Href: '/docs/schemas/v0.3/utilities/' },
+  { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/icons/index.njk', route: '/docs/schemas/v0.4/icons/' },
 ];
 
 // The v0.4 files shipped by the @designlasagna/schemas package release
@@ -135,10 +144,14 @@ test('reference pages keep their routes and carry the shared version nav', () =>
   }
 });
 
-test('v0.4 pages point the shared nav back at their v0.3 sibling reference', () => {
+test('v0.4 pages point the shared nav back at their v0.3 sibling reference when one exists', () => {
   for (const { rel, v03Href } of v04Pages) {
     const source = read(rel);
-    assert.ok(source.includes(`schemaDocV03Href: ${v03Href}`), `${rel} must override the nav's previous-version href to its v0.3 sibling`);
+    if (v03Href) {
+      assert.ok(source.includes(`schemaDocV03Href: ${v03Href}`), `${rel} must override the nav's previous-version href to its v0.3 sibling`);
+    } else {
+      assert.ok(!source.includes('schemaDocV03Href'), `${rel} has no published v0.3 sibling; the nav must keep the overview fallback`);
+    }
   }
 });
 
@@ -153,14 +166,43 @@ test('v0.3 pages point the shared nav at their published v0.4 sibling when one e
   }
 });
 
-test('shared version nav maps sibling pairs and falls back to the overview', () => {
+test("shared version nav links each page's own version to the current page", () => {
   const nav = read(VERSION_NAV);
-  assert.ok(nav.includes("href: schemaDocV04Href or '/docs/schemas/'"), 'v0.4 entry must honour the v0.4 sibling override and fall back to the schema overview');
+  assert.ok(
+    /if schemaDocVersion == 'v0\.4'[\s\S]*?set v04Href = page\.url/.test(nav),
+    'v0.4 entry must link to the page itself on v0.4 pages',
+  );
+  assert.ok(
+    /elif schemaDocVersion == 'v0\.3'[\s\S]*?set v03Href = page\.url/.test(nav),
+    'v0.3 entry must link to the page itself on v0.3 pages',
+  );
+  assert.ok(nav.includes('aria-current="page"'), 'version nav must mark the page\'s own version');
   assert.ok(!/href="\/docs\/schemas\/v0\.4/.test(nav), 'version nav must not link v0.4 reference pages that do not exist yet');
-  assert.ok(nav.includes('schemaDocV03Href or page.url'), 'previous-version entry must honour the v0.3 sibling override');
+  assert.ok(!/href="\/docs\/schemas\/v0\.3/.test(nav), 'version nav must not link v0.3 reference pages that do not exist yet');
+});
+
+test('shared version nav honours sibling overrides and labels the overview fallback', () => {
+  const nav = read(VERSION_NAV);
+  assert.ok(
+    /if schemaDocVersion == 'v0\.4'[\s\S]*?set v03Href = schemaDocV03Href or '\/docs\/schemas\/'/.test(nav),
+    'on v0.4 pages the v0.3 entry must use the v0.3 sibling override or fall back to the schema overview',
+  );
+  assert.ok(
+    /elif schemaDocVersion == 'v0\.3'[\s\S]*?set v04Href = schemaDocV04Href or '\/docs\/schemas\/'/.test(nav),
+    'on v0.3 pages the v0.4 entry must use the v0.4 sibling override or fall back to the schema overview',
+  );
+  assert.ok(nav.includes("set v04Fallback = not schemaDocV04Href"), 'v0.4 entry must flag the overview fallback when no v0.4 sibling override is provided');
+  assert.ok(nav.includes("set v03Fallback = not schemaDocV03Href"), 'v0.3 entry must flag the overview fallback when no v0.3 sibling override is provided');
+  assert.ok(
+    nav.includes('<span class="schema-version-nav__fallback">overview fallback</span>'),
+    'version nav must render an explicit visible/accessible "overview fallback" label for absent counterpart entries',
+  );
+});
+
+test('shared version nav keeps the v0.3 maintenance notice', () => {
+  const nav = read(VERSION_NAV);
   assert.ok(nav.includes('Previous version:'), 'version nav must carry a maintenance notice for previous versions');
   assert.ok(nav.includes('kept for compatibility'), 'version nav must explain the compatibility role');
-  assert.ok(nav.includes('aria-current="page"'), 'version nav must mark the page\'s own version');
 });
 
 test('schema docs templates only link routes that exist', () => {

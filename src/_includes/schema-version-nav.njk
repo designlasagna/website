@@ -6,22 +6,48 @@
   The navigation lists schema format versions current-first and, on
   non-current versions, renders a maintenance notice.
 
-  v0.4 is the current schema format. The v0.4 tokens and utilities reference
-  pages exist so far, so the v0.4 entry falls back to the schema overview
-  (/docs/schemas/) — this partial must never invent /docs/schemas/v0.4/... URLs
-  for reference pages that do not exist yet. When all v0.4 reference pages are
-  published, update the v0.4 href below (and the allowlist in
-  scripts/schema-version-nav.test.mjs).
+  Entry hrefs follow three rules:
+    1. The entry for the including page's own version always links to the
+       page itself and carries aria-current="page".
+    2. The counterpart entry links to the published sibling page when the
+       including page provides the matching override: schemaDocV04Href for
+       the v0.4 entry, schemaDocV03Href for the v0.3 entry.
+    3. Otherwise the counterpart entry explicitly falls back to the schema
+       overview (/docs/schemas/) and renders a visible "overview fallback"
+       label. This partial must never invent /docs/schemas/v0.4/... or
+       /docs/schemas/v0.3/... URLs for reference pages that do not exist
+       yet.
 
-  The v0.3 entry links to the including page itself; v0.4 pages override it
-  with schemaDocV03Href so readers reach the v0.3 sibling reference. V0.3
-  pages that have a published v0.4 sibling override the v0.4 fallback with
-  schemaDocV04Href (currently the v0.3 tokens and v0.3 utilities pages,
-  which point at /docs/schemas/v0.4/tokens/ and /docs/schemas/v0.4/utilities/).
+  Published sibling pairs so far: v0.3 tokens <-> v0.4 tokens and v0.3
+  utilities <-> v0.4 utilities (mapped in both directions via the
+  overrides). The v0.4 icons page has no v0.3 sibling yet, so its v0.3
+  entry uses the overview fallback; the v0.3 dtcg-extensions and components
+  pages have no v0.4 sibling yet, so their v0.4 entries use it. When a
+  missing sibling page is published, add its override to the including
+  page's front matter (and update scripts/schema-version-nav.test.mjs).
 -#}
+{%- if schemaDocVersion == 'v0.4' %}
+{#- v0.4 page: own entry links to this page; v0.3 entry uses the sibling override or the overview fallback. -#}
+{%- set v04Href = page.url -%}
+{%- set v04Fallback = false -%}
+{%- set v03Href = schemaDocV03Href or '/docs/schemas/' -%}
+{%- set v03Fallback = not schemaDocV03Href -%}
+{%- elif schemaDocVersion == 'v0.3' %}
+{#- v0.3 page: v0.4 entry uses the sibling override or the overview fallback; own entry links to this page. -#}
+{%- set v04Href = schemaDocV04Href or '/docs/schemas/' -%}
+{%- set v04Fallback = not schemaDocV04Href -%}
+{%- set v03Href = page.url -%}
+{%- set v03Fallback = false -%}
+{%- else %}
+{#- Unversioned page: both entries use the sibling override or the overview fallback. -#}
+{%- set v04Href = schemaDocV04Href or '/docs/schemas/' -%}
+{%- set v04Fallback = not schemaDocV04Href -%}
+{%- set v03Href = schemaDocV03Href or '/docs/schemas/' -%}
+{%- set v03Fallback = not schemaDocV03Href -%}
+{%- endif %}
 {%- set versions = [
-  { version: 'v0.4', status: 'current', href: schemaDocV04Href or '/docs/schemas/' },
-  { version: 'v0.3', status: 'previous', href: schemaDocV03Href or page.url }
+  { version: 'v0.4', status: 'current', href: v04Href, overviewFallback: v04Fallback },
+  { version: 'v0.3', status: 'previous', href: v03Href, overviewFallback: v03Fallback }
 ] -%}
 <aside class="schema-version-nav">
   {%- if schemaDocVersion and schemaDocVersion != 'v0.4' %}
@@ -36,7 +62,7 @@
   <nav class="schema-version-nav__list" aria-label="Schema format versions">
     <ul>
       {%- for entry in versions %}
-      <li><a href="{{ entry.href }}"{% if entry.version == schemaDocVersion %} aria-current="page"{% endif %}>{{ entry.version }}<span class="schema-version-nav__status">{{ entry.status }}</span></a></li>
+      <li><a href="{{ entry.href }}"{% if entry.version == schemaDocVersion %} aria-current="page"{% endif %}>{{ entry.version }}<span class="schema-version-nav__status">{{ entry.status }}</span>{%- if entry.overviewFallback %}<span class="schema-version-nav__fallback">overview fallback</span>{% endif %}</a></li>
       {%- endfor %}
     </ul>
   </nav>
