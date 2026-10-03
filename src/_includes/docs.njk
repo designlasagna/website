@@ -9,6 +9,7 @@ layout: base.njk
         <a href="/docs/">Docs home</a>
         <p class="docs-sidebar__heading">Schemas</p>
         <a href="/docs/schemas/">Schema overview</a>
+        <a href="/docs/schemas/migrate-v0.3-to-v0.4/"{% if page.url == '/docs/schemas/migrate-v0.3-to-v0.4/' %} aria-current="page"{% endif %}>Migrate v0.3 → v0.4</a>
         <p class="docs-sidebar__heading">v0.4</p>
         <a href="/docs/schemas/v0.4/dtcg-extensions/"{% if page.url == '/docs/schemas/v0.4/dtcg-extensions/' %} aria-current="page"{% endif %}>DTCG token extensions</a>
         {% if page.url == '/docs/schemas/v0.4/dtcg-extensions/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="DTCG token extensions sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
@@ -31,6 +32,7 @@ layout: base.njk
         {% if page.url == '/docs/schemas/v0.3/tokens/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Resolved token manifest sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
         <a href="/docs/schemas/v0.3/utilities/"{% if page.url == '/docs/schemas/v0.3/utilities/' %} aria-current="page"{% endif %}>Utility manifest</a>
         {% if page.url == '/docs/schemas/v0.3/utilities/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Utility manifest sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+        {% if page.url == '/docs/schemas/migrate-v0.3-to-v0.4/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="v0.3 to v0.4 migration sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
         <p class="docs-sidebar__heading">Language Server</p>
         <a href="/docs/language-server/"{% if page.url == '/docs/language-server/' %} aria-current="page"{% endif %}>Install and configure</a>
         {% if page.url == '/docs/language-server/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Language Server sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}

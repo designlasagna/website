@@ -80,6 +80,7 @@ const v04RawFiles = [
 const allowedRoutes = new Set([
   '/docs/',
   '/docs/schemas/',
+  '/docs/schemas/migrate-v0.3-to-v0.4/',
   '/docs/language-server/',
   '/tools/schemas/',
   '/tools/language-server/',
