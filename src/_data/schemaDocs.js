@@ -51,4 +51,7 @@ module.exports = {
   v04Icons: YAML.parse(
     fs.readFileSync(path.join(dir, 'v04-icons.yml'), 'utf8'),
   ).v04Icons,
+  v04CemExtensions: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v04-cem-extensions.yml'), 'utf8'),
+  ).v04CemExtensions,
 };

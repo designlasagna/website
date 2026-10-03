@@ -58,6 +58,15 @@ const suites = [
     docs: docs.v04Icons,
     mainDefinition: 'Icon', // introduced by the dedicated icon section
   },
+  {
+    version: 'v0.4',
+    label: 'component (CEM extensions)',
+    schema: JSON.parse(
+      fs.readFileSync(require.resolve('@designlasagna/schemas/v0.4/cem-extensions.json'), 'utf8'),
+    ),
+    docs: docs.v04CemExtensions,
+    mainDefinition: 'LifecycleFields', // introduced by the dedicated lifecycle fields section
+  },
 ];
 
 function propertyGroups(schema) {
