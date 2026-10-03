@@ -33,6 +33,17 @@ const suites = [
   },
   {
     version: 'v0.4',
+    label: 'lifecycle',
+    schema: JSON.parse(
+      fs.readFileSync(require.resolve('@designlasagna/schemas/v0.4/lifecycle.json'), 'utf8'),
+    ),
+    docs: docs.v04Lifecycle,
+    // definitions-only fragment: every definition gets a dedicated section
+    // and an introduction; Status is introduced first.
+    mainDefinition: 'Status',
+  },
+  {
+    version: 'v0.4',
     label: 'token',
     schema: JSON.parse(
       fs.readFileSync(require.resolve('@designlasagna/schemas/v0.4/tokens.json'), 'utf8'),

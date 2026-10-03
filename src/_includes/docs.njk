@@ -20,6 +20,8 @@ layout: base.njk
         {% if page.url == '/docs/schemas/v0.4/icons/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Icon manifest sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
         <a href="/docs/schemas/v0.4/components/"{% if page.url == '/docs/schemas/v0.4/components/' %} aria-current="page"{% endif %}>CEM extensions</a>
         {% if page.url == '/docs/schemas/v0.4/components/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="CEM extensions sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+        <a href="/docs/schemas/v0.4/lifecycle/"{% if page.url == '/docs/schemas/v0.4/lifecycle/' %} aria-current="page"{% endif %}>Lifecycle fragment</a>
+        {% if page.url == '/docs/schemas/v0.4/lifecycle/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Lifecycle fragment sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
         <p class="docs-sidebar__heading">v0.3</p>
         <a href="/docs/schemas/v0.3/dtcg-extensions/"{% if page.url == '/docs/schemas/v0.3/dtcg-extensions/' %} aria-current="page"{% endif %}>DTCG token extensions</a>
         {% if page.url == '/docs/schemas/v0.3/dtcg-extensions/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="DTCG token extensions sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}

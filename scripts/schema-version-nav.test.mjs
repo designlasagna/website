@@ -4,9 +4,9 @@
  *
  *   - the schemas overview presents v0.4 as the current/default format and
  *     v0.3 as previous compatibility documentation, linking the published
- *     v0.4 reference pages (dtcg-extensions, tokens, utilities, icons, and
- *     components) and not inventing any other /docs/schemas/v0.4/...
- *     reference-page URL;
+ *     v0.4 reference pages (dtcg-extensions, tokens, utilities, icons,
+ *     components, and lifecycle) and not inventing any other
+ *     /docs/schemas/v0.4/... reference-page URL;
  *   - every existing v0.3 reference page keeps its route, links, and
  *     contract sources, and carries the shared version nav + maintenance
  *     notice;
@@ -16,8 +16,8 @@
  *     schemaDocV04Href, v0.4 tokens -> v0.3 tokens and v0.4 utilities ->
  *     v0.3 utilities via schemaDocV03Href), and otherwise falls back to the
  *     schema overview with an explicit visible "overview fallback" label
- *     (currently only the v0.4 icons page's v0.3 entry, which has no v0.3
- *     sibling yet);
+ *     (currently the v0.4 icons and lifecycle pages' v0.3 entries, which
+ *     have no v0.3 siblings yet);
  *   - the schema format v0.4 stays distinct from the npm package 0.4.0.
  *
  * Pure file checks: no build, no network, no installed dependencies.
@@ -49,16 +49,16 @@ const v03Pages = [
 const v04Pages = [
   // The v0.4 dtcg-extensions, tokens, utilities, and components reference
   // pages exist, so they override the nav's previous-version href to point
-  // at their v0.3 siblings. The v0.4 icons page has no published v0.3
-  // sibling yet, so its v0.3 entry keeps the explicit overview fallback
-  // (labeled in the nav). The v0.4 lifecycle reference page is not
-  // published yet, so no lifecycle route may be invented (the overview
-  // links it to the raw file).
+  // at their v0.3 siblings. The v0.4 icons and lifecycle pages have no
+  // published v0.3 sibling yet (v0.3 lifecycle fields lived inside the v0.3
+  // CEM extensions page), so their v0.3 entries keep the explicit overview
+  // fallback (labeled in the nav).
   { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/dtcg-extensions/index.njk', route: '/docs/schemas/v0.4/dtcg-extensions/', v03Href: '/docs/schemas/v0.3/dtcg-extensions/' },
   { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/tokens/index.njk', route: '/docs/schemas/v0.4/tokens/', v03Href: '/docs/schemas/v0.3/tokens/' },
   { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/utilities/index.njk', route: '/docs/schemas/v0.4/utilities/', v03Href: '/docs/schemas/v0.3/utilities/' },
   { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/icons/index.njk', route: '/docs/schemas/v0.4/icons/' },
   { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/components/index.njk', route: '/docs/schemas/v0.4/components/', v03Href: '/docs/schemas/v0.3/components/' },
+  { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/lifecycle/index.njk', route: '/docs/schemas/v0.4/lifecycle/' },
 ];
 
 // The v0.4 files shipped by the @designlasagna/schemas package release
@@ -126,7 +126,7 @@ test('overview links the v0.4 raw contracts and only published v0.4 reference pa
     v04Pages.map(({ route }) => route),
     'overview must link exactly the published v0.4 reference pages',
   );
-  assert.match(plain(overview), /the remaining v0\.4 reference page is not published yet/i, 'overview must say the remaining v0.4 reference page does not exist yet');
+  assert.match(plain(overview), /lifecycle\s+reference pages are all published/i, 'overview must state that every v0.4 reference page is published');
 });
 
 test('overview keeps schema format v0.4 distinct from npm package 0.4.0', () => {
