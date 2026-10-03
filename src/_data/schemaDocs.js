@@ -54,4 +54,7 @@ module.exports = {
   v04CemExtensions: YAML.parse(
     fs.readFileSync(path.join(dir, 'v04-cem-extensions.yml'), 'utf8'),
   ).v04CemExtensions,
+  v04DtcgExtensions: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v04-dtcg-extensions.yml'), 'utf8'),
+  ).v04DtcgExtensions,
 };

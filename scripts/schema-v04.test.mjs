@@ -136,6 +136,46 @@ test("the CEM extension example's extension fields validate against the applicab
   );
 });
 
+test("the DTCG extension example's recipes.designlasagna payload validates against TokenExtensions", async () => {
+  const docs = await dataFn();
+  const example = docs.v04DtcgExtensions.minimalExample;
+
+  const dtcgSchema = schemas.get('dtcg-extensions.json');
+  const dtcgId = dtcgSchema.$id;
+
+  // The fragment's root has no manifest scope of its own, so the whole
+  // DTCG-context example passes it by construction; the real constraints
+  // live in the TokenExtensions definition the payload is composed against.
+  const validateRoot = ajv.getSchema(dtcgId);
+  assert.ok(
+    validateRoot(example),
+    `DTCG-context example failed the permissive root: ${JSON.stringify(validateRoot.errors)}`,
+  );
+
+  const payload = example.$extensions['recipes.designlasagna'];
+  assert.ok(
+    payload && typeof payload === 'object' && Object.keys(payload).length > 0,
+    'example should carry a non-empty recipes.designlasagna payload',
+  );
+
+  const validateTokenExtensions = ajv.getSchema(`${dtcgId}#/definitions/TokenExtensions`);
+  assert.ok(
+    validateTokenExtensions(payload),
+    `recipes.designlasagna payload failed TokenExtensions validation: ${JSON.stringify(validateTokenExtensions.errors)}`,
+  );
+
+  // Negative controls: TokenExtensions is typed and closed, which the
+  // permissive root would accept.
+  assert.ok(
+    !validateTokenExtensions({ ...payload, tier: 42 }),
+    'TokenExtensions must reject a non-string tier value',
+  );
+  assert.ok(
+    !validateTokenExtensions({ ...payload, bogus: 'not a real field' }),
+    'TokenExtensions must reject unknown fields (additionalProperties: false)',
+  );
+});
+
 test('the v0.4 data entries preserve the existing v0.3 entries', async () => {
   const docs = await dataFn();
   const expected = {

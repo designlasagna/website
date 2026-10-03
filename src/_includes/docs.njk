@@ -10,6 +10,8 @@ layout: base.njk
         <p class="docs-sidebar__heading">Schemas</p>
         <a href="/docs/schemas/">Schema overview</a>
         <p class="docs-sidebar__heading">v0.4</p>
+        <a href="/docs/schemas/v0.4/dtcg-extensions/"{% if page.url == '/docs/schemas/v0.4/dtcg-extensions/' %} aria-current="page"{% endif %}>DTCG token extensions</a>
+        {% if page.url == '/docs/schemas/v0.4/dtcg-extensions/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="DTCG token extensions sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
         <a href="/docs/schemas/v0.4/tokens/"{% if page.url == '/docs/schemas/v0.4/tokens/' %} aria-current="page"{% endif %}>Resolved token manifest</a>
         {% if page.url == '/docs/schemas/v0.4/tokens/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Resolved token manifest sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
         <a href="/docs/schemas/v0.4/utilities/"{% if page.url == '/docs/schemas/v0.4/utilities/' %} aria-current="page"{% endif %}>Utility manifest</a>
