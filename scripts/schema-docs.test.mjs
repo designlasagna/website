@@ -1,28 +1,91 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import test from 'node:test';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const docs = require('../src/_data/schemaDocs.js');
 
+// v0.3 suites read the checked-in schema copies; the v0.4 suite reads the
+// installed @designlasagna/schemas package, the same source
+// src/_data/schemas.js uses to power the reference pages.
 const suites = [
   {
+    version: 'v0.3',
     label: 'token',
     schema: require('../src/schemas/v0.3/tokens.json'),
     docs: docs.v03Tokens,
     mainDefinition: 'Token', // introduced by the dedicated Token fields section
   },
   {
+    version: 'v0.3',
     label: 'utility',
     schema: require('../src/schemas/v0.3/utilities.json'),
     docs: docs.v03Utilities,
     mainDefinition: 'UtilityClass', // introduced by the dedicated utility class section
   },
   {
+    version: 'v0.3',
     label: 'component (CEM extensions)',
     schema: require('../src/schemas/v0.3/cem-extensions.json'),
     docs: docs.v03CemExtensions,
     mainDefinition: 'LifecycleFields', // introduced by the dedicated lifecycle fields section
+  },
+  {
+    version: 'v0.4',
+    label: 'lifecycle',
+    schema: JSON.parse(
+      fs.readFileSync(require.resolve('@designlasagna/schemas/v0.4/lifecycle.json'), 'utf8'),
+    ),
+    docs: docs.v04Lifecycle,
+    // definitions-only fragment: every definition gets a dedicated section
+    // and an introduction; Status is introduced first.
+    mainDefinition: 'Status',
+  },
+  {
+    version: 'v0.4',
+    label: 'token',
+    schema: JSON.parse(
+      fs.readFileSync(require.resolve('@designlasagna/schemas/v0.4/tokens.json'), 'utf8'),
+    ),
+    docs: docs.v04Tokens,
+    mainDefinition: 'Token', // introduced by the dedicated Token fields section
+  },
+  {
+    version: 'v0.4',
+    label: 'utility',
+    schema: JSON.parse(
+      fs.readFileSync(require.resolve('@designlasagna/schemas/v0.4/utilities.json'), 'utf8'),
+    ),
+    docs: docs.v04Utilities,
+    mainDefinition: 'UtilityClass', // introduced by the dedicated utility class section
+  },
+  {
+    version: 'v0.4',
+    label: 'icon',
+    schema: JSON.parse(
+      fs.readFileSync(require.resolve('@designlasagna/schemas/v0.4/icons.json'), 'utf8'),
+    ),
+    docs: docs.v04Icons,
+    mainDefinition: 'Icon', // introduced by the dedicated icon section
+  },
+  {
+    version: 'v0.4',
+    label: 'component (CEM extensions)',
+    schema: JSON.parse(
+      fs.readFileSync(require.resolve('@designlasagna/schemas/v0.4/cem-extensions.json'), 'utf8'),
+    ),
+    docs: docs.v04CemExtensions,
+    mainDefinition: 'LifecycleFields', // introduced by the dedicated lifecycle fields section
+  },
+  {
+    version: 'v0.4',
+    label: 'DTCG extensions',
+    schema: JSON.parse(
+      fs.readFileSync(require.resolve('@designlasagna/schemas/v0.4/dtcg-extensions.json'), 'utf8'),
+    ),
+    docs: docs.v04DtcgExtensions,
+    mainDefinition: 'TokenExtensions', // introduced by the dedicated Token extension fields section
   },
 ];
 
@@ -40,9 +103,9 @@ function propertyGroups(schema) {
 }
 
 for (const suite of suites) {
-  const { label, schema, docs } = suite;
+  const { version, label, schema, docs } = suite;
 
-  test(`v0.3 ${label} documentation overlay covers every documented schema property`, () => {
+  test(`${version} ${label} documentation overlay covers every documented schema property`, () => {
     for (const [scope, properties] of Object.entries(propertyGroups(schema))) {
       assert.ok(docs[scope], `missing documentation scope: ${scope}`);
       for (const field of Object.keys(properties)) {
@@ -57,7 +120,7 @@ for (const suite of suites) {
     }
   });
 
-  test(`v0.3 ${label} definitions have reader-facing introductions`, () => {
+  test(`${version} ${label} definitions have reader-facing introductions`, () => {
     const definitions = schema.definitions ?? schema.$defs ?? {};
     for (const name of Object.keys(definitions)) {
       if (name === suite.mainDefinition) continue;
@@ -65,7 +128,7 @@ for (const suite of suites) {
     }
   });
 
-  test(`v0.3 ${label} documentation overlay does not contain stale field entries`, () => {
+  test(`${version} ${label} documentation overlay does not contain stale field entries`, () => {
     const groups = propertyGroups(schema);
     for (const [scope, fields] of Object.entries(docs)) {
       if (scope.startsWith('_')) continue;

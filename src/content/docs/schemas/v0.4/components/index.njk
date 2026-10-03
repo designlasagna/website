@@ -1,0 +1,177 @@
+---
+layout: docs.njk
+permalink: /docs/schemas/v0.4/components/
+title: Components — v0.4
+description: JSON Schema reference for the Design Lasagna v0.4 Custom Elements Manifest lifecycle extensions.
+schemaDocVersion: v0.4
+schemaDocV03Href: /docs/schemas/v0.3/components/
+docsToc:
+  - label: Start here
+    href: "#start"
+  - label: Lifecycle fields
+    href: "#lifecycle-fields"
+  - label: Attribute extensions
+    href: "#attribute-extensions"
+  - label: Nested definitions
+    href: "#definitions"
+---
+{%- set st = schemas.v04CemExtensions -%}
+{%- set ref = st.ref -%}
+{%- set lifecycle = ref.definitions.LifecycleFields -%}
+{%- set attribute = ref.definitions.AttributeExtensions -%}
+
+{% macro fieldTable(fields, scope) %}
+<div class="schema-table-wrap">
+  <table class="schema-table">
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for field in fields %}
+      {% set scopeDocs = schemaDocs.v04CemExtensions[scope] or {} %}
+      {% set guide = scopeDocs[field.name] or {} %}
+      <tr class="field-row">
+        <td class="field-name-cell">
+          <div class="field-name-toggle-wrap">
+            <input class="field-toggle" id="field-details-{{ scope }}-{{ loop.index }}" type="checkbox" aria-label="Show details for {{ field.name }}">
+            <label class="field-name-toggle" for="field-details-{{ scope }}-{{ loop.index }}">
+              <span class="field-chevron" aria-hidden="true"></span>
+              <code>{{ field.name }}{% if field.required %}<span class="required-field" aria-label="required">*</span>{% endif %}</code>
+              {% if field.deprecated %}<span class="field-status field-status--deprecated">Deprecated</span>{% endif %}
+            </label>
+          </div>
+        </td>
+        <td>
+          {% if field.type %}
+            {% if field.type is string %}<code>{{ field.type }}</code>{% else %}<code>{{ field.type | join(', ') }}</code>{% endif %}
+            {% if field.additionalProperties and field.additionalProperties.$ref %}
+              {% set valueDefinition = field.additionalProperties.$ref | schemaDefinitionName %}
+              <br>values: {% if valueDefinition %}<a class="schema-ref" href="#definition-{{ valueDefinition }}"><code>{{ valueDefinition }}</code></a>{% else %}<code>{{ field.additionalProperties.$ref }}</code>{% endif %}
+            {% endif %}
+          {% elif field.$ref %}
+            {% set fieldDefinition = field.$ref | schemaDefinitionName %}
+            {% if fieldDefinition %}<a class="schema-ref" href="#definition-{{ fieldDefinition }}"><code>{{ fieldDefinition }}</code></a>{% else %}<code>{{ field.$ref }}</code>{% endif %}
+          {% else %}—{% endif %}
+        </td>
+        <td>
+          {{ guide.summary or field.description or '—' }}
+          {% if field.enum %}<br>Allowed: <code>{{ field.enum.values | join(', ') }}</code>{% endif %}
+          {% if field.default !== undefined %}<br>Default: <code>{{ field.default }}</code>{% endif %}
+        </td>
+      </tr>
+      <tr class="field-details">
+        <td colspan="3">
+          <div class="field-details__content">
+            <div>
+              {% if guide.useWhen %}<p><strong>Use when:</strong> {{ guide.useWhen }}</p>{% endif %}
+              {% if guide.provenance %}<p><strong>Origin:</strong> {{ guide.provenance }}</p>{% endif %}
+              {% if guide.related and guide.related.length %}<p><strong>Related:</strong> {% for related in guide.related %}<code>{{ related }}</code>{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+            </div>
+            {% if guide.example %}<div><p><strong>Example usage</strong></p><pre class="json-example"><code>{{ guide.example | jsonCode | safe }}</code></pre></div>{% endif %}
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endmacro %}
+
+<section id="start">
+  <p class="eyebrow">Schemas / v0.4</p>
+  <h1>Components</h1>
+  <p class="lede">{{ ref.description }}</p>
+  {% include "schema-version-nav.njk" %}
+  <p>This is <strong>not</strong> the Custom Elements Manifest (CEM) schema
+  itself, and it defines no manifest of its own — the fragment has no root
+  scope to validate. It defines <em>extension</em> fields that a design
+  system may add to CEM entries — declarations, attributes, members, slots,
+  cssProperties, cssParts, and events — to record lifecycle metadata:
+  status, deprecation details, and migration targets. Consumers apply the
+  relevant definition alongside their pinned CEM schema.</p>
+  <aside class="schema-install" aria-labelledby="use-components-schema">
+    <div class="schema-install__intro">
+      <p class="schema-install__kicker">Start here</p>
+      <h2 id="use-components-schema">Use these extensions</h2>
+      <p>Reference a definition with <code>$ref</code> when composing a component manifest schema.</p>
+    </div>
+    <dl class="schema-install__sources">
+      <div><dt>Schema URL</dt><dd><a href="{{ st.canonicalUrl }}">{{ st.canonicalUrl }}</a></dd></div>
+      <div><dt>npm</dt><dd><a href="https://www.npmjs.com/package/@designlasagna/schemas"><code>{{ st.npmImportPath }}</code></a></dd></div>
+    </dl>
+  </aside>
+  <aside class="schema-docs-source" aria-label="Schema source">
+    <div>
+      <h2>Sources</h2>
+      <p>The reference is generated from the published JSON Schema, then reviewed and extended with reader-facing guidance. It is not a substitute for the raw schema.</p>
+    </div>
+    <dl>
+      <div><dt>Raw schema</dt><dd><a href="{{ st.canonicalUrl }}">v0.4/cem-extensions.json</a></dd></div>
+      <div><dt>npm package</dt><dd><a href="https://www.npmjs.com/package/@designlasagna/schemas">{{ st.npmPackage }}</a></dd></div>
+      <div><dt>Repository</dt><dd><a href="https://github.com/designlasagna/schemas">designlasagna/schemas</a></dd></div>
+    </dl>
+  </aside>
+  <h2>Applying the extensions</h2>
+  <p>The snippet below is a Custom Elements Manifest declaration with the
+  extension fields applied: <code>status</code> and <code>deprecated</code> on
+  the declaration, and a deprecated attribute value with its migration path.
+  The fragment does not validate the surrounding CEM document, so this
+  example is illustrative rather than validated against the fragment; the
+  extension fields themselves follow the definitions below. Extension fields
+  are additive — a valid CEM remains valid without them.</p>
+  <pre class="json-example"><code>{{ st.minimalExample | jsonCode | safe }}</code></pre>
+</section>
+
+<section id="lifecycle-fields">
+  <h2>Lifecycle fields</h2>
+  <p>The <code>LifecycleFields</code> definition is the composable set of
+  optional lifecycle fields a design system may add to a CEM entry. The
+  alias definitions below apply it at declaration, member, slot,
+  cssProperty, cssPart, and event scope.</p>
+  {{ fieldTable(lifecycle.properties, 'LifecycleFields') }}
+</section>
+
+<section id="attribute-extensions">
+  <h2>Attribute extensions</h2>
+  <p>The <code>AttributeExtensions</code> definition extends a CEM attribute
+  entry with its allowed value set, attribute-level lifecycle fields, and
+  per-value deprecation records. Attribute-level lifecycle and
+  <code>deprecatedValues</code> are independent axes.</p>
+  {{ fieldTable(attribute.properties, 'AttributeExtensions') }}
+</section>
+
+<section id="definitions">
+  <h2>Nested definitions</h2>
+  <p>Reusable shapes referenced by the fields above.</p>
+  <div class="schema-definition-list">
+    {% for name, definition in ref.definitions | dictsort %}
+      {% if name != 'LifecycleFields' and name != 'AttributeExtensions' %}
+      <article class="schema-definition">
+        <h3 id="definition-{{ name }}"><code>{{ name }}</code></h3>
+        {% set definitionGuide = schemaDocs.v04CemExtensions._definitions and schemaDocs.v04CemExtensions._definitions[name] or {} %}
+        <p>{{ definitionGuide.summary or definition.description or 'See the raw schema for this definition.' }}</p>
+        {% if definition.properties %}
+          {{ fieldTable(definition.properties, name) }}
+        {% elif definition.$ref %}
+          {% set refName = definition.$ref | schemaDefinitionName %}
+          {% if refName %}
+            <p>Alias for <a class="schema-ref" href="#definition-{{ refName }}"><code>{{ refName }}</code></a>.</p>
+          {% else %}
+            <p>Reference to <code>{{ definition.$ref }}</code> in the shared v0.4 <a href="{{ schemas.v04Lifecycle.canonicalUrl }}">lifecycle fragment</a>.</p>
+          {% endif %}
+        {% elif definition.type %}
+          <p><code>{{ definition.type }}</code>
+          {% if definition.description %} — {{ definition.description }}{% endif %}
+          </p>
+        {% endif %}
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<p><a href="/docs/schemas/">← All schemas</a></p>

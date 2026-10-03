@@ -1,0 +1,126 @@
+# Reader-facing guidance for the v0.4 CEM extensions schema reference.
+#
+# Top-level scopes match the property groups exposed by
+# scripts/schema-reference.mjs for @designlasagna/schemas v0.4/cem-extensions.json:
+#   - LifecycleFields     the composable lifecycle fields shared by every entry type
+#   - AttributeExtensions the extension fields for CEM attribute entries
+#   - _definitions        intro paragraphs for the nested definitions
+#
+# The schema is definitions-only: it has no manifest scope of its own, so
+# there is no `manifest` group. Keep every field of a scope present, even
+# when unchanged: the coverage test treats a missing field as a regression.
+# Use `example` (an object) for concrete snippet content.
+v04CemExtensions:
+  LifecycleFields:
+    deprecated:
+      summary: "Standard CEM deprecation marker: a boolean flag, or a string that carries the human-readable deprecation message."
+      useWhen: "Use `true` for a plain deprecation flag, or a string when the message should sit directly on the CEM entry."
+      provenance: "Authored metadata; composed alongside the pinned CEM schema."
+      related: ["status", "removal", "replacement"]
+      example:
+        deprecated: "Use \"lasagna-action-button\" instead."
+    status:
+      summary: "Lifecycle status from the shared v0.4 lifecycle fragment; only `deprecated` and `removed` are normative, any other value is informational."
+      useWhen: "Declare the normative lifecycle state of the entry, or carry informational states such as `stable`."
+      provenance: "Authored metadata."
+      related: ["deprecated", "removal", "replacement"]
+      example:
+        status: "deprecated"
+    removal:
+      summary: "Removal target for a deprecated entry: an ISO date (YYYY-MM-DD), a semver (X.Y.Z), or a quarter (YYYY-Qn)."
+      useWhen: "Use alongside a deprecation notice so consumers can schedule migration before the entry disappears."
+      provenance: "Authored metadata."
+      related: ["deprecated", "replacement"]
+      example:
+        removal: "2026-07-01"
+    replacement:
+      summary: "Machine-readable replacement identifier, scoped to the same CEM entity kind and owner."
+      useWhen: "Use to point tooling and consumers at the durable identity of the successor entry."
+      provenance: "Authored metadata."
+      related: ["deprecated", "removal"]
+      example:
+        replacement: "lasagna-action-button"
+  AttributeExtensions:
+    enum:
+      summary: "The allowed values for a CEM attribute."
+      useWhen: "Use to advertise the attribute's value set so autocomplete and validation tooling can check it."
+      provenance: "Authored metadata, mirroring the standard CEM attribute `enum` field."
+      related: ["deprecatedValues"]
+      example:
+        enum:
+          - "primary"
+          - "ghost"
+    deprecated:
+      summary: "Deprecation marker for a CEM attribute: a boolean flag, or a string that carries the deprecation message."
+      useWhen: "Use `true` for a plain flag, or a string when the message should sit directly on the attribute entry."
+      provenance: "Authored metadata; composed alongside the pinned CEM schema."
+      related: ["status", "removal", "replacement", "deprecatedValues"]
+      example:
+        deprecated: "Use the variant attribute instead."
+    status:
+      summary: "Lifecycle status from the shared v0.4 lifecycle fragment; only `deprecated` and `removed` are normative, any other value is informational."
+      useWhen: "Declare the normative lifecycle state of the attribute, or carry informational states such as `stable`."
+      provenance: "Authored metadata."
+      related: ["deprecated", "removal", "replacement"]
+      example:
+        status: "stable"
+    removal:
+      summary: "Removal target for a deprecated attribute: an ISO date (YYYY-MM-DD), a semver (X.Y.Z), or a quarter (YYYY-Qn)."
+      useWhen: "Use alongside attribute deprecation so consumers can plan the removal."
+      provenance: "Authored metadata."
+      related: ["deprecated", "replacement"]
+      example:
+        removal: "3.0.0"
+    replacement:
+      summary: "Machine-readable replacement identifier, scoped to the same CEM entity kind and owner."
+      useWhen: "Use to provide the migration target when the attribute is going away."
+      provenance: "Authored metadata."
+      related: ["deprecated", "removal"]
+      example:
+        replacement: "lasagna-button-lg"
+    deprecatedValues:
+      summary: "Per-value deprecation records for a CEM attribute; each entry is a lifecycle `DeprecatedValue` with the required `value` and `message` pair."
+      useWhen: "Use when only some of an attribute's values are deprecated and each needs its own migration story, as an axis independent of the attribute-level lifecycle fields."
+      provenance: "Authored metadata."
+      related: ["enum", "deprecated"]
+      example:
+        deprecatedValues:
+          - value: "flat"
+            message: "Use \"ghost\" instead."
+  _definitions:
+    LifecycleFields:
+      summary: "The composable lifecycle fields a design system may add to a CEM entry: a deprecation marker, a lifecycle status, and the removal target and replacement for deprecated items. The fragment remains permissive so standard CEM fields and other extensions are preserved."
+      useWhen: "Use whenever extending a Custom Elements Manifest entry with lifecycle data."
+      provenance: "Defined by the v0.4 CEM extensions schema."
+    DeprecatedValue:
+      summary: "Deprecation record for one specific attribute value; defined in the shared lifecycle fragment (lifecycle.json) and referenced from this schema. It requires the `value` and `message` pair and stays permissive of unknown properties."
+      useWhen: "Use inside an attribute's `deprecatedValues` when an individual value is being phased out."
+      provenance: "Defined in the shared v0.4 lifecycle fragment."
+    AttributeExtensions:
+      summary: "Composable extension fields for a CEM attribute entry: the allowed value set, attribute-level lifecycle fields, and per-value deprecation records. Attribute-level lifecycle and `deprecatedValues` are independent axes; the fragment remains permissive for standard CEM siblings."
+      useWhen: "Use when extending CEM attribute entries with lifecycle and deprecation data."
+      provenance: "Defined by the v0.4 CEM extensions schema."
+    DeclarationExtensions:
+      summary: "Extension fields for a CEM class declaration entry: the shared lifecycle fields applied at declaration scope."
+      useWhen: "Use when composing lifecycle data onto a CEM declaration in a Custom Elements Manifest."
+      provenance: "Defined by the v0.4 CEM extensions schema; reuses `LifecycleFields`."
+    MemberExtensions:
+      summary: "Extension fields for a CEM member entry (a property or method): the shared lifecycle fields applied at member scope."
+      useWhen: "Use when composing lifecycle data onto a CEM property or method."
+      provenance: "Defined by the v0.4 CEM extensions schema; reuses `LifecycleFields`."
+    SlotExtensions:
+      summary: "Extension fields for a CEM slot entry: the shared lifecycle fields applied at slot scope."
+      useWhen: "Use when composing lifecycle data onto a CEM slot."
+      provenance: "Defined by the v0.4 CEM extensions schema; reuses `LifecycleFields`."
+    CssPropertyExtensions:
+      summary: "Extension fields for a CEM cssProperty entry: the shared lifecycle fields applied at cssProperty scope."
+      useWhen: "Use when composing lifecycle data onto a CEM cssProperty."
+      provenance: "Defined by the v0.4 CEM extensions schema; reuses `LifecycleFields`."
+    CssPartExtensions:
+      summary: "Extension fields for a CEM cssPart entry: the shared lifecycle fields applied at cssPart scope."
+      useWhen: "Use when composing lifecycle data onto a CEM cssPart."
+      provenance: "Defined by the v0.4 CEM extensions schema; reuses `LifecycleFields`."
+    EventExtensions:
+      summary: "Extension fields for a CEM event entry: the shared lifecycle fields applied at event scope."
+      useWhen: "Use when composing lifecycle data onto a CEM event."
+      provenance: "Defined by the v0.4 CEM extensions schema; reuses `LifecycleFields`."
