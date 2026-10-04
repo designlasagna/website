@@ -6,8 +6,6 @@ description: JSON Schema reference for the Design Lasagna v0.4 Custom Elements M
 schemaDocVersion: v0.4
 schemaDocV03Href: /docs/schemas/v0.3/components/
 docsToc:
-  - label: Start here
-    href: "#start"
   - label: Lifecycle fields
     href: "#lifecycle-fields"
   - label: Attribute extensions
@@ -81,7 +79,7 @@ docsToc:
 </div>
 {% endmacro %}
 
-<section id="start">
+<section>
   <p class="eyebrow">Schemas / v0.4</p>
   <h1>Components</h1>
   <p class="lede">{{ ref.description }}</p>
@@ -95,23 +93,13 @@ docsToc:
   relevant definition alongside their pinned CEM schema.</p>
   <aside class="schema-install" aria-labelledby="use-components-schema">
     <div class="schema-install__intro">
-      <p class="schema-install__kicker">Start here</p>
       <h2 id="use-components-schema">Use these extensions</h2>
       <p>Reference a definition with <code>$ref</code> when composing a component manifest schema.</p>
+      <p>The reference below is generated from the published schema and augmented with reader guidance.</p>
     </div>
     <dl class="schema-install__sources">
-      <div><dt>Schema URL</dt><dd><a href="{{ st.canonicalUrl }}">{{ st.canonicalUrl }}</a></dd></div>
+      <div><dt>Raw schema</dt><dd><a href="{{ st.canonicalUrl }}">{{ st.canonicalUrl }}</a></dd></div>
       <div><dt>npm</dt><dd><a href="https://www.npmjs.com/package/@designlasagna/schemas"><code>{{ st.npmImportPath }}</code></a></dd></div>
-    </dl>
-  </aside>
-  <aside class="schema-docs-source" aria-label="Schema source">
-    <div>
-      <h2>Sources</h2>
-      <p>The reference is generated from the published JSON Schema, then reviewed and extended with reader-facing guidance. It is not a substitute for the raw schema.</p>
-    </div>
-    <dl>
-      <div><dt>Raw schema</dt><dd><a href="{{ st.canonicalUrl }}">v0.4/cem-extensions.json</a></dd></div>
-      <div><dt>npm package</dt><dd><a href="https://www.npmjs.com/package/@designlasagna/schemas">{{ st.npmPackage }}</a></dd></div>
       <div><dt>Repository</dt><dd><a href="https://github.com/designlasagna/schemas">designlasagna/schemas</a></dd></div>
     </dl>
   </aside>

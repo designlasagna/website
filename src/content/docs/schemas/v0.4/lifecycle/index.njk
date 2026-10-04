@@ -5,8 +5,6 @@ title: Lifecycle — v0.4
 description: "JSON Schema reference for the Design Lasagna v0.4 composable lifecycle fragment: Status, Deprecated, StrictDeprecated, NativeDeprecation, and DeprecatedValue."
 schemaDocVersion: v0.4
 docsToc:
-  - label: Start here
-    href: "#start"
   - label: Nested definitions
     href: "#definitions"
   - label: Usage
@@ -78,7 +76,7 @@ docsToc:
 {% if definitionGuide.example %}<pre class="json-example"><code>{{ definitionGuide.example | jsonCode | safe }}</code></pre>{% endif %}
 {% endmacro %}
 
-<section id="start">
+<section>
   <p class="eyebrow">Schemas / v0.4</p>
   <h1>Lifecycle</h1>
   <p class="lede">Composable lifecycle fragment for the v0.4 contracts: a shared status vocabulary and deprecation records that every entity type references instead of redefining.</p>
@@ -95,27 +93,17 @@ docsToc:
   </p>
   <aside class="schema-install" aria-labelledby="use-lifecycle-schema">
     <div class="schema-install__intro">
-      <p class="schema-install__kicker">Start here</p>
       <h2 id="use-lifecycle-schema">Use this fragment</h2>
       <p>
         Reference a definition by its <code>$id</code> plus fragment path,
         for example <code>{{ st.canonicalUrl }}#/definitions/Deprecated</code>,
         from another v0.4 contract or from your own schema.
       </p>
+      <p>The reference below is generated from the published schema and augmented with reader guidance.</p>
     </div>
     <dl class="schema-install__sources">
-      <div><dt>Fragment URL</dt><dd><a href="{{ st.canonicalUrl }}">{{ st.canonicalUrl }}</a></dd></div>
+      <div><dt>Raw schema</dt><dd><a href="{{ st.canonicalUrl }}">{{ st.canonicalUrl }}</a></dd></div>
       <div><dt>npm</dt><dd><a href="https://www.npmjs.com/package/@designlasagna/schemas"><code>{{ st.npmImportPath }}</code></a></dd></div>
-    </dl>
-  </aside>
-  <aside class="schema-docs-source" aria-label="Schema source">
-    <div>
-      <h2>Sources</h2>
-      <p>The reference is generated from the published JSON Schema, then reviewed and extended with reader-facing guidance. It is not a substitute for the raw schema.</p>
-    </div>
-    <dl>
-      <div><dt>Raw schema</dt><dd><a href="{{ st.canonicalUrl }}">v0.4/lifecycle.json</a></dd></div>
-      <div><dt>npm package</dt><dd><a href="https://www.npmjs.com/package/@designlasagna/schemas">{{ st.npmPackage }}</a></dd></div>
       <div><dt>Repository</dt><dd><a href="https://github.com/designlasagna/schemas">designlasagna/schemas</a></dd></div>
     </dl>
   </aside>
