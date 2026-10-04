@@ -15,26 +15,26 @@
 v04DtcgExtensions:
   TokenExtensions:
     tier:
-      summary: "Token tier, commonly `primitive`, `semantic`, or `component`."
+      summary: "Token tier, commonly primitive, semantic, or component."
       useWhen: "Set the tier on a token, or omit it to inherit from the nearest ancestor group."
       provenance: "Authored DTCG extension metadata; not derivable by a build tool."
       related: ["collection", "category"]
       example:
         tier: "semantic"
     collection:
-      summary: "Collection key the token belongs to; must match a key in the manifest `collections` object."
+      summary: "Collection key the token belongs to; must match a key in the manifest collections object."
       useWhen: "Assign the token to a collection so generated manifests can group and filter it."
       provenance: "Authored DTCG extension metadata; inheritable."
       example:
         collection: "brand"
     type:
-      summary: "Granular Lasagna type override for preview rendering (RFC B2b); narrows the coarse DTCG `$type`, e.g. `dimension` becomes `borderRadius`."
-      useWhen: "Use when the DTCG `$type` is too coarse for previews and the emitter should not fall back to it."
+      summary: "Granular Lasagna type override for preview rendering; narrows the coarse DTCG $type, e.g. dimension becomes borderRadius."
+      useWhen: "Use when the DTCG $type is too coarse for previews and the emitter should not fall back to it."
       provenance: "Authored DTCG extension metadata."
       example:
         type: "borderRadius"
     label:
-      summary: "Human-facing display label for docs, e.g. \"Color\" or \"Layout\"; unrelated to DTCG group nesting, which is carried by `path` and `id`."
+      summary: "Human-facing display label for docs, e.g. \"Color\" or \"Layout\"; unrelated to DTCG group nesting, which is carried by path and id."
       useWhen: "Give readers a display name that does not come from the token's path."
       provenance: "Authored DTCG extension metadata; inheritable."
       related: ["category", "subCategory"]
@@ -48,14 +48,14 @@ v04DtcgExtensions:
       example:
         category: "color"
     subCategory:
-      summary: "Optional finer-grained category below `category`; `null` clears an inherited value."
+      summary: "Optional finer-grained category below category; null clears an inherited value."
       useWhen: "Split a category into subgroups, or null it out to stop inheriting."
       provenance: "Authored DTCG extension metadata; inheritable."
       related: ["category"]
       example:
         subCategory: "shadows"
     priority:
-      summary: "Autocomplete sort weight from 0 to 100 (RFC B14); higher values sort first."
+      summary: "Autocomplete sort weight from 0 to 100; higher values sort first."
       useWhen: "Order tokens in autocomplete and pickers, or omit it to inherit the group weight."
       provenance: "Authored DTCG extension metadata; inheritable."
       example:
@@ -68,21 +68,21 @@ v04DtcgExtensions:
       example:
         since: "2.1.0"
     status:
-      summary: "Lifecycle status from the shared v0.4 lifecycle fragment; only `deprecated` and `removed` are normative, any other value is informational."
-      useWhen: "Declare the normative lifecycle state of the token alongside a `deprecated` record."
+      summary: "Lifecycle status from the shared v0.4 lifecycle fragment; only deprecated and removed are normative, any other value is informational."
+      useWhen: "Declare the normative lifecycle state of the token alongside a deprecated record."
       provenance: "Authored metadata; defined in the shared v0.4 lifecycle fragment."
       related: ["deprecated", "since"]
       example:
         status: "deprecated"
     keywords:
-      summary: "Semantic search synonyms (RFC B16): other words someone might search for, like \"navy\" for a blue token. Search only; nothing selects on them."
+      summary: "Semantic search synonyms: other words someone might search for, like \"navy\" for a blue token. Search only; nothing selects on them."
       useWhen: "Improve findability of a token without changing its classification."
       provenance: "Authored DTCG extension metadata."
       related: ["tags"]
       example:
         keywords: ["navy", "corporate blue"]
     tags:
-      summary: "Arbitrary classification labels that are selectable: a lint rule can target `{ \"tag\": [\"off-limits\"] }`. Meaning is the project's, not the schema's."
+      summary: "Arbitrary classification labels that are selectable: a lint rule can target { \"tag\": [\"off-limits\"] }. Meaning is the project's, not the schema's."
       useWhen: "Tag tokens for team-specific rules and workflows beyond built-in categories."
       provenance: "Authored DTCG extension metadata."
       related: ["keywords"]
@@ -91,7 +91,7 @@ v04DtcgExtensions:
     usage:
       summary: "Usage guidance: where the token may be applied, the context it fits, and the anti-patterns to avoid."
       useWhen: "Tell consumers where a token is appropriate and where it should not be used."
-      provenance: "Authored DTCG extension metadata; see the `Usage` definition."
+      provenance: "Authored DTCG extension metadata; see the Usage definition."
       related: ["docs"]
       example:
         usage:
@@ -101,7 +101,7 @@ v04DtcgExtensions:
     docs:
       summary: "Links to the places where people can learn more about the token."
       useWhen: "Point documentation, Figma, and Storybook surfaces at the token."
-      provenance: "Authored DTCG extension metadata; see the `Docs` definition."
+      provenance: "Authored DTCG extension metadata; see the Docs definition."
       related: ["usage"]
       example:
         docs:
@@ -121,12 +121,12 @@ v04DtcgExtensions:
     format:
       summary: "Output preferences for consumers, distinct from the authored DTCG value."
       useWhen: "Tell emitters which color space or unit to emit, without changing the source value."
-      provenance: "Authored DTCG extension metadata; see the `Format` definition."
+      provenance: "Authored DTCG extension metadata; see the Format definition."
       example:
         format:
           unit: "rem"
     deprecated:
-      summary: "Closed deprecation record (the lifecycle fragment's `StrictDeprecated`): the required `message` plus optional `removal` and `replacement`. At the same node it wins over a standard `$deprecated: false`."
+      summary: "Closed deprecation record (the lifecycle fragment's StrictDeprecated): the required message plus optional removal and replacement. At the same node it wins over a standard $deprecated: false."
       useWhen: "Phase out a token and give consumers the migration story; the nearest declaration replaces the whole inherited record, and fields are never merged from older ancestors."
       provenance: "Authored DTCG extension metadata; defined in the shared v0.4 lifecycle fragment."
       related: ["status", "since"]
@@ -136,23 +136,23 @@ v04DtcgExtensions:
           replacement: "color.action.primary"
           removal: "3.0.0"
     platforms:
-      summary: "Per-platform reference overrides, one `PlatformMapping` per platform; omit to let the emitter derive references from the naming transform."
+      summary: "Per-platform reference overrides, one PlatformMapping per platform; omit to let the emitter derive references from the naming transform."
       useWhen: "Correct the generated reference for a platform whose implementation name does not follow the transform."
-      provenance: "Authored DTCG extension metadata; see the `PlatformMapping` definition."
+      provenance: "Authored DTCG extension metadata; see the PlatformMapping definition."
       example:
         platforms:
           android:
             reference: "Color/Brand/Primary"
     relations:
-      summary: "Relations declared from this token's perspective; the emitter hoists them into the manifest's top-level `tokenRelations` (RFC B7)."
+      summary: "Relations declared from this token's perspective; the emitter hoists them into the manifest's top-level tokenRelations."
       useWhen: "Declare pairs, contrast pairs, scale siblings, or replacement links between tokens."
-      provenance: "Authored DTCG extension metadata; see the `TokenRelationRef` definition."
+      provenance: "Authored DTCG extension metadata; see the TokenRelationRef definition."
       example:
         relations:
           - type: "pairs-with"
             tokens: ["color.background.default"]
     metadata:
-      summary: "Freeform passthrough, copied verbatim to the manifest token's `metadata`."
+      summary: "Freeform passthrough, copied verbatim to the manifest token's metadata."
       useWhen: "Carry project-specific data the schema does not model, without a schema change."
       provenance: "Authored DTCG extension metadata."
       example:
@@ -160,13 +160,13 @@ v04DtcgExtensions:
           owner: "Design Platform"
   GroupExtensions:
     tier:
-      summary: "Inherited tier for every descendant token; common values are `primitive`, `semantic`, and `component`."
+      summary: "Inherited tier for every descendant token; common values are primitive, semantic, and component."
       useWhen: "Set the tier once on a group instead of repeating it on each token."
       provenance: "Authored DTCG group extension metadata; inherited by descendants."
       example:
         tier: "primitive"
     collection:
-      summary: "Inherited collection key for every descendant token; must match a key in the manifest `collections` object."
+      summary: "Inherited collection key for every descendant token; must match a key in the manifest collections object."
       useWhen: "Put an entire group of tokens in one collection."
       provenance: "Authored DTCG group extension metadata; inherited by descendants."
       example:
@@ -184,14 +184,14 @@ v04DtcgExtensions:
       example:
         category: "color"
     subCategory:
-      summary: "Inherited subcategory below `category`; `null` clears the value."
+      summary: "Inherited subcategory below category; null clears the value."
       useWhen: "Split a group's category into subgroups for all descendants."
       provenance: "Authored DTCG group extension metadata; inherited by descendants."
       example:
         subCategory: "shadows"
     type:
-      summary: "Granular Lasagna type for every descendant; the common case is a `radius` group whose DTCG `$type` is `dimension` but whose Lasagna type is `borderRadius`."
-      useWhen: "Narrow a group's coarse DTCG `$type` for preview rendering without repeating it per token."
+      summary: "Granular Lasagna type for every descendant; the common case is a radius group whose DTCG $type is dimension but whose Lasagna type is borderRadius."
+      useWhen: "Narrow a group's coarse DTCG $type for preview rendering without repeating it per token."
       provenance: "Authored DTCG group extension metadata; inherited by descendants."
       example:
         type: "borderRadius"
@@ -202,14 +202,14 @@ v04DtcgExtensions:
       example:
         priority: 80
     status:
-      summary: "Lifecycle status from the shared v0.4 lifecycle fragment; only `deprecated` and `removed` are normative, any other value is informational."
+      summary: "Lifecycle status from the shared v0.4 lifecycle fragment; only deprecated and removed are normative, any other value is informational."
       useWhen: "Declare a lifecycle state that applies to every descendant of the group."
       provenance: "Authored metadata; defined in the shared v0.4 lifecycle fragment."
       related: ["deprecated"]
       example:
         status: "deprecated"
     keywords:
-      summary: "Inherited semantic search synonyms (RFC B16) applied to every descendant token."
+      summary: "Inherited semantic search synonyms applied to every descendant token."
       useWhen: "Boost findability for a whole family of tokens with shared vocabulary."
       provenance: "Authored DTCG group extension metadata; inherited by descendants."
       example:
@@ -223,35 +223,35 @@ v04DtcgExtensions:
     usage:
       summary: "Inherited usage guidance: allowed properties, context, and anti-patterns for every descendant token."
       useWhen: "State where a family of tokens may be used without repeating it per token."
-      provenance: "Authored DTCG group extension metadata; see the `Usage` definition."
+      provenance: "Authored DTCG group extension metadata; see the Usage definition."
       example:
         usage:
           context: "Chromatic scales"
     docs:
       summary: "Inherited documentation links for the group's descendant tokens."
       useWhen: "Point every token in a group at the same reference material."
-      provenance: "Authored DTCG group extension metadata; see the `Docs` definition."
+      provenance: "Authored DTCG group extension metadata; see the Docs definition."
       example:
         docs:
           url: "https://example.com/tokens/brand"
     a11y:
       summary: "Inherited accessibility context for every descendant token."
       useWhen: "Attach shared accessibility notes to a group of related tokens."
-      provenance: "Authored DTCG group extension metadata; see the `A11y` definition."
+      provenance: "Authored DTCG group extension metadata; see the A11y definition."
       example:
         a11y:
           minTargetSize: "44px"
     format:
       summary: "Inherited output preferences for every descendant token."
       useWhen: "Set one emit format (color space or unit) for a whole group."
-      provenance: "Authored DTCG group extension metadata; see the `Format` definition."
+      provenance: "Authored DTCG group extension metadata; see the Format definition."
       example:
         format:
           colorSpace: "srgb"
     deprecated:
-      summary: "Deprecates every descendant token unless a nearer node declares lifecycle state; a descendant's standard `$deprecated: false` clears the inherited deprecation."
+      summary: "Deprecates every descendant token unless a nearer node declares lifecycle state; a descendant's standard $deprecated: false clears the inherited deprecation."
       useWhen: "Phase out a whole group of tokens with one migration story."
-      provenance: "Authored DTCG group extension metadata; see the `Deprecated` definition."
+      provenance: "Authored DTCG group extension metadata; see the Deprecated definition."
       related: ["status"]
       example:
         deprecated:
@@ -280,9 +280,9 @@ v04DtcgExtensions:
         doNot: ["Use for body copy"]
   A11y:
     wcagContrast:
-      summary: "Measured contrast: either a single `ContrastInfo`, or a map keyed by condition key when contrast differs per mode."
+      summary: "Measured contrast: either a single ContrastInfo, or a map keyed by condition key when contrast differs per mode."
       useWhen: "Record measured contrast so consumers can trust the token for text; emitters SHOULD compute this rather than require authoring."
-      provenance: "Authored or computed accessibility metadata; see the `ContrastInfo` definition."
+      provenance: "Authored or computed accessibility metadata; see the ContrastInfo definition."
       related: ["minTargetSize"]
       example:
         wcagContrast:
@@ -317,7 +317,7 @@ v04DtcgExtensions:
       example:
         against: "color.background.default"
     level:
-      summary: "WCAG level the measurement satisfies, e.g. `AA`, `AAA`, `AA-large`, or `fail`."
+      summary: "WCAG level the measurement satisfies, e.g. AA, AAA, AA-large, or fail."
       useWhen: "State which standard the measurement meets so consumers can pick the right token."
       provenance: "Authored or computed accessibility metadata."
       related: ["ratio"]
@@ -345,14 +345,14 @@ v04DtcgExtensions:
         storybook: "https://storybook.example.com/?path=/docs/tokens"
   Format:
     colorSpace:
-      summary: "Preferred output color space; distinct from DTCG `$value.colorSpace`, which describes the authored value."
+      summary: "Preferred output color space; distinct from DTCG $value.colorSpace, which describes the authored value."
       useWhen: "Tell the emitter which color space to emit, independent of how the value was authored."
       provenance: "Authored DTCG extension metadata."
       related: ["unit"]
       example:
         colorSpace: "srgb"
     unit:
-      summary: "Preferred output unit, e.g. `rem` or `px`."
+      summary: "Preferred output unit, e.g. rem or px."
       useWhen: "Normalize how dimension and spacing tokens are emitted."
       provenance: "Authored DTCG extension metadata."
       example:
@@ -361,12 +361,12 @@ v04DtcgExtensions:
     reference:
       summary: "The platform-specific implementation reference, e.g. a resource or API name."
       useWhen: "Map the token to where it actually lives on a platform that does not follow the naming transform."
-      provenance: "Authored DTCG extension metadata; `reference` is the only (required) field."
+      provenance: "Authored DTCG extension metadata; reference is the only (required) field."
       example:
         reference: "Color/Brand/Primary"
   TokenRelationRef:
     type:
-      summary: "Kind of relation, e.g. `pairs-with`, `contrast-pair`, `scale-sibling`, or `replaces`."
+      summary: "Kind of relation, e.g. pairs-with, contrast-pair, scale-sibling, or replaces."
       useWhen: "Name the relationship so consumers can act on it (pairing, contrast, scale, migration)."
       provenance: "Authored DTCG extension metadata."
       related: ["tokens"]
@@ -388,15 +388,15 @@ v04DtcgExtensions:
         description: "Pair this foreground with the default background."
   _definitions:
     TokenExtensions:
-      summary: "The `recipes.designlasagna` extension record on a DTCG token: tiers, classification, lifecycle, usage, accessibility, format, platform references, relations, and freeform metadata. The record is closed, so unknown fields are rejected."
+      summary: "The recipes.designlasagna extension record on a DTCG token: tiers, classification, lifecycle, usage, accessibility, format, platform references, relations, and freeform metadata. The record is closed, so unknown fields are rejected."
       useWhen: "Author Design Lasagna metadata on an individual DTCG token."
       provenance: "Defined by the v0.4 DTCG extensions schema."
     GroupExtensions:
-      summary: "The `recipes.designlasagna` extension record on a DTCG group (DTCG 6.3.2): only inheritable fields, cascading to all descendant tokens unless they are overridden. The record is closed."
+      summary: "The recipes.designlasagna extension record on a DTCG group (DTCG 6.3.2): only inheritable fields, cascading to all descendant tokens unless they are overridden. The record is closed."
       useWhen: "Author inheritable Design Lasagna metadata on a DTCG group."
       provenance: "Defined by the v0.4 DTCG extensions schema."
     Deprecated:
-      summary: "Closed deprecation record for the DTCG extension namespace: the required `message` plus optional `removal` and `replacement`. It reuses the shared lifecycle fragment's `StrictDeprecated`."
+      summary: "Closed deprecation record for the DTCG extension namespace: the required message plus optional removal and replacement. It reuses the shared lifecycle fragment's StrictDeprecated."
       useWhen: "Deprecate a token or group with a machine-readable migration story."
       provenance: "Defined in the shared v0.4 lifecycle fragment and referenced by this schema."
     Usage:
@@ -409,7 +409,7 @@ v04DtcgExtensions:
       provenance: "Defined by the v0.4 DTCG extensions schema."
     ContrastInfo:
       summary: "A contrast measurement: the ratio, the token id it was measured against, and the WCAG level it satisfies. The record is closed."
-      useWhen: "Record a single measured contrast result inside `a11y.wcagContrast`."
+      useWhen: "Record a single measured contrast result inside a11y.wcagContrast."
       provenance: "Defined by the v0.4 DTCG extensions schema."
     Docs:
       summary: "Documentation links for a token: canonical URL, Figma, and Storybook, plus any additional URI-valued links."
@@ -420,10 +420,10 @@ v04DtcgExtensions:
       useWhen: "Control how a token is emitted without changing its authored value."
       provenance: "Defined by the v0.4 DTCG extensions schema."
     PlatformMapping:
-      summary: "One platform's implementation reference, keyed per platform under `platforms`; `reference` is required and the record is closed."
+      summary: "One platform's implementation reference, keyed per platform under platforms; reference is required and the record is closed."
       useWhen: "Override the emitted reference for one platform."
       provenance: "Defined by the v0.4 DTCG extensions schema."
     TokenRelationRef:
-      summary: "A relation from the declaring token to one or more other token ids, with the relation type and an optional description; `type` and `tokens` are required and the record is closed."
+      summary: "A relation from the declaring token to one or more other token ids, with the relation type and an optional description; type and tokens are required and the record is closed."
       useWhen: "Declare pairs, contrast pairs, scale siblings, or replacements between tokens."
       provenance: "Defined by the v0.4 DTCG extensions schema."

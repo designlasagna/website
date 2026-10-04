@@ -1,5 +1,5 @@
 # Reader-facing guidance for the v0.4 lifecycle fragment (v0.4/lifecycle.json).
-# The fragment is definitions-only (RFC 0002): it has no manifest scope of its
+# The fragment is definitions-only: it has no manifest scope of its
 # own, so only the property-bearing definitions get field scopes. Every
 # definition is introduced in its own section on the reference page.
 v04Lifecycle:
@@ -7,7 +7,7 @@ v04Lifecycle:
     message:
       summary: 'Required, human-readable deprecation reason plus migration guidance.'
       useWhen: 'Always set; it is the only required field of the record.'
-      provenance: 'Canonical deprecation record field (RFC 0002).'
+      provenance: 'Canonical deprecation record field.'
       related:
         - removal
         - replacement
@@ -16,7 +16,7 @@ v04Lifecycle:
     removal:
       summary: 'Optional removal target: ISO date (YYYY-MM-DD), semver (X.Y.Z), or quarter (YYYY-Qn).'
       useWhen: 'When removal is planned; only ISO dates drive time-aware severity.'
-      provenance: 'Canonical deprecation record field (RFC 0002).'
+      provenance: 'Canonical deprecation record field.'
       related:
         - message
       example:
@@ -24,7 +24,7 @@ v04Lifecycle:
     replacement:
       summary: 'Optional machine-readable replacement identifier, scoped by entity type.'
       useWhen: 'When a drop-in replacement exists that tooling can point users at.'
-      provenance: 'Canonical deprecation record field (RFC 0002).'
+      provenance: 'Canonical deprecation record field.'
       related:
         - message
       example:
@@ -33,7 +33,7 @@ v04Lifecycle:
     message:
       summary: 'Required, human-readable deprecation reason plus migration guidance.'
       useWhen: 'Always set; it is the only required field of the record.'
-      provenance: 'DTCG extension namespace record field (RFC 0002).'
+      provenance: 'DTCG extension namespace record field.'
       related:
         - removal
         - replacement
@@ -42,7 +42,7 @@ v04Lifecycle:
     removal:
       summary: 'Optional removal target: ISO date (YYYY-MM-DD), semver (X.Y.Z), or quarter (YYYY-Qn).'
       useWhen: 'When removal is planned; only ISO dates drive time-aware severity.'
-      provenance: 'DTCG extension namespace record field (RFC 0002).'
+      provenance: 'DTCG extension namespace record field.'
       related:
         - message
       example:
@@ -50,7 +50,7 @@ v04Lifecycle:
     replacement:
       summary: 'Optional machine-readable replacement identifier, scoped by entity type.'
       useWhen: 'When a drop-in replacement exists that tooling can point users at.'
-      provenance: 'DTCG extension namespace record field (RFC 0002).'
+      provenance: 'DTCG extension namespace record field.'
       related:
         - message
       example:
@@ -59,7 +59,7 @@ v04Lifecycle:
     value:
       summary: 'The specific attribute value being deprecated.'
       useWhen: 'Always set for a DeprecatedValue record; it names the enum value.'
-      provenance: 'CEM per-value deprecation record field (RFC 0002).'
+      provenance: 'CEM per-value deprecation record field.'
       related:
         - message
         - replacement
@@ -68,7 +68,7 @@ v04Lifecycle:
     message:
       summary: 'Required, human-readable deprecation reason plus migration guidance.'
       useWhen: 'Always set; it is required alongside value.'
-      provenance: 'CEM per-value deprecation record field (RFC 0002).'
+      provenance: 'CEM per-value deprecation record field.'
       related:
         - value
         - replacement
@@ -77,7 +77,7 @@ v04Lifecycle:
     removal:
       summary: 'Optional removal target: ISO date (YYYY-MM-DD), semver (X.Y.Z), or quarter (YYYY-Qn).'
       useWhen: 'When the value is scheduled for removal; only ISO dates drive time-aware severity.'
-      provenance: 'CEM per-value deprecation record field (RFC 0002).'
+      provenance: 'CEM per-value deprecation record field.'
       related:
         - value
       example:
@@ -85,7 +85,7 @@ v04Lifecycle:
     replacement:
       summary: 'Optional machine-readable replacement identifier; for CEM attribute values, an enum value of the same attribute.'
       useWhen: 'When a replacement enum value exists that tooling can point users at.'
-      provenance: 'CEM per-value deprecation record field (RFC 0002).'
+      provenance: 'CEM per-value deprecation record field.'
       related:
         - value
       example:
@@ -94,7 +94,7 @@ v04Lifecycle:
     Status:
       summary: 'Plain string lifecycle status for a manifest entity.'
       useWhen: 'Set on tokens, utilities, icons, CEM declarations, attributes, and DTCG extension payloads.'
-      provenance: 'RFC 0002 status vocabulary; only deprecated and removed are normative.'
+      provenance: 'Shared v0.4 status vocabulary; only deprecated and removed are normative.'
       related:
         - Deprecated
         - NativeDeprecation
@@ -103,7 +103,7 @@ v04Lifecycle:
     Deprecated:
       summary: 'Canonical deprecation record for native manifest entities; permissive on unknown properties.'
       useWhen: 'The record branch of NativeDeprecation, and the target of the local Deprecated aliases in tokens, utilities, and icons.'
-      provenance: 'RFC 0002 deprecation record.'
+      provenance: 'Shared v0.4 deprecation record.'
       related:
         - NativeDeprecation
         - StrictDeprecated
@@ -114,7 +114,7 @@ v04Lifecycle:
     StrictDeprecated:
       summary: 'Closed deprecation record for the DTCG extension namespace; unknown properties are rejected.'
       useWhen: 'DTCG $extensions deprecation payloads, where the extension contract is closed.'
-      provenance: 'RFC 0002 DTCG extension namespace record.'
+      provenance: 'Shared v0.4 DTCG extension namespace record.'
       related:
         - Deprecated
       example:
@@ -124,7 +124,7 @@ v04Lifecycle:
     NativeDeprecation:
       summary: 'Union type for a native manifest deprecation field: false, null, or a Deprecated record.'
       useWhen: 'The deprecated field on tokens, utilities, and icons in v0.4 native manifests.'
-      provenance: 'RFC 0002 native deprecation pattern (deprecated plus status).'
+      provenance: 'Shared v0.4 native deprecation pattern (deprecated plus status).'
       related:
         - Deprecated
         - Status
@@ -135,7 +135,7 @@ v04Lifecycle:
     DeprecatedValue:
       summary: 'Deprecation record for a specific attribute value in a CEM; permissive on unknown properties.'
       useWhen: 'Entries of deprecatedValues on CEM attribute entries extended by the v0.4 component schema.'
-      provenance: 'RFC 0002 CEM per-value deprecation record.'
+      provenance: 'Shared v0.4 CEM per-value deprecation record.'
       related:
         - Deprecated
       example:

@@ -2,22 +2,14 @@
 layout: docs.njk
 permalink: /docs/schemas/v0.4/lifecycle/
 title: Lifecycle — v0.4
-description: "JSON Schema reference for the Design Lasagna v0.4 composable lifecycle fragment (RFC 0002): Status, Deprecated, StrictDeprecated, NativeDeprecation, and DeprecatedValue."
+description: "JSON Schema reference for the Design Lasagna v0.4 composable lifecycle fragment: Status, Deprecated, StrictDeprecated, NativeDeprecation, and DeprecatedValue."
 schemaDocVersion: v0.4
 docsToc:
   - label: Start here
     href: "#start"
-  - label: Status
-    href: "#status"
-  - label: Deprecated
-    href: "#deprecated"
-  - label: StrictDeprecated
-    href: "#strict-deprecated"
-  - label: NativeDeprecation
-    href: "#native-deprecation"
-  - label: DeprecatedValue
-    href: "#deprecated-value"
-  - label: How the v0.4 contracts use it
+  - label: Nested definitions
+    href: "#definitions"
+  - label: Usage
     href: "#usage"
 ---
 {%- set st = schemas.v04Lifecycle -%}
@@ -89,7 +81,7 @@ docsToc:
 <section id="start">
   <p class="eyebrow">Schemas / v0.4</p>
   <h1>Lifecycle</h1>
-  <p class="lede">{{ ref.description }}</p>
+  <p class="lede">Composable lifecycle fragment for the v0.4 contracts: a shared status vocabulary and deprecation records that every entity type references instead of redefining.</p>
   {% include "schema-version-nav.njk" %}
   <p>
     This is a <strong>reusable definitions fragment</strong>, not a standalone
@@ -129,79 +121,92 @@ docsToc:
   </aside>
   <h2>Minimal fragment record</h2>
   <p>
-    The smallest valid <a href="#deprecated"><code>Deprecated</code></a>
+    The smallest valid <a href="#definition-Deprecated"><code>Deprecated</code></a>
     record carries only the required <code>message</code> field. It is a
     value the definition accepts, not a complete manifest.
   </p>
   <pre class="json-example"><code>{{ st.minimalExampleJson }}</code></pre>
 </section>
 
-<section id="status">
-  <h2 id="definition-Status"><code>Status</code></h2>
-  {{ definitionIntro('Status') }}
+<section id="definitions">
+  <h2>Nested definitions</h2>
   <p>
-    A plain <code>{{ ref.definitions.Status.type }}</code> with no
-    constraints. Consumers may use any value; the lifecycle contract
-    treats only <code>deprecated</code> and <code>removed</code> as
-    normative, and everything else is informational.
+    The shared lifecycle definitions. Every v0.4 contract that models
+    lifecycle metadata <code>$ref</code>s the ones it needs from here, so
+    all entity types share one vocabulary.
   </p>
-</section>
+  <div class="schema-definition-list">
+    <article class="schema-definition">
+      <h3 id="definition-Status"><code>Status</code></h3>
+      {{ definitionIntro('Status') }}
+      <p>
+        A plain <code>{{ ref.definitions.Status.type }}</code> with no
+        constraints. Consumers may use any value; the lifecycle contract
+        treats only <code>deprecated</code> and <code>removed</code> as
+        normative, and everything else is informational.
+      </p>
+    </article>
 
-<section id="deprecated">
-  <h2 id="definition-Deprecated"><code>Deprecated</code></h2>
-  {{ definitionIntro('Deprecated') }}
-  <p>
-    This definition is permissive: unknown properties are allowed, so
-    consumers can extend records without breaking validation.
-  </p>
-  {{ fieldTable(ref.definitions.Deprecated.properties, 'Deprecated') }}
-</section>
+    <article class="schema-definition">
+      <h3 id="definition-Deprecated"><code>Deprecated</code></h3>
+      {{ definitionIntro('Deprecated') }}
+      <p>
+        This definition is permissive: unknown properties are allowed, so
+        consumers can extend records without breaking validation.
+      </p>
+      {{ fieldTable(ref.definitions.Deprecated.properties, 'Deprecated') }}
+    </article>
 
-<section id="strict-deprecated">
-  <h2 id="definition-StrictDeprecated"><code>StrictDeprecated</code></h2>
-  {{ definitionIntro('StrictDeprecated') }}
-  <p>
-    Same fields as <a href="#deprecated"><code>Deprecated</code></a>, but
-    closed: <code>additionalProperties: false</code> rejects unknown
-    keys, keeping the DTCG extension namespace strict.
-  </p>
-  {{ fieldTable(ref.definitions.StrictDeprecated.properties, 'StrictDeprecated') }}
-</section>
+    <article class="schema-definition">
+      <h3 id="definition-StrictDeprecated"><code>StrictDeprecated</code></h3>
+      {{ definitionIntro('StrictDeprecated') }}
+      <p>
+        Same fields as <a href="#definition-Deprecated"><code>Deprecated</code></a>,
+        but closed: <code>additionalProperties: false</code> rejects unknown
+        keys, keeping the DTCG extension namespace strict.
+      </p>
+      {{ fieldTable(ref.definitions.StrictDeprecated.properties, 'StrictDeprecated') }}
+    </article>
 
-<section id="native-deprecation">
-  <h2 id="definition-NativeDeprecation"><code>NativeDeprecation</code></h2>
-  {{ definitionIntro('NativeDeprecation') }}
-  <p>A <code>oneOf</code> union over exactly three shapes:</p>
-  <ul>
-    {% for branch in ref.definitions.NativeDeprecation.composition.oneOf %}
-    <li>
-      {% if branch.$ref %}
-        {% set branchName = branch.$ref | schemaDefinitionName %}
-        {% if branchName %}<a class="schema-ref" href="#definition-{{ branchName }}"><code>{{ branchName }}</code></a>{% else %}<code>{{ branch.$ref }}</code>{% endif %}
-        {% if branch.description %} — {{ branch.description }}{% endif %}
-      {% else %}
-        <code>{% if branch.type is string %}{{ branch.type }}{% else %}{{ branch.type | join(', ') }}{% endif %}{% if branch.const !== undefined %} {{ branch.const }}{% endif %}</code>
-        {% if branch.description %} — {{ branch.description }}{% endif %}
-      {% endif %}
-    </li>
-    {% endfor %}
-  </ul>
-  <p>
-    The <code>false</code> and <code>null</code> branches keep the field
-    lightweight when an entity is simply not deprecated, while the
-    record branch carries the full deprecation payload.
-  </p>
-</section>
+    <article class="schema-definition">
+      <h3 id="definition-NativeDeprecation"><code>NativeDeprecation</code></h3>
+      {{ definitionIntro('NativeDeprecation') }}
+      <p>A <code>oneOf</code> union over exactly three shapes:</p>
+      <ul>
+        <li>
+          <code>boolean false</code>
+          — an explicit "not deprecated" assertion in a native manifest.
+          DTCG source cancellation uses the standard
+          <code>$deprecated: false</code> field, not an extension value.
+        </li>
+        <li>
+          <code>null</code>
+          — not asserted; no lifecycle claim.
+        </li>
+        <li>
+          <a class="schema-ref" href="#definition-Deprecated"><code>Deprecated</code></a>
+          — the full deprecation record.
+        </li>
+      </ul>
+      <p>
+        The <code>false</code> and <code>null</code> branches keep the field
+        lightweight when an entity is simply not deprecated, while the
+        record branch carries the full deprecation payload.
+      </p>
+    </article>
 
-<section id="deprecated-value">
-  <h2 id="definition-DeprecatedValue"><code>DeprecatedValue</code></h2>
-  {{ definitionIntro('DeprecatedValue') }}
-  <p>
-    Like <a href="#deprecated"><code>Deprecated</code></a> this definition
-    is permissive on unknown properties, and it adds the required
-    <code>value</code> field that names the deprecated attribute value.
-  </p>
-  {{ fieldTable(ref.definitions.DeprecatedValue.properties, 'DeprecatedValue') }}
+    <article class="schema-definition">
+      <h3 id="definition-DeprecatedValue"><code>DeprecatedValue</code></h3>
+      {{ definitionIntro('DeprecatedValue') }}
+      <p>
+        Like <a href="#definition-Deprecated"><code>Deprecated</code></a> this
+        definition is permissive on unknown properties, and it adds the
+        required <code>value</code> field that names the deprecated
+        attribute value.
+      </p>
+      {{ fieldTable(ref.definitions.DeprecatedValue.properties, 'DeprecatedValue') }}
+    </article>
+  </div>
 </section>
 
 <section id="usage">

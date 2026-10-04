@@ -84,19 +84,14 @@ docsToc:
 <section id="start">
   <p class="eyebrow">Schemas / v0.4</p>
   <h1>DTCG token extensions</h1>
-  <p class="lede">{{ ref.description }}</p>
+  <p class="lede">A reference for Design Lasagna metadata on DTCG tokens and groups.</p>
   {% include "schema-version-nav.njk" %}
-  <p>This is <strong>not</strong> the DTCG format schema, and it adds no
-  fields to the DTCG format. The
-  <a href="https://www.designtokens.org/tr/drafts/format/">DTCG Format
-  2025.10 specification</a> defines <code>$extensions</code> as a
-  vendor-specific hook on tokens and groups; <code>recipes.designlasagna</code>
-  is the reverse-domain key Design Lasagna uses inside that hook. None of
-  the fields below are part of the upstream DTCG standard — consumers that
-  do not know this namespace ignore it. The fragment also defines no token
-  manifest of its own; it has no root scope to validate. It is the
-  authoring-side counterpart to the resolved
-  <a href="/docs/schemas/v0.4/tokens/">v0.4 tokens</a> format.</p>
+  <p>This schema validates only the <code>recipes.designlasagna</code>
+  metadata stored in the DTCG <code>$extensions</code> hook; the linked
+  official <a href="https://www.designtokens.org/tr/drafts/format/">DTCG
+  Format specification</a> defines the host format. It is the
+  authoring-side counterpart to the resolved <a href="/docs/schemas/v0.4/tokens/">v0.4
+  tokens</a> format.</p>
   <aside class="schema-install" aria-labelledby="use-dtcg-extensions-schema">
     <div class="schema-install__intro">
       <p class="schema-install__kicker">Start here</p>
@@ -122,11 +117,9 @@ docsToc:
     </dl>
   </aside>
   <h2>Minimal example</h2>
-  <p>This is a DTCG token node with the extension attached: the node itself
-  (<code>$type</code>, <code>$value</code>) is plain DTCG, while the
+  <p>A standalone DTCG token node — only the
   <code>recipes.designlasagna</code> payload inside <code>$extensions</code>
-  validates against the <code>TokenExtensions</code> definition below. It is
-  scoped to DTCG context — a standalone node, not a complete DTCG file.</p>
+  validates against this schema.</p>
   <pre class="json-example"><code>{{ st.minimalExample | jsonCode | safe }}</code></pre>
 </section>
 
