@@ -179,7 +179,7 @@ test('lifecycle page keeps the field tables for the property-bearing definitions
 
 test('lifecycle docsToc is simplified to Definitions and Usage', () => {
   const html = readPage(LIFECYCLE_PAGE);
-  const subnav = html.match(/<div class="docs-sidebar__subnav" aria-label="Lifecycle fragment sections">[\s\S]*?<\/div>/);
+  const subnav = html.match(/<div class="docs-sidebar__subnav" aria-label="Lifecycle sections">[\s\S]*?<\/div>/);
   assert.ok(subnav, 'lifecycle page must keep its section subnav');
   const entries = [...subnav[0].matchAll(/<a href="(#[^"]+)">([^<]*)<\/a>/g)].map((m) => ({ href: m[1], label: m[2] }));
   assert.deepEqual(
