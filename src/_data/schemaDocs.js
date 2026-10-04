@@ -42,4 +42,22 @@ module.exports = {
     fs.readFileSync(path.join(dir, 'v03-cem-extensions.yml'), 'utf8'),
   ).v03CemExtensions,
   v03DtcgExtensions,
+  v04Lifecycle: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v04-lifecycle.yml'), 'utf8'),
+  ).v04Lifecycle,
+  v04Tokens: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v04-tokens.yml'), 'utf8'),
+  ).v04Tokens,
+  v04Utilities: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v04-utilities.yml'), 'utf8'),
+  ).v04Utilities,
+  v04Icons: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v04-icons.yml'), 'utf8'),
+  ).v04Icons,
+  v04CemExtensions: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v04-cem-extensions.yml'), 'utf8'),
+  ).v04CemExtensions,
+  v04DtcgExtensions: YAML.parse(
+    fs.readFileSync(path.join(dir, 'v04-dtcg-extensions.yml'), 'utf8'),
+  ).v04DtcgExtensions,
 };

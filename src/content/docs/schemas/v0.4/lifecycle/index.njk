@@ -1,0 +1,279 @@
+---
+layout: docs.njk
+permalink: /docs/schemas/v0.4/lifecycle/
+title: Lifecycle — v0.4
+description: "JSON Schema reference for the Design Lasagna v0.4 composable lifecycle fragment: Status, Deprecated, StrictDeprecated, NativeDeprecation, and DeprecatedValue."
+schemaDocVersion: v0.4
+docsToc:
+  - label: Nested definitions
+    href: "#definitions"
+  - label: Usage
+    href: "#usage"
+---
+{%- set st = schemas.v04Lifecycle -%}
+{%- set ref = st.ref -%}
+
+{% macro fieldTable(fields, scope) %}
+<div class="schema-table-wrap">
+  <table class="schema-table">
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for field in fields %}
+      {% set scopeDocs = schemaDocs.v04Lifecycle[scope] or {} %}
+      {% set guide = scopeDocs[field.name] or {} %}
+      <tr class="field-row">
+        <td class="field-name-cell">
+          <div class="field-name-toggle-wrap">
+            <input class="field-toggle" id="field-details-{{ scope }}-{{ loop.index }}" type="checkbox" aria-label="Show details for {{ field.name }}">
+            <label class="field-name-toggle" for="field-details-{{ scope }}-{{ loop.index }}">
+              <span class="field-chevron" aria-hidden="true"></span>
+              <code>{{ field.name }}{% if field.required %}<span class="required-field" aria-label="required">*</span>{% endif %}</code>
+              {% if field.deprecated %}<span class="field-status field-status--deprecated">Deprecated</span>{% endif %}
+            </label>
+          </div>
+        </td>
+        <td>
+          {% if field.type %}
+            {% if field.type is string %}<code>{{ field.type }}</code>{% else %}<code>{{ field.type | join(', ') }}</code>{% endif %}
+          {% elif field.$ref %}
+            {% set fieldDefinition = field.$ref | schemaDefinitionName %}
+            {% if fieldDefinition %}<a class="schema-ref" href="#definition-{{ fieldDefinition }}"><code>{{ fieldDefinition }}</code></a>{% else %}<code>{{ field.$ref }}</code>{% endif %}
+          {% else %}—{% endif %}
+        </td>
+        <td>
+          {{ guide.summary or field.description or '—' }}
+        </td>
+      </tr>
+      <tr class="field-details">
+        <td colspan="3">
+          <div class="field-details__content">
+            <div>
+              {% if guide.useWhen %}<p><strong>Use when:</strong> {{ guide.useWhen }}</p>{% endif %}
+              {% if guide.provenance %}<p><strong>Origin:</strong> {{ guide.provenance }}</p>{% endif %}
+              {% if guide.related and guide.related.length %}<p><strong>Related:</strong> {% for related in guide.related %}<code>{{ related }}</code>{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+            </div>
+            {% if guide.example %}<div><p><strong>Example usage</strong></p><pre class="json-example"><code>{{ guide.example | jsonCode | safe }}</code></pre></div>{% endif %}
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endmacro %}
+
+{% macro definitionIntro(name) %}
+{% set definitionGuide = schemaDocs.v04Lifecycle._definitions and schemaDocs.v04Lifecycle._definitions[name] or {} %}
+<p>{{ definitionGuide.summary or ref.definitions[name].description or 'See the raw schema for this definition.' }}</p>
+{% if definitionGuide.useWhen %}<p><strong>Use when:</strong> {{ definitionGuide.useWhen }}</p>{% endif %}
+{% if definitionGuide.provenance %}<p><strong>Origin:</strong> {{ definitionGuide.provenance }}</p>{% endif %}
+{% if definitionGuide.example %}<pre class="json-example"><code>{{ definitionGuide.example | jsonCode | safe }}</code></pre>{% endif %}
+{% endmacro %}
+
+<section>
+  <p class="eyebrow">Schemas / v0.4</p>
+  <h1>Lifecycle</h1>
+  <p class="lede">Composable lifecycle fragment for the v0.4 contracts: a shared status vocabulary and deprecation records that every entity type references instead of redefining.</p>
+  {% include "schema-version-nav.njk" %}
+  <p>
+    This is a <strong>reusable definitions fragment</strong>, not a standalone
+    manifest format: the root document has no properties of its own and
+    validates no complete manifest. The other v0.4 contracts select the
+    definitions they need from here with <code>$ref</code>, so every entity
+    type shares one canonical vocabulary for status and deprecation.
+    Because the fragment cannot be pointed at by a manifest's
+    <code>$schema</code>, the examples on this page show <em>fragment
+    records</em> — single definition values — rather than full manifests.
+  </p>
+  <aside class="schema-install" aria-labelledby="use-lifecycle-schema">
+    <div class="schema-install__intro">
+      <h2 id="use-lifecycle-schema">Use this fragment</h2>
+      <p>
+        Reference a definition by its <code>$id</code> plus fragment path,
+        for example <code>{{ st.canonicalUrl }}#/definitions/Deprecated</code>,
+        from another v0.4 contract or from your own schema.
+      </p>
+      <p>The reference below is generated from the published schema and augmented with reader guidance.</p>
+    </div>
+    <dl class="schema-install__sources">
+      <div><dt>Raw schema</dt><dd><a href="{{ st.canonicalUrl }}">{{ st.canonicalUrl }}</a></dd></div>
+      <div><dt>npm</dt><dd><a href="https://www.npmjs.com/package/@designlasagna/schemas"><code>{{ st.npmImportPath }}</code></a></dd></div>
+      <div><dt>Repository</dt><dd><a href="https://github.com/designlasagna/schemas">designlasagna/schemas</a></dd></div>
+    </dl>
+  </aside>
+  <h2>Minimal fragment record</h2>
+  <p>
+    The smallest valid <a href="#definition-Deprecated"><code>Deprecated</code></a>
+    record carries only the required <code>message</code> field. It is a
+    value the definition accepts, not a complete manifest.
+  </p>
+  <pre class="json-example"><code>{{ st.minimalExampleJson }}</code></pre>
+</section>
+
+<section id="definitions">
+  <h2>Nested definitions</h2>
+  <p>
+    The shared lifecycle definitions. Every v0.4 contract that models
+    lifecycle metadata <code>$ref</code>s the ones it needs from here, so
+    all entity types share one vocabulary.
+  </p>
+  <div class="schema-definition-list">
+    <article class="schema-definition">
+      <h3 id="definition-Status"><code>Status</code></h3>
+      {{ definitionIntro('Status') }}
+      <p>
+        A plain <code>{{ ref.definitions.Status.type }}</code> with no
+        constraints. Consumers may use any value; the lifecycle contract
+        treats only <code>deprecated</code> and <code>removed</code> as
+        normative, and everything else is informational.
+      </p>
+    </article>
+
+    <article class="schema-definition">
+      <h3 id="definition-Deprecated"><code>Deprecated</code></h3>
+      {{ definitionIntro('Deprecated') }}
+      <p>
+        This definition is permissive: unknown properties are allowed, so
+        consumers can extend records without breaking validation.
+      </p>
+      {{ fieldTable(ref.definitions.Deprecated.properties, 'Deprecated') }}
+    </article>
+
+    <article class="schema-definition">
+      <h3 id="definition-StrictDeprecated"><code>StrictDeprecated</code></h3>
+      {{ definitionIntro('StrictDeprecated') }}
+      <p>
+        Same fields as <a href="#definition-Deprecated"><code>Deprecated</code></a>,
+        but closed: <code>additionalProperties: false</code> rejects unknown
+        keys, keeping the DTCG extension namespace strict.
+      </p>
+      {{ fieldTable(ref.definitions.StrictDeprecated.properties, 'StrictDeprecated') }}
+    </article>
+
+    <article class="schema-definition">
+      <h3 id="definition-NativeDeprecation"><code>NativeDeprecation</code></h3>
+      {{ definitionIntro('NativeDeprecation') }}
+      <p>A <code>oneOf</code> union over exactly three shapes:</p>
+      <ul>
+        <li>
+          <code>boolean false</code>
+          — an explicit "not deprecated" assertion in a native manifest.
+          DTCG source cancellation uses the standard
+          <code>$deprecated: false</code> field, not an extension value.
+        </li>
+        <li>
+          <code>null</code>
+          — not asserted; no lifecycle claim.
+        </li>
+        <li>
+          <a class="schema-ref" href="#definition-Deprecated"><code>Deprecated</code></a>
+          — the full deprecation record.
+        </li>
+      </ul>
+      <p>
+        The <code>false</code> and <code>null</code> branches keep the field
+        lightweight when an entity is simply not deprecated, while the
+        record branch carries the full deprecation payload.
+      </p>
+    </article>
+
+    <article class="schema-definition">
+      <h3 id="definition-DeprecatedValue"><code>DeprecatedValue</code></h3>
+      {{ definitionIntro('DeprecatedValue') }}
+      <p>
+        Like <a href="#definition-Deprecated"><code>Deprecated</code></a> this
+        definition is permissive on unknown properties, and it adds the
+        required <code>value</code> field that names the deprecated
+        attribute value.
+      </p>
+      {{ fieldTable(ref.definitions.DeprecatedValue.properties, 'DeprecatedValue') }}
+    </article>
+  </div>
+</section>
+
+<section id="usage">
+  <h2>How the v0.4 contracts use this fragment</h2>
+  <p>
+    Every v0.4 contract that models lifecycle metadata <code>$ref</code>s
+    definitions from this file instead of redefining them:
+  </p>
+  <div class="schema-table-wrap">
+    <table class="schema-table">
+      <thead>
+        <tr>
+          <th>Contract</th>
+          <th>Field</th>
+          <th>Definition used</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/docs/schemas/v0.4/tokens/">Tokens</a></td>
+          <td><code>Token.status</code></td>
+          <td><code>lifecycle.json#/definitions/Status</code></td>
+        </tr>
+        <tr>
+          <td><a href="/docs/schemas/v0.4/tokens/">Tokens</a></td>
+          <td><code>Token.deprecated</code></td>
+          <td><code>lifecycle.json#/definitions/NativeDeprecation</code></td>
+        </tr>
+        <tr>
+          <td><a href="/docs/schemas/v0.4/utilities/">Utilities</a></td>
+          <td><code>UtilityClass.status</code></td>
+          <td><code>lifecycle.json#/definitions/Status</code></td>
+        </tr>
+        <tr>
+          <td><a href="/docs/schemas/v0.4/utilities/">Utilities</a></td>
+          <td><code>UtilityClass.deprecated</code></td>
+          <td><code>lifecycle.json#/definitions/NativeDeprecation</code></td>
+        </tr>
+        <tr>
+          <td><a href="/docs/schemas/v0.4/icons/">Icons</a></td>
+          <td><code>Icon.status</code></td>
+          <td><code>lifecycle.json#/definitions/Status</code></td>
+        </tr>
+        <tr>
+          <td><a href="/docs/schemas/v0.4/icons/">Icons</a></td>
+          <td><code>Icon.deprecated</code></td>
+          <td><code>lifecycle.json#/definitions/NativeDeprecation</code></td>
+        </tr>
+        <tr>
+          <td><a href="/docs/schemas/v0.4/components/">Components (CEM)</a></td>
+          <td><code>LifecycleFields.status</code>, <code>AttributeExtensions.status</code></td>
+          <td><code>lifecycle.json#/definitions/Status</code></td>
+        </tr>
+        <tr>
+          <td><a href="/docs/schemas/v0.4/components/">Components (CEM)</a></td>
+          <td><code>deprecatedValues</code> entries</td>
+          <td><code>lifecycle.json#/definitions/DeprecatedValue</code></td>
+        </tr>
+        <tr>
+          <td><a href="/docs/schemas/v0.4/dtcg-extensions/">DTCG extensions</a></td>
+          <td><code>TokenExtensions.status</code>, <code>GroupExtensions.status</code></td>
+          <td><code>lifecycle.json#/definitions/Status</code></td>
+        </tr>
+        <tr>
+          <td><a href="/docs/schemas/v0.4/dtcg-extensions/">DTCG extensions</a></td>
+          <td><code>TokenExtensions.deprecated</code>, <code>GroupExtensions.deprecated</code></td>
+          <td><code>lifecycle.json#/definitions/StrictDeprecated</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    The native manifest contracts (tokens, utilities, icons) also carry a
+    local <code>Deprecated</code> alias that <code>$ref</code>s
+    <code>lifecycle.json#/definitions/Deprecated</code>, and the DTCG
+    extensions schema aliases its local <code>Deprecated</code> to
+    <code>StrictDeprecated</code> — one canonical record shape per
+    namespace, defined once here.
+  </p>
+</section>
+
+<p><a href="/docs/schemas/">← All schemas</a></p>

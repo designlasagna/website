@@ -1,0 +1,70 @@
+{#-
+  schema-version-nav.njk — shared schema-format version navigation for the
+  schema reference docs.
+
+  The including page sets `schemaDocVersion` in its front matter (e.g. v0.3).
+  The navigation lists schema format versions current-first and, on
+  non-current versions, renders a maintenance notice.
+
+  Entry hrefs follow three rules:
+    1. The entry for the including page's own version always links to the
+       page itself and carries aria-current="page".
+    2. The counterpart entry links to the published sibling page when the
+       including page provides the matching override: schemaDocV04Href for
+       the v0.4 entry, schemaDocV03Href for the v0.3 entry.
+    3. Otherwise the counterpart entry explicitly falls back to the schema
+       overview (/docs/schemas/) and renders a visible "overview fallback"
+       label. This partial must never invent /docs/schemas/v0.4/... or
+       /docs/schemas/v0.3/... URLs for reference pages that do not exist
+       yet.
+
+  Published sibling pairs so far: v0.3 dtcg-extensions <-> v0.4
+  dtcg-extensions, v0.3 tokens <-> v0.4 tokens, v0.3 utilities <-> v0.4
+  utilities, and v0.3 components <-> v0.4 components (mapped in both
+  directions via the overrides). The v0.4 icons and lifecycle pages have no
+  v0.3 siblings yet, so their v0.3 entries use the labeled overview
+  fallback. When a
+  missing sibling page is published, add its override to the including
+  page's front matter (and update scripts/schema-version-nav.test.mjs).
+-#}
+{%- if schemaDocVersion == 'v0.4' %}
+{#- v0.4 page: own entry links to this page; v0.3 entry uses the sibling override or the overview fallback. -#}
+{%- set v04Href = page.url -%}
+{%- set v04Fallback = false -%}
+{%- set v03Href = schemaDocV03Href or '/docs/schemas/' -%}
+{%- set v03Fallback = not schemaDocV03Href -%}
+{%- elif schemaDocVersion == 'v0.3' %}
+{#- v0.3 page: v0.4 entry uses the sibling override or the overview fallback; own entry links to this page. -#}
+{%- set v04Href = schemaDocV04Href or '/docs/schemas/' -%}
+{%- set v04Fallback = not schemaDocV04Href -%}
+{%- set v03Href = page.url -%}
+{%- set v03Fallback = false -%}
+{%- else %}
+{#- Unversioned page: both entries use the sibling override or the overview fallback. -#}
+{%- set v04Href = schemaDocV04Href or '/docs/schemas/' -%}
+{%- set v04Fallback = not schemaDocV04Href -%}
+{%- set v03Href = schemaDocV03Href or '/docs/schemas/' -%}
+{%- set v03Fallback = not schemaDocV03Href -%}
+{%- endif %}
+{%- set versions = [
+  { version: 'v0.4', status: 'current', href: v04Href, overviewFallback: v04Fallback },
+  { version: 'v0.3', status: 'previous', href: v03Href, overviewFallback: v03Fallback }
+] -%}
+<aside class="schema-version-nav">
+  {%- if schemaDocVersion and schemaDocVersion != 'v0.4' %}
+  <p class="schema-version-nav__notice">
+    <strong>Previous version:</strong> this reference documents schema format
+    <code>{{ schemaDocVersion }}</code>, which is kept for compatibility.
+    The current and default format is
+    <a href="{{ schemaDocV04Href or '/docs/schemas/' }}">v0.4</a>
+    {%- if schemaDocV04Href %}. The v0.4 entry links to this reference's successor page.{% else %}. Published v0.4 reference pages are listed on the schema overview, so the v0.4 entry links there.{% endif %}
+  </p>
+  {%- endif %}
+  <nav class="schema-version-nav__list" aria-label="Schema format versions">
+    <ul>
+      {%- for entry in versions %}
+      <li><a href="{{ entry.href }}"{% if entry.version == schemaDocVersion %} aria-current="page"{% endif %}>{{ entry.version }}<span class="schema-version-nav__status">{{ entry.status }}</span>{%- if entry.overviewFallback %}<span class="schema-version-nav__fallback">overview fallback</span>{% endif %}</a></li>
+      {%- endfor %}
+    </ul>
+  </nav>
+</aside>

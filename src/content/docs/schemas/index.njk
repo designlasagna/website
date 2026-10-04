@@ -2,7 +2,7 @@
 layout: base.njk
 permalink: /docs/schemas/
 title: Schemas
-description: Design Lasagna JSON schemas — raw URLs, npm packages, and references.
+description: Design Lasagna JSON schemas — v0.4 is the current format, with v0.3 compatibility references, raw URLs, and npm packages.
 ---
 <section>
   <p class="eyebrow">Docs</p>
@@ -13,7 +13,62 @@ description: Design Lasagna JSON schemas — raw URLs, npm packages, and referen
     (<code>@designlasagna/schemas</code>).
   </p>
 
-  <h2>v0.3</h2>
+  <aside class="schema-version-note">
+    <p>
+      <strong>Format version ≠ package version.</strong> <code>v0.4</code>
+      names the schema <em>format</em> — the JSON files served under
+      <code>/schemas/v0.4/</code>. The npm package
+      <code>@designlasagna/schemas</code> has its own independent release
+      version: <code>0.4.0</code> is the package release that ships the v0.4
+      format files. Use the format version in <code>$schema</code> URLs, and
+      pin the package version when installing.
+    </p>
+  </aside>
+
+  <h2>v0.4 <span class="version-status">Current · default</span></h2>
+  <p>
+    v0.4 is the current and default schema format. The v0.4 DTCG token
+    extensions, tokens, utilities, icons, components, and lifecycle
+    reference pages are all published; see
+    <a href="/tools/schemas/">About Schemas</a> for how the format fits
+    together.
+  </p>
+  <ul>
+    <li>
+      <a href="/docs/schemas/v0.4/dtcg-extensions/">DTCG token extensions</a> —
+      optional Design Lasagna governance metadata authored in DTCG
+      <code>$extensions</code>
+      (<a href="/schemas/v0.4/dtcg-extensions.json">v0.4/dtcg-extensions.json</a>)
+    </li>
+    <li>
+      <a href="/docs/schemas/v0.4/tokens/">Tokens</a> — the resolved token
+      manifest format (<a href="/schemas/v0.4/tokens.json">v0.4/tokens.json</a>)
+    </li>
+    <li>
+      <a href="/docs/schemas/v0.4/utilities/">Utilities</a> — the utilities
+      manifest format (<a href="/schemas/v0.4/utilities.json">v0.4/utilities.json</a>)
+    </li>
+    <li>
+      <a href="/docs/schemas/v0.4/icons/">Icons</a> — the icons manifest
+      format (<a href="/schemas/v0.4/icons.json">v0.4/icons.json</a>)
+    </li>
+    <li>
+      <a href="/docs/schemas/v0.4/components/">Components</a> — lifecycle
+      extensions for Custom Elements Manifest entries
+      (<a href="/schemas/v0.4/cem-extensions.json">v0.4/cem-extensions.json</a>)
+    </li>
+    <li>
+      <a href="/docs/schemas/v0.4/lifecycle/">Lifecycle</a> — composable
+      lifecycle fragments referenced from the other v0.4 contracts
+      (<a href="/schemas/v0.4/lifecycle.json">v0.4/lifecycle.json</a>)
+    </li>
+  </ul>
+
+  <h2>v0.3 <span class="version-status">Previous · compatibility</span></h2>
+  <p>
+    v0.3 is the previous schema format. Its references remain published for
+    systems that still target v0.3 contracts.
+  </p>
   <ul>
     <li>
       <a href="/docs/schemas/v0.3/dtcg-extensions/">DTCG token extensions</a> — optional
@@ -34,4 +89,12 @@ description: Design Lasagna JSON schemas — raw URLs, npm packages, and referen
       (<code>v0.3/cem-extensions.json</code>)
     </li>
   </ul>
+
+  <h2>Migrating between versions</h2>
+  <p>
+    Moving Design Lasagna documents from schema format v0.3 to v0.4? The
+    <a href="/docs/schemas/migrate-v0.3-to-v0.4/">v0.3 to v0.4 migration
+    guide</a> covers the per-contract changes, how lifecycle selection works,
+    and a practical checklist.
+  </p>
 </section>

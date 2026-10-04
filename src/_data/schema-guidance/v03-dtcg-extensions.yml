@@ -4,8 +4,20 @@ v03DtcgExtensions:
   # v03Tokens.Token. This file retains source-only additions and the
   # supporting-definition examples that belong specifically to DTCG authoring.
   TokenExtensions:
-    relations: { example: { relations: [{ type: pairs-with, tokens: [color.background.default] }] } }
+    relations:
+      summary: "Relations declared from this token's perspective; the emitter hoists them into the manifest's top-level tokenRelations list."
+      useWhen: Declare pairs, contrast pairs, scale siblings, or replacement links between tokens.
+      example:
+        relations:
+          - type: pairs-with
+            tokens: [color.background.default]
   GroupExtensions: {}
+  # Field summaries for nested definitions. The v0.3 page keys each
+  # definition's field table by the definition name, so a summary here
+  # replaces the raw schema description for that field.
+  A11y:
+    wcagContrast:
+      summary: "Measured WCAG contrast: either a single ContrastInfo, or a map keyed by condition key when contrast differs per mode. Emitters SHOULD compute it rather than require authoring."
   _definitions:
     TokenExtensions:
       summary: Human-authored Design Lasagna metadata on one DTCG token. These fields supplement the standard token record and flow into generated manifests where relevant.

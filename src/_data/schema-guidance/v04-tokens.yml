@@ -1,0 +1,574 @@
+# Reader-facing guidance for the v0.4 token schema reference.
+#
+# Top-level scopes match the property groups exposed by
+# scripts/schema-reference.mjs for @designlasagna/schemas v0.4/tokens.json:
+#   - manifest          the root manifest object
+#   - Token             the token record (ref.definitions.Token)
+#   - definition names  other nested definitions (ConditionsEntry and
+#                       CollectionsEntry describe the entry objects of the
+#                       map-valued Conditions and Collections definitions)
+#   - _definitions      intro paragraphs for the nested definitions
+#
+# Keep every field of a scope present, even when unchanged: the coverage
+# test treats a missing field as a regression. Use `example` (an object)
+# for concrete snippet content.
+v04Tokens:
+  manifest:
+    $schema:
+      summary: "Identifier of the schema that validates the manifest."
+      useWhen: "Always set it so editors and validators can find the contract."
+      provenance: "Contract metadata; set by authors or generators."
+      example:
+        $schema: "https://schemas.designlasagna.dev/v0.4/tokens.json"
+    schemaVersion:
+      summary: "Schema version the manifest conforms to."
+      useWhen: "Keep it in sync with the $schema document the manifest is validated against."
+      provenance: "Contract metadata; set by authors or generators."
+      related: ["$schema"]
+      example:
+        schemaVersion: "0.4.0"
+    generatedAt:
+      summary: "ISO 8601 timestamp identifying the generation run that produced the manifest."
+      useWhen: "Set by generators so consumers can detect and track stale manifests."
+      provenance: "Computed by analysis or build tooling."
+      example:
+        generatedAt: "2026-01-15T08:30:00Z"
+    extends:
+      summary: "Base format that the manifest extends."
+      useWhen: "Document that a manifest augments an existing standard rather than replacing it."
+      provenance: "Contract metadata; set by authors or generators."
+      example:
+        extends: "https://design-tokens.community/format"
+    designSystem:
+      summary: "Identity of the design system the manifest describes."
+      useWhen: "Help tooling label, group, and switch between design systems."
+      provenance: "Authored metadata, carried through by generators."
+      related: ["source"]
+      example:
+        designSystem:
+          name: "Design Lasagna"
+          version: "1.0.0"
+          package: "@designlasagna/design-system"
+    source:
+      summary: "Provenance data recording where the manifest was generated from."
+      useWhen: "Make generated files auditable by recording the source files and their state."
+      provenance: "Recorded by generators."
+      related: ["generatedAt", "designSystem"]
+      example:
+        source:
+          files:
+            - path: "tokens/colors.json"
+              state: "resolved"
+    counts:
+      summary: "Summary counts for the manifest."
+      useWhen: "Give consumers quick totals without scanning every token."
+      provenance: "Computed by generators."
+      example:
+        counts:
+          total: 128
+          by:
+            type:
+              color: 72
+            category:
+              color: 72
+    conditions:
+      summary: "Condition set that generated the manifest, such as themes or platforms."
+      useWhen: "Document the axes a consumer can use to select resolved values."
+      provenance: "Recorded by generators."
+      related: ["tokens"]
+      example:
+        conditions:
+          theme:
+            description: "Color theme."
+            type: "theme"
+            values: ["light", "dark"]
+            default: "light"
+    collections:
+      summary: "Named token collections, with per-collection defaults."
+      useWhen: "Group tokens into authored collections that tooling can present."
+      provenance: "Authored metadata, carried through by generators."
+      related: ["tokenRelations", "tokens"]
+      example:
+        collections:
+          colors:
+            name: "Color"
+            description: "Brand and semantic colors."
+            conditions: ["theme"]
+            defaults:
+              theme: "light"
+    tokenRelations:
+      summary: "Relationships between tokens, such as derived tokens."
+      useWhen: "Express how tokens are derived from one another so tools can navigate them."
+      provenance: "Authored metadata, carried through by generators."
+      related: ["tokens"]
+      example:
+        tokenRelations:
+          - type: "derived"
+            tokens: ["color.surface", "color.surface-raised"]
+            description: "Raised surface is derived from the base surface."
+    tokens:
+      summary: "Resolved tokens in the manifest."
+      useWhen: "Provide the token data that tooling completes, documents, and consumes."
+      provenance: "Resolved by generators from authored token sources."
+      related: ["counts", "conditions", "collections", "tokenRelations"]
+      example:
+        tokens:
+          - id: "color.brand"
+            path: "color/brand"
+            label: "Brand"
+            category: "color"
+            type: "color"
+            resolved:
+              light: "#7c3aed"
+              dark: "#a78bfa"
+  Token:
+    id:
+      summary: "Stable identifier for the token."
+      useWhen: "Reference the token from tooling, manifests, and relations."
+      provenance: "Stable token identity; authored or assigned by tooling."
+      related: ["path"]
+      example:
+        id: "color.brand"
+    path:
+      summary: "Path-like identifier for the token."
+      useWhen: "Locate the token within its naming hierarchy."
+      provenance: "Stable token identity; authored or assigned by tooling."
+      related: ["originalPath"]
+      example:
+        path: "color/brand"
+    originalPath:
+      summary: "Path-like identifier at authoring time."
+      useWhen: "Trace the token back to its original naming."
+      provenance: "Stable token identity; preserved from authored sources."
+      related: ["path"]
+      example:
+        originalPath: "color/brand"
+    label:
+      summary: "Human-readable label for the token."
+      useWhen: "Display the token in documentation and pickers."
+      provenance: "Authored metadata."
+      example:
+        label: "Brand"
+    category:
+      summary: "Top-level category the token belongs to."
+      useWhen: "Group and filter tokens in documentation and tooling."
+      provenance: "Authored metadata; carried through by generators."
+      related: ["subCategory", "collection"]
+      example:
+        category: "color"
+    subCategory:
+      summary: "Optional subcategory within the token's category."
+      useWhen: "Add finer grouping for documentation and filters."
+      provenance: "Authored metadata; carried through by generators."
+      related: ["category"]
+      example:
+        subCategory: "brand"
+    collection:
+      summary: "Collection the token belongs to."
+      useWhen: "Present tokens in their authored collection context."
+      provenance: "Authored metadata, carried through by generators."
+      related: ["category"]
+      example:
+        collection: "colors"
+    tier:
+      summary: "Token tier, such as primitive or semantic."
+      useWhen: "Show how abstract or application-specific a token is."
+      provenance: "Authored metadata."
+      example:
+        tier: "semantic"
+    type:
+      summary: "Type of the token, such as color or dimension."
+      useWhen: "Drive type-aware completion and validation in tooling."
+      provenance: "Authored metadata; carried through by generators."
+      related: ["resolved", "format"]
+      example:
+        type: "color"
+    description:
+      summary: "Human-readable description of the token."
+      useWhen: "Explain what the token is for in documentation and hover text."
+      provenance: "Authored metadata."
+      example:
+        description: "Primary brand color."
+    cssVariable:
+      summary: "Deprecated in v0.3. A legacy CSS custom-property name for this token."
+      useWhen: "Carry over existing CSS variable names during migration."
+      provenance: "Authored metadata; deprecated by the schema."
+      related: ["platforms"]
+      example:
+        cssVariable: "--color-brand"
+    platforms:
+      summary: "Platform-specific metadata for the token."
+      useWhen: "Map the token to concrete implementation details per platform."
+      provenance: "Authored metadata; carried through by generators."
+      related: ["cssVariable"]
+      example:
+        platforms:
+          ios:
+            reference: "Color.Blue500"
+    resolved:
+      summary: "Resolved values of the token, keyed by condition."
+      useWhen: "Provide the concrete values consumers render or consume."
+      provenance: "Computed by resolution tooling."
+      related: ["type", "modes"]
+      example:
+        resolved:
+          light: "#7c3aed"
+          dark: "#a78bfa"
+    modes:
+      summary: "Explicit mode names the token supports."
+      useWhen: "Tell consumers which mode variants exist."
+      provenance: "Computed by resolution tooling."
+      related: ["resolved"]
+      example:
+        modes: ["light", "dark"]
+    format:
+      summary: "Format metadata for the token, such as color space or unit."
+      useWhen: "Interpret and normalize token values in tooling."
+      provenance: "Authored metadata; carried through by generators."
+      related: ["type", "resolved"]
+      example:
+        format:
+          colorSpace: "srgb"
+    usage:
+      summary: "Usage guidance for the token."
+      useWhen: "Document allowed properties, context, and anti-patterns."
+      provenance: "Authored metadata."
+      example:
+        usage:
+          context: "Use for primary actions."
+          doNot: "Do not use for disabled states."
+    a11y:
+      summary: "Accessibility guidance for the token."
+      useWhen: "Record contrast, target size, and motion-safety guidance."
+      provenance: "Authored metadata."
+      related: ["usage"]
+      example:
+        a11y:
+          wcagContrast: "AA"
+          motionSafe: true
+    priority:
+      summary: "Priority or importance of the token."
+      useWhen: "Order tokens in documentation and tooling output."
+      provenance: "Authored metadata."
+      example:
+        priority: 1
+    since:
+      summary: "Version when the token was introduced."
+      useWhen: "Show when the token entered the design system."
+      provenance: "Authored metadata; maintained over time."
+      example:
+        since: "1.0.0"
+    status:
+      summary: "Lifecycle status for the token; 'deprecated' and 'removed' are normative, other values are informational."
+      useWhen: "Declare the normative lifecycle state of the token, or carry informational states such as 'experimental'."
+      provenance: "Authored metadata."
+      related: ["deprecated"]
+      example:
+        status: "deprecated"
+    keywords:
+      summary: "Keywords for search and discovery."
+      useWhen: "Improve token search in documentation and tooling."
+      provenance: "Authored metadata."
+      example:
+        keywords: ["brand", "primary"]
+    docs:
+      summary: "Links to documentation and related resources."
+      useWhen: "Point consumers to deeper references and tools."
+      provenance: "Authored metadata."
+      example:
+        docs:
+          url: "https://example.com/docs/color"
+          figma: "https://www.figma.com/file/abc/Color"
+    deprecated:
+      summary: "Deprecation record from the shared v0.4 lifecycle fragment; may be false, null, or a record with a message."
+      useWhen: "Guide consumers away from a token while it remains available, recording its replacement and removal target."
+      provenance: "Authored metadata."
+      related: ["status"]
+      example:
+        deprecated:
+          message: "Use color.action.primary instead."
+          replacement: "color.action.primary"
+    tags:
+      summary: "Free-form tags for filtering and classification."
+      useWhen: "Group tokens beyond categories for ad-hoc filters."
+      provenance: "Authored metadata."
+      related: ["keywords"]
+      example:
+        tags: ["v2", "migration"]
+    sourceFiles:
+      summary: "Source files the token was derived from."
+      useWhen: "Trace resolved data back to its authored origin."
+      provenance: "Recorded by generators."
+      related: ["source"]
+      example:
+        sourceFiles: ["tokens/colors.json"]
+    metadata:
+      summary: "Additional metadata, such as token relations."
+      useWhen: "Carry structured extras the manifest schema does not model as top-level fields."
+      provenance: "Authored metadata; carried through by generators."
+      related: ["tokenRelations"]
+      example:
+        metadata:
+          aliases: ["brand-primary"]
+  DesignSystemMeta:
+    name:
+      summary: "Display name of the design system."
+      useWhen: "Identify the design system in documentation and tooling."
+      provenance: "Authored metadata."
+      example:
+        name: "Design Lasagna"
+    version:
+      summary: "Version of the design system."
+      useWhen: "Track which design-system version a manifest describes."
+      provenance: "Authored metadata; maintained with releases."
+      example:
+        version: "1.0.0"
+    documentation:
+      summary: "Documentation links for the design system."
+      useWhen: "Point consumers to the design system's documentation."
+      provenance: "Authored metadata."
+      example:
+        documentation:
+          url: "https://example.com/docs"
+    package:
+      summary: "Package identifier of the design system."
+      useWhen: "Map the manifest to its published package."
+      provenance: "Authored metadata."
+      example:
+        package: "@designlasagna/design-system"
+    docsTemplates:
+      summary: "Documentation template configuration."
+      useWhen: "Configure how documentation is generated from the design system."
+      provenance: "Authored metadata."
+      example:
+        docsTemplates:
+          - "tokens"
+  Counts:
+    total:
+      summary: "Total number of items, such as tokens."
+      useWhen: "Give consumers the total without scanning the manifest."
+      provenance: "Computed by generators."
+      example:
+        total: 128
+    by:
+      summary: "Counts grouped by a dimension, such as type or category."
+      useWhen: "Summarize the manifest by each dimension."
+      provenance: "Computed by generators."
+      related: ["total"]
+      example:
+        by:
+          type:
+            color: 72
+  ConditionsEntry:
+    description:
+      summary: "Human-readable description of the condition."
+      useWhen: "Explain what the condition controls."
+      provenance: "Authored metadata."
+      example:
+        description: "Color theme."
+    type:
+      summary: "Type of the condition, such as theme or platform."
+      useWhen: "Tell consumers how to interpret the condition."
+      provenance: "Authored metadata."
+      example:
+        type: "theme"
+    values:
+      summary: "Values the condition can take."
+      useWhen: "List the selectable values for the condition."
+      provenance: "Authored metadata."
+      example:
+        values: ["light", "dark"]
+    default:
+      summary: "Default value of the condition."
+      useWhen: "State which value applies when none is selected."
+      provenance: "Authored metadata."
+      related: ["values"]
+      example:
+        default: "light"
+  CollectionsEntry:
+    name:
+      summary: "Display name of the collection."
+      useWhen: "Present the collection in documentation and tooling."
+      provenance: "Authored metadata."
+      example:
+        name: "Color"
+    description:
+      summary: "Human-readable description of the collection."
+      useWhen: "Explain what the collection groups."
+      provenance: "Authored metadata."
+      example:
+        description: "Brand and semantic colors."
+    conditions:
+      summary: "Conditions the collection varies by."
+      useWhen: "Tell consumers which condition axes apply to the collection."
+      provenance: "Authored metadata."
+      related: ["defaults"]
+      example:
+        conditions: ["theme"]
+    defaults:
+      summary: "Default condition values for the collection."
+      useWhen: "State the values that apply when none are selected."
+      provenance: "Authored metadata."
+      related: ["conditions"]
+      example:
+        defaults:
+          theme: "light"
+  TokenRelation:
+    type:
+      summary: "Type of the relationship."
+      useWhen: "Classify how the related tokens are connected."
+      provenance: "Authored metadata."
+      related: ["tokens"]
+      example:
+        type: "derived"
+    tokens:
+      summary: "Tokens involved in the relationship."
+      useWhen: "Identify the tokens the relationship connects."
+      provenance: "Authored metadata."
+      related: ["type"]
+      example:
+        tokens: ["color.surface", "color.surface-raised"]
+    description:
+      summary: "Human-readable description of the relationship."
+      useWhen: "Explain the relationship in documentation."
+      provenance: "Authored metadata."
+      example:
+        description: "Raised surface is derived from the base surface."
+  PlatformMapping:
+    reference:
+      summary: "Platform-specific identifier developers use for the token."
+      useWhen: "Map the token to the concrete identifier on a platform."
+      provenance: "Authored metadata; carried through by generators."
+      related: ["cssVariable"]
+      example:
+        reference: "Color.Blue500"
+  Format:
+    colorSpace:
+      summary: "Color space for color tokens."
+      useWhen: "Interpret color values in tooling."
+      provenance: "Authored metadata."
+      related: ["unit"]
+      example:
+        colorSpace: "srgb"
+    unit:
+      summary: "Unit for dimension-like tokens."
+      useWhen: "Interpret numeric values in tooling."
+      provenance: "Authored metadata."
+      related: ["colorSpace"]
+      example:
+        unit: "rem"
+  Usage:
+    allowedProperties:
+      summary: "Properties the token may be used with."
+      useWhen: "Constrain how tooling applies the token."
+      provenance: "Authored metadata."
+      related: ["context"]
+      example:
+        allowedProperties: ["color", "background-color"]
+    context:
+      summary: "Context in which the token is intended to be used."
+      useWhen: "Guide consumers to the right usage scenario."
+      provenance: "Authored metadata."
+      related: ["allowedProperties", "doNot"]
+      example:
+        context: "Use for primary actions."
+    doNot:
+      summary: "Anti-patterns for the token."
+      useWhen: "Warn consumers about incorrect usage."
+      provenance: "Authored metadata."
+      related: ["context"]
+      example:
+        doNot: "Do not use for disabled states."
+  A11y:
+    wcagContrast:
+      summary: "WCAG contrast guidance for the token."
+      useWhen: "Record the contrast level the token must meet."
+      provenance: "Authored metadata."
+      related: ["minTargetSize", "motionSafe"]
+      example:
+        wcagContrast: "AA"
+    minTargetSize:
+      summary: "Minimum target size guidance for the token."
+      useWhen: "Record the minimum size for touch and pointer targets."
+      provenance: "Authored metadata."
+      related: ["wcagContrast"]
+      example:
+        minTargetSize: "44px"
+    motionSafe:
+      summary: "Whether the token is safe under reduced-motion preferences."
+      useWhen: "Flag tokens whose use must respect reduced motion."
+      provenance: "Authored metadata."
+      related: ["wcagContrast"]
+      example:
+        motionSafe: true
+  ContrastInfo:
+    ratio:
+      summary: "Measured contrast ratio for the token."
+      useWhen: "Record the numeric contrast value."
+      provenance: "Computed by analysis tooling."
+      related: ["against", "level"]
+      example:
+        ratio: 4.5
+    against:
+      summary: "Background or reference the ratio is measured against."
+      useWhen: "State what the contrast ratio is measured against."
+      provenance: "Computed by analysis tooling."
+      related: ["ratio"]
+      example:
+        against: "#ffffff"
+    level:
+      summary: "WCAG level the contrast meets."
+      useWhen: "Record which WCAG level the ratio satisfies."
+      provenance: "Computed by analysis tooling."
+      related: ["ratio"]
+      example:
+        level: "AA"
+  Docs:
+    url:
+      summary: "URL of the documentation for the token."
+      useWhen: "Link to the token's documentation."
+      provenance: "Authored metadata."
+      related: ["figma", "storybook"]
+      example:
+        url: "https://example.com/docs/color"
+    figma:
+      summary: "Figma file or node link for the token."
+      useWhen: "Point to the design source in Figma."
+      provenance: "Authored metadata."
+      related: ["url"]
+      example:
+        figma: "https://www.figma.com/file/abc/Color"
+    storybook:
+      summary: "Storybook link for the token."
+      useWhen: "Point to live examples in Storybook."
+      provenance: "Authored metadata."
+      related: ["url"]
+      example:
+        storybook: "https://storybook.example.com/?path=/docs/color--primary"
+  _definitions:
+    A11y:
+      summary: "Accessibility guidance for a token, covering contrast, minimum target size, and motion safety."
+    Collections:
+      summary: "Named token collections, keyed by collection ID, each with optional conditions and defaults."
+    CompositeValue:
+      summary: "A value composed of parts, for example a font stack or a gradient."
+    Conditions:
+      summary: "The condition set that generated the manifest, keyed by condition name."
+    ContrastInfo:
+      summary: "A measured contrast ratio, the reference it is measured against, and the WCAG level it meets."
+    Counts:
+      summary: "Total counts plus per-dimension breakdowns for the manifest."
+    Deprecated:
+      summary: "Deprecation record for a native manifest entity; defined in the shared lifecycle fragment (lifecycle.json) and referenced from this schema, permissive of unknown properties."
+    DesignSystemMeta:
+      summary: "Identity and packaging metadata for the design system the manifest describes."
+    Docs:
+      summary: "Documentation and design-tool links for a token."
+    Format:
+      summary: "Format metadata for a token, such as its color space or unit."
+    PlatformMapping:
+      summary: "The platform-specific reference developers use for a token."
+    TokenRelation:
+      summary: "A named relationship between tokens, such as a derived token."
+    Usage:
+      summary: "Usage guidance for a token: allowed properties, intended context, and anti-patterns."

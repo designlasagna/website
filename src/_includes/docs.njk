@@ -7,20 +7,44 @@ layout: base.njk
       <summary>Documentation navigation</summary>
       <nav aria-label="Documentation">
         <a href="/docs/">Docs home</a>
-        <p class="docs-sidebar__heading">Schemas</p>
-        <a href="/docs/schemas/">Schema overview</a>
-        <a href="/docs/schemas/v0.3/dtcg-extensions/"{% if page.url == '/docs/schemas/v0.3/dtcg-extensions/' %} aria-current="page"{% endif %}>DTCG token extensions</a>
-        {% if page.url == '/docs/schemas/v0.3/dtcg-extensions/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="DTCG token extensions sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
-        <a href="/docs/schemas/v0.3/components/"{% if page.url == '/docs/schemas/v0.3/components/' %} aria-current="page"{% endif %}>CEM extensions</a>
-        {% if page.url == '/docs/schemas/v0.3/components/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="CEM extensions sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
-        <a href="/docs/schemas/v0.3/tokens/"{% if page.url == '/docs/schemas/v0.3/tokens/' %} aria-current="page"{% endif %}>Resolved token manifest</a>
-        {% if page.url == '/docs/schemas/v0.3/tokens/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Resolved token manifest sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
-        <a href="/docs/schemas/v0.3/utilities/"{% if page.url == '/docs/schemas/v0.3/utilities/' %} aria-current="page"{% endif %}>Utility manifest</a>
-        {% if page.url == '/docs/schemas/v0.3/utilities/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Utility manifest sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
-        <p class="docs-sidebar__heading">Language Server</p>
-        <a href="/docs/language-server/"{% if page.url == '/docs/language-server/' %} aria-current="page"{% endif %}>Install and configure</a>
-        {% if page.url == '/docs/language-server/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Language Server sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
-        <a href="/tools/language-server/">Tool overview ↗</a>
+
+        <div class="docs-sidebar__group" role="group" aria-label="Schema reference">
+          <p class="docs-sidebar__heading">Schema reference</p>
+          <a href="/docs/schemas/">Schema overview</a>
+          <a href="/docs/schemas/v0.4/tokens/"{% if page.url == '/docs/schemas/v0.4/tokens/' %} aria-current="page"{% endif %}>Tokens</a>
+          {% if page.url == '/docs/schemas/v0.4/tokens/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Tokens sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+          <a href="/docs/schemas/v0.4/utilities/"{% if page.url == '/docs/schemas/v0.4/utilities/' %} aria-current="page"{% endif %}>Utilities</a>
+          {% if page.url == '/docs/schemas/v0.4/utilities/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Utilities sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+          <a href="/docs/schemas/v0.4/icons/"{% if page.url == '/docs/schemas/v0.4/icons/' %} aria-current="page"{% endif %}>Icons</a>
+          {% if page.url == '/docs/schemas/v0.4/icons/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Icons sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+          <a href="/docs/schemas/v0.4/components/"{% if page.url == '/docs/schemas/v0.4/components/' %} aria-current="page"{% endif %}>CEM extensions</a>
+          {% if page.url == '/docs/schemas/v0.4/components/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="CEM extensions sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+          <a href="/docs/schemas/v0.4/dtcg-extensions/"{% if page.url == '/docs/schemas/v0.4/dtcg-extensions/' %} aria-current="page"{% endif %}>DTCG extensions</a>
+          {% if page.url == '/docs/schemas/v0.4/dtcg-extensions/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="DTCG extensions sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+          <a href="/docs/schemas/v0.4/lifecycle/"{% if page.url == '/docs/schemas/v0.4/lifecycle/' %} aria-current="page"{% endif %}>Lifecycle</a>
+          {% if page.url == '/docs/schemas/v0.4/lifecycle/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Lifecycle sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+        </div>
+
+        <div class="docs-sidebar__group" role="group" aria-label="Versioning">
+          <p class="docs-sidebar__heading">Versioning</p>
+          <a href="/docs/schemas/migrate-v0.3-to-v0.4/"{% if page.url == '/docs/schemas/migrate-v0.3-to-v0.4/' %} aria-current="page"{% endif %}>Migrate v0.3 → v0.4</a>
+          {% if page.url == '/docs/schemas/migrate-v0.3-to-v0.4/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Migration sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+        </div>
+
+        {% if schemaDocVersion == 'v0.3' %}
+        <div class="docs-sidebar__group" role="group" aria-label="Previous version">
+          <p class="docs-sidebar__heading">Previous version</p>
+          <a href="{{ page.url }}" aria-current="page">{{ title }}</a>
+          {% if docsToc %}<div class="docs-sidebar__subnav" aria-label="{{ title }} sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+        </div>
+        {% endif %}
+
+        <div class="docs-sidebar__group" role="group" aria-label="Language Server">
+          <p class="docs-sidebar__heading">Language Server</p>
+          <a href="/docs/language-server/"{% if page.url == '/docs/language-server/' %} aria-current="page"{% endif %}>Install and configure</a>
+          {% if page.url == '/docs/language-server/' and docsToc %}<div class="docs-sidebar__subnav" aria-label="Language Server sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+          <a href="/tools/language-server/">Tool overview ↗</a>
+        </div>
       </nav>
     </details>
   </aside>
