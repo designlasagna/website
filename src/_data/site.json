@@ -6,8 +6,8 @@
     { "label": "Docs", "href": "/docs/" }
   ],
   "external": [
-    { "label": "Schemas ↗", "href": "https://github.com/designlasagna/schemas" },
-    { "label": "Language server ↗", "href": "https://github.com/designlasagna/ds-language-server" },
-    { "label": "Contact ↗", "href": "mailto:admin@designlasagna.recipes" }
+    { "label": "Schemas", "href": "https://github.com/designlasagna/schemas" },
+    { "label": "Language server", "href": "https://github.com/designlasagna/ds-language-server" },
+    { "label": "Contact", "href": "mailto:admin@designlasagna.recipes" }
   ]
 }

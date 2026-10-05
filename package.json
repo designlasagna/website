@@ -7,7 +7,7 @@
     "dev": "eleventy --serve",
     "build": "eleventy && node scripts/publish-schemas.mjs --prefix v0.4",
     "test": "node --test scripts/*.test.mjs",
-    "check": "npm run build && npm test && test -f dist/index.html && test -f dist/404.html && test -f dist/CNAME && test -f dist/assets/styles.css && test -f dist/assets/logotype.svg && test -f dist/schemas/v0.2/cem-extensions.json && test -f dist/schemas/v0.3/cem-extensions.json && test -f dist/schemas/v0.4/lifecycle.json",
+    "check": "npm run build && npm test && test -f dist/index.html && test -f dist/404.html && test -f dist/CNAME && test -f dist/assets/styles.css && test -f dist/assets/logotype.svg && test -f dist/assets/icons/external.svg && test -f dist/schemas/v0.2/cem-extensions.json && test -f dist/schemas/v0.3/cem-extensions.json && test -f dist/schemas/v0.4/lifecycle.json",
     "verify-schema-hosting": "node scripts/verify-schema-hosting.mjs",
     "deploy-preview": "npx serve dist"
   },

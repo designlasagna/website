@@ -64,7 +64,7 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .tool-flow__source { padding: 1rem; border-radius: .55rem; background: #fffdf8; }
 .tool-flow__source h3 { color: var(--purple); }
 .tool-flow__source p, .tool-flow__server p { margin: .45rem 0 0; font-size: .95rem; line-height: 1.5; }
-.tool-flow__connector { margin: .75rem 0; color: var(--orange); font: 400 2rem/1 "DM Mono", monospace; text-align: center; }
+.tool-flow__connector { width: 1rem; height: 1rem; margin: .9rem auto; border-right: .15rem solid var(--orange); border-bottom: .15rem solid var(--orange); transform: rotate(45deg); }
 .tool-flow__metadata { width: min(100%, 34rem); margin-inline: auto; }
 .tool-flow__config-label { margin: 0 0 .55rem; color: var(--muted); font: 500 .7rem/1.3 "DM Mono", monospace; letter-spacing: .04em; text-align: left; text-transform: uppercase; }
 .tool-flow__config-label code { color: var(--purple); font: inherit; }
@@ -93,7 +93,7 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .schemas-flow article { padding: 1rem; border-radius: .55rem; background: #fffdf8; }
 .schemas-flow h3 { margin: 0; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.15rem; font-weight: 400; line-height: 1; letter-spacing: -.03em; text-transform: uppercase; }
 .schemas-flow article p, .schemas-flow__derived > p:last-child { margin: .5rem 0 0; color: var(--lede); font-size: .92rem; line-height: 1.5; }
-.schemas-flow__arrow { margin: .7rem 0; color: var(--orange); font: 400 2rem/1 "DM Mono", monospace; text-align: center; }
+.schemas-flow__arrow { width: 1rem; height: 1rem; margin: .9rem auto; border-right: .15rem solid var(--orange); border-bottom: .15rem solid var(--orange); transform: rotate(45deg); }
 .schemas-flow__derived, .schemas-flow__contract { max-width: 38rem; margin-inline: auto; padding: 1.25rem; border-radius: .6rem; text-align: center; }
 .schemas-flow__derived { background: color-mix(in srgb, var(--gold) 22%, #fffdf8); }
 .schemas-flow__contract { background: var(--purple); color: var(--paper); }
@@ -147,11 +147,51 @@ pre { max-width: 100%; overflow-x: auto; }
 a { color: var(--purple); text-decoration-thickness: 1px; text-underline-offset: .2em; }
 a:visited { color: #654178; }
 a:hover { color: var(--orange); text-decoration-thickness: 3px; }
+
+/* Link iconography: one shared SVG per meaning, applied with CSS masks so
+   every instance renders identically and inherits the link colour, hover,
+   and visited states. Outbound links are detected by URL, so every external
+   link on the site carries the same icon without per-link markup. */
+a[href^="http"]:not([href^="https://designlasagna.recipes"]):not([href^="http://designlasagna.recipes"])::after,
+a[href^="mailto"]::after {
+  content: "";
+  display: inline-block;
+  flex: none;
+  width: .78em;
+  height: .78em;
+  margin-inline-start: .4em;
+  background-color: currentColor;
+  -webkit-mask: url("icons/external.svg") no-repeat center / contain;
+  mask: url("icons/external.svg") no-repeat center / contain;
+}
+a.link-open::after {
+  content: "";
+  display: inline-block;
+  flex: none;
+  width: .72em;
+  height: .72em;
+  margin-inline-start: .18em;
+  background-color: currentColor;
+  -webkit-mask: url("icons/arrow-right.svg") no-repeat center / contain;
+  mask: url("icons/arrow-right.svg") no-repeat center / contain;
+}
+a.link-back::before {
+  content: "";
+  display: inline-block;
+  flex: none;
+  width: .72em;
+  height: .72em;
+  margin-inline-end: .18em;
+  background-color: currentColor;
+  -webkit-mask: url("icons/arrow-left.svg") no-repeat center / contain;
+  mask: url("icons/arrow-left.svg") no-repeat center / contain;
+}
 .tool-action:visited { color: var(--paper); }
 .tool-action--secondary:visited { color: var(--purple); }
 .tool-action--secondary:hover { color: var(--orange); }
 .site-nav { font-size: .875rem; }
 .site-header nav a:visited, .site-footer nav a:visited { color: inherit; }
+.site-header nav a:hover, .site-footer nav a:hover { color: var(--orange); }
 a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
 .site-header, .site-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; padding-inline: 1.25rem; }
