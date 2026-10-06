@@ -16,66 +16,7 @@ docsToc:
 {%- set ref = st.ref -%}
 {%- set icon = ref.definitions.Icon -%}
 
-{% macro fieldTable(fields, scope) %}
-<div class="schema-table-wrap">
-  <table class="schema-table">
-    <thead>
-      <tr>
-        <th>Field</th>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for field in fields %}
-      {% set scopeDocs = schemaDocs.v04Icons[scope] or {} %}
-      {% set guide = scopeDocs[field.name] or {} %}
-      <tr class="field-row">
-        <td class="field-name-cell">
-          <div class="field-name-toggle-wrap">
-            <input class="field-toggle" id="field-details-{{ scope }}-{{ loop.index }}" type="checkbox" aria-label="Show details for {{ field.name }}">
-            <label class="field-name-toggle" for="field-details-{{ scope }}-{{ loop.index }}">
-              <span class="field-chevron" aria-hidden="true"></span>
-              <code>{{ field.name }}{% if field.required %}<span class="required-field" aria-label="required">*</span>{% endif %}</code>
-              {% if field.deprecated %}<span class="field-status field-status--deprecated">Deprecated</span>{% endif %}
-            </label>
-          </div>
-        </td>
-        <td>
-          {% if field.type %}
-            {% if field.type is string %}<code>{{ field.type }}</code>{% else %}<code>{{ field.type | join(', ') }}</code>{% endif %}
-            {% if field.additionalProperties and field.additionalProperties.$ref %}
-              {% set valueDefinition = field.additionalProperties.$ref | schemaDefinitionName %}
-              <br>values: {% if valueDefinition %}<a class="schema-ref" href="#definition-{{ valueDefinition }}"><code>{{ valueDefinition }}</code></a>{% else %}<code>{{ field.additionalProperties.$ref }}</code>{% endif %}
-            {% endif %}
-          {% elif field.$ref %}
-            {% set fieldDefinition = field.$ref | schemaDefinitionName %}
-            {% if fieldDefinition %}<a class="schema-ref" href="#definition-{{ fieldDefinition }}"><code>{{ fieldDefinition }}</code></a>{% else %}<code>{{ field.$ref }}</code>{% endif %}
-          {% else %}—{% endif %}
-        </td>
-        <td>
-          {{ guide.summary or field.description or '—' }}
-          {% if field.enum %}<br>Allowed: <code>{{ field.enum.values | join(', ') }}</code>{% endif %}
-          {% if field.default !== undefined %}<br>Default: <code>{{ field.default }}</code>{% endif %}
-        </td>
-      </tr>
-      <tr class="field-details">
-        <td colspan="3">
-          <div class="field-details__content">
-            <div>
-              {% if guide.useWhen %}<p><strong>Use when:</strong> {{ guide.useWhen }}</p>{% endif %}
-              {% if guide.provenance %}<p><strong>Origin:</strong> {{ guide.provenance }}</p>{% endif %}
-              {% if guide.related and guide.related.length %}<p><strong>Related:</strong> {% for related in guide.related %}<code>{{ related }}</code>{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
-            </div>
-            {% if guide.example %}<div><p><strong>Example usage</strong></p><pre class="json-example"><code>{{ guide.example | jsonCode | safe }}</code></pre></div>{% endif %}
-          </div>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% endmacro %}
+{% from "schema-field-table.njk" import fieldTable with context %}
 
 <section>
   <p class="eyebrow">Schemas / v0.4</p>
@@ -104,13 +45,13 @@ docsToc:
 <section id="manifest-fields">
   <h2>Manifest fields</h2>
   <p>The root object is the resolved icons manifest. Required fields are marked with <code>*</code>.</p>
-  {{ fieldTable(ref.properties, 'manifest') }}
+  {{ fieldTable(ref.properties, 'manifest', 'v04Icons') }}
 </section>
 
 <section id="icon-fields">
   <h2>Icon fields</h2>
   <p>Each item in <code>icons</code> follows this shape.</p>
-  {{ fieldTable(icon.properties, 'Icon') }}
+  {{ fieldTable(icon.properties, 'Icon', 'v04Icons') }}
 </section>
 
 <section id="definitions">
@@ -124,9 +65,9 @@ docsToc:
         {% set definitionGuide = schemaDocs.v04Icons._definitions and schemaDocs.v04Icons._definitions[name] or {} %}
         <p>{{ definitionGuide.summary or definition.description or 'See the raw schema for this definition.' }}</p>
         {% if definition.properties %}
-          {{ fieldTable(definition.properties, name) }}
+          {{ fieldTable(definition.properties, name, 'v04Icons') }}
         {% elif definition.additionalProperties and definition.additionalProperties.properties %}
-          {{ fieldTable(definition.additionalProperties.properties, name + 'Entry') }}
+          {{ fieldTable(definition.additionalProperties.properties, name + 'Entry', 'v04Icons') }}
         {% elif definition.additionalProperties === true %}
           <p>This definition accepts type-specific keys, described in the raw schema.</p>
         {% elif definition.$ref %}

@@ -20,54 +20,7 @@ docsToc:
 {%- set tokenExtensions = ref.definitions.TokenExtensions -%}
 {%- set groupExtensions = ref.definitions.GroupExtensions -%}
 
-{% macro fieldTable(fields, scope, showDetails) %}
-<div class="schema-table-wrap">
-  <table class="schema-table">
-    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
-    <tbody>
-      {% for field in fields %}
-      {% set scopeDocs = schemaDocs.v03DtcgExtensions[scope] or {} %}
-      {% set guide = scopeDocs[field.name] or {} %}
-      <tr class="field-row">
-        <td class="field-name-cell">
-          {% if showDetails %}
-          <div class="field-name-toggle-wrap">
-            <input class="field-toggle" id="field-details-{{ scope }}-{{ loop.index }}" type="checkbox" aria-label="Show details for {{ field.name }}">
-            <label class="field-name-toggle" for="field-details-{{ scope }}-{{ loop.index }}">
-              <span class="field-chevron" aria-hidden="true"></span>
-              <code>{{ field.name }}{% if field.required %}<span class="required-field" aria-label="required">*</span>{% endif %}</code>
-            </label>
-          </div>
-          {% else %}
-          <div class="field-name-static"><code>{{ field.name }}{% if field.required %}<span class="required-field" aria-label="required">*</span>{% endif %}</code></div>
-          {% endif %}
-        </td>
-        <td>
-          {% if field.type %}
-            {% if field.type is string %}<code>{{ field.type }}</code>{% else %}<code>{{ field.type | join(', ') }}</code>{% endif %}
-          {% elif field.$ref %}
-            {% set fieldDefinition = field.$ref | schemaDefinitionName %}
-            {% if fieldDefinition %}<a class="schema-ref" href="#definition-{{ fieldDefinition }}"><code>{{ fieldDefinition }}</code></a>{% else %}<code>{{ field.$ref }}</code>{% endif %}
-          {% else %}—{% endif %}
-        </td>
-        <td>{{ guide.summary or field.description or '—' }}</td>
-      </tr>
-      {% if showDetails %}
-      <tr class="field-details">
-        <td colspan="3"><div class="field-details__content"><div>
-          {% if guide.useWhen %}<p><strong>Use when:</strong> {{ guide.useWhen }}</p>{% endif %}
-          {% if guide.provenance %}<p><strong>Origin:</strong> {{ guide.provenance }}</p>{% endif %}
-          {% if field.enum %}<p><strong>Allowed:</strong> <code>{{ field.enum.values | join(', ') }}</code></p>{% endif %}
-          {% if field.default !== undefined %}<p><strong>Default:</strong> <code>{{ field.default }}</code></p>{% endif %}
-          {% if field.additionalProperties and field.additionalProperties.$ref %}{% set valueDefinition = field.additionalProperties.$ref | schemaDefinitionName %}<p><strong>Values:</strong> {% if valueDefinition %}<a class="schema-ref" href="#definition-{{ valueDefinition }}"><code>{{ valueDefinition }}</code></a>{% else %}<code>{{ field.additionalProperties.$ref }}</code>{% endif %}</p>{% endif %}
-        </div>{% if guide.example %}<div><p><strong>Example usage</strong></p><pre class="json-example"><code>{{ guide.example | jsonCode | safe }}</code></pre></div>{% endif %}</div></td>
-      </tr>
-      {% endif %}
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% endmacro %}
+{% from "schema-field-table.njk" import fieldTable with context %}
 
 <section id="start">
   <p class="eyebrow">Schemas / v0.3</p>
@@ -100,13 +53,13 @@ docsToc:
 <section id="token-fields">
   <h2>Token extension fields</h2>
   <p>Use these fields on an individual DTCG token’s <code>$extensions[&quot;recipes.designlasagna&quot;]</code> object.</p>
-  {{ fieldTable(tokenExtensions.properties, 'TokenExtensions', true) }}
+  {{ fieldTable(tokenExtensions.properties, 'TokenExtensions', 'v03DtcgExtensions', true, true) }}
 </section>
 
 <section id="group-fields">
   <h2>Group extension fields</h2>
   <p>Use these inheritable fields on a DTCG group. Descendant tokens may override them where the schema permits.</p>
-  {{ fieldTable(groupExtensions.properties, 'GroupExtensions', true) }}
+  {{ fieldTable(groupExtensions.properties, 'GroupExtensions', 'v03DtcgExtensions', true, true) }}
 </section>
 
 <section id="definitions">
@@ -119,7 +72,7 @@ docsToc:
     <article class="schema-definition">
       <h3 id="definition-{{ name }}"><code>{{ name }}</code></h3>
       <p>{{ definitionGuide.summary or definition.description or 'See the raw schema for this definition.' }}</p>
-      {% if definition.properties %}{{ fieldTable(definition.properties, name, false) }}{% elif definition.$ref %}<p><code>{{ definition.$ref }}</code></p>{% elif definition.type %}<p><code>{{ definition.type }}</code></p>{% endif %}
+      {% if definition.properties %}{{ fieldTable(definition.properties, name, 'v03DtcgExtensions', false) }}{% elif definition.$ref %}<p><code>{{ definition.$ref }}</code></p>{% elif definition.type %}<p><code>{{ definition.type }}</code></p>{% endif %}
       {% if definitionGuide.example %}<p><strong>Example usage</strong></p><pre class="json-example"><code>{{ definitionGuide.example | jsonCode | safe }}</code></pre>{% endif %}
     </article>
     {% endif %}
