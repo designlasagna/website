@@ -1,4 +1,5 @@
 {
+  "url": "https://designlasagna.recipes",
   "title": "Design Lasagna",
   "description": "Design Lasagna — tools and ideas for design-system teams.",
   "nav": [
@@ -6,6 +7,7 @@
     { "label": "Docs", "href": "/docs/" }
   ],
   "external": [
+    { "label": "About", "href": "/about/" },
     { "label": "Schemas on GitHub", "href": "https://github.com/designlasagna/schemas" },
     { "label": "Language server on GitHub", "href": "https://github.com/designlasagna/ds-language-server" },
     { "label": "Contact", "href": "mailto:admin@designlasagna.recipes" }

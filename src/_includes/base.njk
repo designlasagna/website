@@ -4,6 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{{ description or site.description }}">
+  <link rel="icon" type="image/svg+xml" href="{{ '/assets/logotype.svg' | url }}">
+  {% if page.url %}<link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">{% endif %}
+  <meta property="og:title" content="{% if title and title != site.title %}{{ title }} — {% endif %}{{ site.title }}">
+  <meta property="og:description" content="{{ description or site.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta name="twitter:card" content="summary">
   <title>{% if title and title != site.title %}{{ title }} — {% endif %}{{ site.title }}</title>
   <link rel="stylesheet" href="{{ '/assets/styles.css' | url }}">
 </head>
@@ -13,7 +21,7 @@
     <a class="brand" href="/" aria-label="Design Lasagna home"><img src="{{ '/assets/logotype.svg' | url }}" alt="Design Lasagna" width="213" height="202"></a>
     <nav class="site-nav" aria-label="Main">
       {% for link in site.nav %}
-      <a href="{{ link.href }}"{% if link.href == page.url %} aria-current="page"{% elif link.href != "/" and page.url.startsWith(link.href) %} aria-current="true"{% endif %}>{{ link.label }}</a>
+      <a href="{{ link.href }}"{% if page.url and link.href == page.url %} aria-current="page"{% elif page.url and link.href != "/" and page.url.startsWith(link.href) %} aria-current="true"{% endif %}>{{ link.label }}</a>
       {% endfor %}
     </nav>
   </header>
@@ -21,7 +29,7 @@
     {{ content | safe }}
   </main>
   <footer class="site-footer">
-    <nav aria-label="External">
+    <nav aria-label="Footer">
       {% for link in site.external %}
       <a href="{{ link.href }}">{{ link.label }}</a>
       {% endfor %}

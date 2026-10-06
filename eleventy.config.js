@@ -1,12 +1,6 @@
-// Minimal Eleventy skeleton config.
-//
-// Input:  src/   — Eleventy templates and source directories
-// Output: dist/  — generated static site (never hand-edit)
-//
-// The existing landing page and 404 page live in src/ and are passed
-// through unchanged, and the existing assets/ directory plus CNAME are
-// moved into src/ and copied to dist/ while src/ templates are added
-// incrementally.
+// Eleventy configuration for Design Lasagna static site.
+// Input: src/ templates and data; Output: dist/ (never hand-edit).
+// Adds JSON code filters and passthrough copies for assets and hosted schemas.
 
 module.exports = function (eleventyConfig) {
   // Dependency-free JSON rendering for readable, static code examples.
@@ -32,6 +26,7 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/CNAME");
+  eleventyConfig.addPassthroughCopy("src/robots.txt");
 
   // Historical raw contracts are immutable snapshots. The build then adds
   // v0.4 directly from the released package via publish-schemas.mjs.
