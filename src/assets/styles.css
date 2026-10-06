@@ -25,13 +25,19 @@ section { margin: 0; padding-block: 2.25rem; }
 h1 { margin: 0; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: clamp(3rem, 15vw, 9.5rem); font-weight: 400; line-height: .88; letter-spacing: -.07em; text-transform: uppercase; }
 h1 em { color: var(--orange); font-style: normal; }
 
-/* Landing headlines are sized to the viewport so the title fills the page
-   like cover lettering. --w is the em-width of the longest word in the Tilt
-   Warp setting; on phones the type is sized so that word spans the gutters.
-   Docs pages keep the plain h1 above. */
-.hero h1 { --w: 3.75; font-size: min(calc((100vw - 2.5rem) / var(--w)), 7.5rem); line-height: .84; }
-.tool-page h1, .library-page h1, .changelog-page h1, .about-page h1 { --w: 4.6; max-width: none; font-size: min(calc((100vw - 2.5rem) / var(--w)), 6rem); line-height: .84; }
-.library-page h1 { --w: 4.9; }
+/* Landing headlines fill the full width like cover lettering: every line is
+   sized so it spans the h1 exactly. --em is the line's width in em at this
+   font and letter-spacing (measured, rounded up so nothing overflows). Where
+   two words per line would drop below ~64px (phones), each .c chunk gets its
+   own line and its own --ec. Docs pages keep the plain h1 above. */
+h1.fit { container-type: inline-size; max-width: none; font-size: 1rem; line-height: .86; }
+.fit__line, .fit .c { letter-spacing: -.07em; line-height: .86; }
+.fit__line { display: block; font-size: calc(100cqi / var(--em)); }
+.fit em.fit__line { color: var(--orange); }
+@media (max-width: 43.99rem) {
+  .fit .c { display: block; font-size: calc(100cqi / var(--ec)); }
+}
+.library-page h1, .changelog-page h1 { --w: 4.9; max-width: none; font-size: min(calc((100vw - 2.5rem) / var(--w)), 6rem); line-height: .84; }
 .changelog-page h1 { --w: 5.5; }
 .about-page h1 { margin-bottom: 1.75rem; }
 em { color: inherit; }
@@ -326,10 +332,7 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
   main { padding: clamp(1.5rem, 5vw, 5rem); }
   section { padding-block: 3rem; }
   .hero { padding-block: clamp(3rem, 6vw, 6rem); }
-  /* 14.2vw makes "Make systems" (6.17em) span the 90vw content box; the
-     other landing titles are deliberately smaller. */
-  .hero h1 { font-size: min(14.2vw, 12.75rem); line-height: .8; }
-  .tool-page h1, .library-page h1, .about-page h1 { font-size: min(10.5vw, 8.5rem); line-height: .82; }
+  .library-page h1 { font-size: min(10.5vw, 8.5rem); line-height: .82; }
   .changelog-page h1 { font-size: min(9vw, 6rem); line-height: .82; }
   h1 { font-size: clamp(3.5rem, 10vw, 9.5rem); line-height: .83; }
   h2 { margin-bottom: 1.25rem; font-size: clamp(1.75rem, 3vw, 2.5rem); }
