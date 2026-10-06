@@ -144,6 +144,10 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .change-entry__kind { padding: .25rem .45rem; border: 1px solid color-mix(in srgb, var(--purple) 25%, var(--paper)); border-radius: .25rem; color: var(--purple); }
 .change-entry h2 { margin: 0 0 .55rem; font-size: clamp(1.3rem, 2.4vw, 1.6rem); }
 .change-entry p { margin: 0; line-height: 1.65; }
+.changelog-md h2 { margin: 0; padding: 1.6rem 0 .75rem; border-top: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); }
+.changelog-md h3 { margin: 1.2rem 0 .5rem; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.1rem; font-weight: 400; }
+.changelog-md p, .changelog-md li { line-height: 1.65; }
+.changelog-md ul { margin: 0 0 1rem; padding-left: 1.25rem; }
 main p { max-width: 65ch; line-height: 1.55; }
 main ul { margin: 0; padding-left: 1.25rem; }
 main li { margin: 0 0 .9rem; line-height: 1.55; }
@@ -251,6 +255,7 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
 .schema-table { display: block; width: 100%; min-width: 0; border-collapse: separate; border-spacing: 0; font-size: .9rem; line-height: 1.45; }
 .schema-table td, .schema-table th { min-width: 0; overflow-wrap: anywhere; }
 .schema-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .schema-table tbody { display: block; }
 .schema-table tr { display: block; }
 .field-row { display: grid !important; grid-template-columns: minmax(0, 1fr); grid-template-areas: "field" "type" "description"; }
@@ -290,6 +295,15 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
   .field-row td:nth-child(2) { padding-top: .75rem; padding-left: .4rem; text-align: right; }
   .field-row td:nth-child(2)::before { display: none; }
 }
+/* Simple schema listings (contracts, profiles, references) as flat lists
+   rather than tables, so they read the same at every width. */
+.schema-list { margin: 1.25rem 0 0; padding: 0; border-top: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); list-style: none; }
+.schema-list > li, .schema-list > div { margin: 0; padding: .9rem 0; border-bottom: 1px solid color-mix(in srgb, var(--purple) 14%, var(--paper)); }
+.schema-list p, .schema-list dd { max-width: 65ch; margin: .3rem 0 0; line-height: 1.5; overflow-wrap: anywhere; }
+.schema-list .schema-list__title { margin: 0; color: var(--ink); font: 500 .95rem "DM Mono", monospace; }
+.schema-list__meta { color: var(--muted); font-size: .9rem; }
+.schema-list__label { margin-right: .4em; color: var(--muted); font: 500 .62rem "DM Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
+.schema-list__arrow { margin-inline: .3em; color: var(--muted); }
 .json-example { max-height: 28rem; margin: 0; padding: .85rem; overflow: auto; border-radius: .45rem; background: #261c2d; color: var(--paper); font: .78rem/1.55 "DM Mono", monospace; }
 
 /* The schema URL, package path, and smallest useful snippet form one action,

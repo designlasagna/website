@@ -72,7 +72,11 @@ const V04_RAW = [
   '/schemas/v0.4/dtcg-extensions.json',
   '/schemas/v0.4/lifecycle.json',
 ];
-const EXPECTED_INTERNAL = [...V03_DOCS, ...V04_DOCS, ...V03_RAW, ...V04_RAW].sort();
+const MOVED_CONTENT = [
+  '/docs/schemas/v0.4/lifecycle/#lifecycle-selection',
+  '/tools/schemas/changelog/#v0-4-0',
+];
+const EXPECTED_INTERNAL = [...MOVED_CONTENT, ...V03_DOCS, ...V04_DOCS, ...V03_RAW, ...V04_RAW].sort();
 
 test('migration guide is published at /docs/schemas/migrate-v0.3-to-v0.4/', () => {
   assert.ok(exists(GUIDE), 'guide source is missing');
@@ -129,7 +133,7 @@ test('every docsToc anchor on the guide resolves to an element id', () => {
   for (const anchor of tocHrefs) {
     assert.match(source, new RegExp(`id="${anchor}"`), `docsToc anchor #${anchor} has no matching id on the page`);
   }
-  for (const id of ['start', 'format-vs-package', 'lifecycle-selection', 'per-contract', 'lifecycle-fragment', 'unchanged', 'checklist', 'references']) {
+  for (const id of ['start', 'at-a-glance', 'examples', 'format-vs-package', 'lifecycle-selection', 'per-contract', 'unchanged', 'checklist', 'references']) {
     assert.match(source, new RegExp(`id="${id}"`), `section id "${id}" is missing`);
   }
 });
@@ -141,39 +145,101 @@ test('key migration claims stay in the guide prose', () => {
     '0.4.0</code> is the npm release version',
     '@designlasagna/schemas@0.4.0',
     'schemaVersion: "0.4.0"',
-    // Native manifests: the $schema URL selects the contract; schemaVersion
-    // stays a plain string (no version dispatch); the resolver picks the profile.
-    'The URL selects the validating contract',
-    'not a version-dispatch algorithm',
-    'the consuming resolver selects the matching v0.4 profile itself',
-    // CEM/DTCG extensions opt into lifecycle fields within host formats;
-    // without selection the legacy profile applies, per the package docs.
-    'the consuming project or resolver config selects lifecycle profile',
-    'lifecycle fields inside CEM extensions and DTCG extensions become active',
-    'Without that selection, the legacy profile applies',
-    "documented in the package's lifecycle documentation",
-    // CEM slot/cssProperty extensions gain status via the shared reference.
-    'gaining <code>status</code> in the process',
-    // CEM DeprecatedValue message must now be non-empty.
-    '<code>message</code> now required to be non-empty',
-    // No automatic conversion, no universal consumer support, dual support.
-    'There is no automatic, lossless conversion of legacy data',
-    'not assume universal v0.4 consumer support',
-    'no lossless upgrade path',
-    'keep dual support',
+    // Compact selection list: native opt-in per document, CEM/DTCG per profile.
+    'Per document: v0.4 <code>$schema</code> URL',
+    'Select lifecycle profile <code>0.4</code> in project or resolver config',
+    'Legacy profile; v0.4 fields are not applied',
+    'Nothing converts automatically',
     // The explicit deprecated: false assertion is new.
     'deprecated: false',
-    // v0.3 contract URLs moved to /schemas/v0.4/ in v0.4 (HTML-escaped in the page).
-    'https://designlasagna.recipes/v0.3/&lt;file&gt;',
-    'https://designlasagna.recipes/schemas/v0.4/&lt;file&gt;',
   ];
   for (const claim of claims) {
     assert.ok(normalized.includes(claim), `guide no longer states: ${claim}`);
   }
 });
 
-test('the guide covers the expected per-contract sections', () => {
+test('the guide is compact: moved sections are gone and link to where the content lives', () => {
   for (const heading of ['tokens.json', 'utilities.json', 'icons.json', 'cem-extensions.json', 'dtcg-extensions.json']) {
-    assert.match(source, new RegExp(`<h3>${heading}</h3>`), `per-contract section for ${heading} is missing`);
+    assert.ok(!source.includes(`<h3>${heading}</h3>`), `per-contract h3 for ${heading} moved to the changelog`);
   }
+  assert.ok(!source.includes('id="lifecycle-fragment"'), 'lifecycle-fragment section was removed');
+  assert.ok(!source.includes('<h3>Lifecycle rules</h3>'), 'lifecycle rules moved to the lifecycle reference');
+  assert.ok(source.includes('href="/docs/schemas/v0.4/lifecycle/#lifecycle-selection"'), 'guide must deep-link the lifecycle selection reference');
+  assert.ok(source.includes('href="/tools/schemas/changelog/#v0-4-0"'), 'guide must deep-link the v0.4.0 changelog entry');
+});
+
+const CHANGELOG = 'src/content/tools/schemas/changelog/index.html';
+const LIFECYCLE_PAGE = 'src/content/docs/schemas/v0.4/lifecycle/index.njk';
+
+test('the changelog page keeps a v0.4.0 entry the guide can link to', () => {
+  // Per-contract breakdowns now ship in the package CHANGELOG.md (rendered at
+  // build time; see schemas-changelog.test.mjs). The page's fallback entry
+  // keeps the anchor and the summary.
+  const changelog = read(CHANGELOG);
+  assert.match(changelog, /<section class="change-entry" id="v0-4-0">/, 'fallback v0.4.0 entry needs id="v0-4-0"');
+  assert.ok(!/<h3>/.test(changelog), 'per-contract h3 lists moved to the package changelog');
+  const log = changelog.replace(/\s+/g, ' ');
+  for (const claim of [
+    'canonical <code>status</code> field',
+    'explicit <code>deprecated: false</code>',
+    'href="/docs/schemas/migrate-v0.3-to-v0.4/"',
+  ]) {
+    assert.ok(log.includes(claim), `changelog no longer states: ${claim}`);
+  }
+});
+
+test('the lifecycle reference page carries the selection details and rules', () => {
+  const page = read(LIFECYCLE_PAGE);
+  assert.match(page, /id="lifecycle-selection"/);
+  assert.match(page, /href: "#lifecycle-selection"/, 'lifecycle page TOC must list the selection section');
+  const text = page.replace(/\s+/g, ' ');
+  for (const claim of [
+    'the <code>$schema</code> URL selects the validating contract',
+    'not version dispatch',
+    'the consuming resolver selects the matching v0.4 profile',
+    'apply only when project or resolver config selects lifecycle profile <code>0.4</code>',
+    'otherwise the legacy profile applies',
+    "docs/lifecycle-migration.md",
+    'no automatic, lossless conversion',
+    'do not assume universal v0.4 consumer support',
+    'no lossless upgrade path',
+    'v0.3 and v0.4 documents coexist',
+    '<code>lifecycle-conflict</code>',
+    '<code>removed</code> is always an error',
+    'Expand DTCG <code>$extends</code> before lifecycle selection',
+    'register all six exported v0.4 schemas',
+  ]) {
+    assert.ok(text.includes(claim), `lifecycle page no longer states: ${claim}`);
+  }
+});
+
+test('guide uses flat lists, not tables, for selection and references', () => {
+  assert.ok(!source.includes('<table'), 'guide listings must not be tables');
+  const selection = source.match(/<section id="lifecycle-selection">[\s\S]*?<\/section>/)[0];
+  const profiles = [...selection.matchAll(/<dt class="schema-list__title">([^<]+)<\/dt>/g)].map((m) => m[1]);
+  assert.deepEqual(profiles, ['Native manifests', 'CEM', 'DTCG'], 'selection list must name each profile');
+  assert.equal((selection.match(/<dd>/g) ?? []).length, 6, 'each profile needs an opt-in and an otherwise line');
+
+  const references = source.match(/<section id="references">[\s\S]*?<\/section>/)[0];
+  const items = references.match(/<li>[\s\S]*?<\/li>/g) ?? [];
+  const contracts = ['tokens', 'utilities', 'cem-extensions', 'dtcg-extensions', 'icons', 'lifecycle'];
+  assert.equal(items.length, contracts.length, 'references list needs one item per contract');
+  const v03Pages = { tokens: 'tokens', utilities: 'utilities', 'cem-extensions': 'components', 'dtcg-extensions': 'dtcg-extensions' };
+  const v04Pages = { ...v03Pages, icons: 'icons', lifecycle: 'lifecycle' };
+  contracts.forEach((contract, i) => {
+    const item = items[i];
+    assert.ok(item.includes(`<code>${contract}.json</code>`), `references item ${i} must be ${contract}.json`);
+    assert.ok(item.includes(`href="/docs/schemas/v0.4/${v04Pages[contract]}/"`), `${contract} must link its v0.4 reference`);
+    assert.ok(item.includes(`href="/schemas/v0.4/${contract}.json"`), `${contract} must link its v0.4 raw file`);
+    if (contract === 'lifecycle') {
+      assert.ok(item.includes('Not in v0.3'), 'lifecycle must say it is not in v0.3');
+      return;
+    }
+    assert.ok(item.includes(`href="/schemas/v0.3/${contract}.json"`), `${contract} must link its v0.3 raw file`);
+    if (v03Pages[contract]) {
+      assert.ok(item.includes(`href="/docs/schemas/v0.3/${v03Pages[contract]}/"`), `${contract} must link its v0.3 reference`);
+    } else {
+      assert.ok(item.includes('No reference page'), `${contract} must say it has no v0.3 reference page`);
+    }
+  });
 });

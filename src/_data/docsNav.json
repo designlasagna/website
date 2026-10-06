@@ -4,7 +4,7 @@
     {
       "heading": "Schema reference",
       "links": [
-        { "href": "/docs/schemas/", "label": "Schema overview" },
+        { "href": "/docs/schemas/", "label": "Overview" },
         { "href": "/docs/schemas/v0.4/tokens/", "label": "Tokens", "sections": "Tokens sections" },
         { "href": "/docs/schemas/v0.4/utilities/", "label": "Utilities", "sections": "Utilities sections" },
         { "href": "/docs/schemas/v0.4/icons/", "label": "Icons", "sections": "Icons sections" },
@@ -23,8 +23,8 @@
     {
       "heading": "Language Server",
       "links": [
-        { "href": "/docs/language-server/", "label": "Install and configure", "sections": "Language Server sections" },
-        { "href": "/tools/language-server/", "label": "Tool overview" }
+        { "href": "/docs/language-server/", "label": "Overview" },
+        { "href": "/docs/language-server/setup/", "label": "Setup", "sections": "Setup sections" }
       ]
     }
   ]

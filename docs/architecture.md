@@ -46,7 +46,8 @@ dist/                           Generated deployment output; never hand-edit
 /docs/                          Documentation index
 /docs/schemas/                  Schema documentation index
 /docs/schemas/v0.3/tokens/      Human-readable schema documentation
-/docs/language-server/          Language Server reference and setup
+/docs/language-server/          Language Server overview
+/docs/language-server/setup/    Language Server setup
 /learn/                         Evergreen guides
 /writing/                       Dated editorial writing
 /schemas/v0.3/tokens.json       Raw, machine-readable JSON Schema

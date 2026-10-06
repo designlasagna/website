@@ -9,6 +9,8 @@ docsToc:
     href: "#definitions"
   - label: Usage
     href: "#usage"
+  - label: Selection and rules
+    href: "#lifecycle-selection"
 ---
 {%- set st = schemas.v04Lifecycle -%}
 {%- set ref = st.ref -%}
@@ -150,69 +152,33 @@ docsToc:
     Every v0.4 contract that models lifecycle metadata <code>$ref</code>s
     definitions from this file instead of redefining them:
   </p>
-  <div class="schema-table-wrap">
-    <table class="schema-table">
-      <thead>
-        <tr>
-          <th>Contract</th>
-          <th>Field</th>
-          <th>Definition used</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><a href="/docs/schemas/v0.4/tokens/">Tokens</a></td>
-          <td><code>Token.status</code></td>
-          <td><code>lifecycle.json#/definitions/Status</code></td>
-        </tr>
-        <tr>
-          <td><a href="/docs/schemas/v0.4/tokens/">Tokens</a></td>
-          <td><code>Token.deprecated</code></td>
-          <td><code>lifecycle.json#/definitions/NativeDeprecation</code></td>
-        </tr>
-        <tr>
-          <td><a href="/docs/schemas/v0.4/utilities/">Utilities</a></td>
-          <td><code>UtilityClass.status</code></td>
-          <td><code>lifecycle.json#/definitions/Status</code></td>
-        </tr>
-        <tr>
-          <td><a href="/docs/schemas/v0.4/utilities/">Utilities</a></td>
-          <td><code>UtilityClass.deprecated</code></td>
-          <td><code>lifecycle.json#/definitions/NativeDeprecation</code></td>
-        </tr>
-        <tr>
-          <td><a href="/docs/schemas/v0.4/icons/">Icons</a></td>
-          <td><code>Icon.status</code></td>
-          <td><code>lifecycle.json#/definitions/Status</code></td>
-        </tr>
-        <tr>
-          <td><a href="/docs/schemas/v0.4/icons/">Icons</a></td>
-          <td><code>Icon.deprecated</code></td>
-          <td><code>lifecycle.json#/definitions/NativeDeprecation</code></td>
-        </tr>
-        <tr>
-          <td><a href="/docs/schemas/v0.4/components/">Components (CEM)</a></td>
-          <td><code>LifecycleFields.status</code>, <code>AttributeExtensions.status</code></td>
-          <td><code>lifecycle.json#/definitions/Status</code></td>
-        </tr>
-        <tr>
-          <td><a href="/docs/schemas/v0.4/components/">Components (CEM)</a></td>
-          <td><code>deprecatedValues</code> entries</td>
-          <td><code>lifecycle.json#/definitions/DeprecatedValue</code></td>
-        </tr>
-        <tr>
-          <td><a href="/docs/schemas/v0.4/dtcg-extensions/">DTCG extensions</a></td>
-          <td><code>TokenExtensions.status</code>, <code>GroupExtensions.status</code></td>
-          <td><code>lifecycle.json#/definitions/Status</code></td>
-        </tr>
-        <tr>
-          <td><a href="/docs/schemas/v0.4/dtcg-extensions/">DTCG extensions</a></td>
-          <td><code>TokenExtensions.deprecated</code>, <code>GroupExtensions.deprecated</code></td>
-          <td><code>lifecycle.json#/definitions/StrictDeprecated</code></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <ul class="schema-list">
+    <li>
+      <p class="schema-list__title"><a href="/docs/schemas/v0.4/tokens/">Tokens</a></p>
+      <p><code>Token.status</code> <span class="schema-list__arrow" aria-hidden="true">→</span><span class="visually-hidden">uses</span> <a href="#definition-Status"><code>Status</code></a></p>
+      <p><code>Token.deprecated</code> <span class="schema-list__arrow" aria-hidden="true">→</span><span class="visually-hidden">uses</span> <a href="#definition-NativeDeprecation"><code>NativeDeprecation</code></a></p>
+    </li>
+    <li>
+      <p class="schema-list__title"><a href="/docs/schemas/v0.4/utilities/">Utilities</a></p>
+      <p><code>UtilityClass.status</code> <span class="schema-list__arrow" aria-hidden="true">→</span><span class="visually-hidden">uses</span> <a href="#definition-Status"><code>Status</code></a></p>
+      <p><code>UtilityClass.deprecated</code> <span class="schema-list__arrow" aria-hidden="true">→</span><span class="visually-hidden">uses</span> <a href="#definition-NativeDeprecation"><code>NativeDeprecation</code></a></p>
+    </li>
+    <li>
+      <p class="schema-list__title"><a href="/docs/schemas/v0.4/icons/">Icons</a></p>
+      <p><code>Icon.status</code> <span class="schema-list__arrow" aria-hidden="true">→</span><span class="visually-hidden">uses</span> <a href="#definition-Status"><code>Status</code></a></p>
+      <p><code>Icon.deprecated</code> <span class="schema-list__arrow" aria-hidden="true">→</span><span class="visually-hidden">uses</span> <a href="#definition-NativeDeprecation"><code>NativeDeprecation</code></a></p>
+    </li>
+    <li>
+      <p class="schema-list__title"><a href="/docs/schemas/v0.4/components/">Components (CEM)</a></p>
+      <p><code>LifecycleFields.status</code>, <code>AttributeExtensions.status</code> <span class="schema-list__arrow" aria-hidden="true">→</span><span class="visually-hidden">uses</span> <a href="#definition-Status"><code>Status</code></a></p>
+      <p><code>deprecatedValues</code> entries <span class="schema-list__arrow" aria-hidden="true">→</span><span class="visually-hidden">uses</span> <a href="#definition-DeprecatedValue"><code>DeprecatedValue</code></a></p>
+    </li>
+    <li>
+      <p class="schema-list__title"><a href="/docs/schemas/v0.4/dtcg-extensions/">DTCG extensions</a></p>
+      <p><code>TokenExtensions.status</code>, <code>GroupExtensions.status</code> <span class="schema-list__arrow" aria-hidden="true">→</span><span class="visually-hidden">uses</span> <a href="#definition-Status"><code>Status</code></a></p>
+      <p><code>TokenExtensions.deprecated</code>, <code>GroupExtensions.deprecated</code> <span class="schema-list__arrow" aria-hidden="true">→</span><span class="visually-hidden">uses</span> <a href="#definition-StrictDeprecated"><code>StrictDeprecated</code></a></p>
+    </li>
+  </ul>
   <p>
     The native manifest contracts (tokens, utilities, icons) also carry a
     local <code>Deprecated</code> alias that <code>$ref</code>s
@@ -221,6 +187,55 @@ docsToc:
     <code>StrictDeprecated</code> — one canonical record shape per
     namespace, defined once here.
   </p>
+</section>
+
+<section id="lifecycle-selection">
+  <h2>Lifecycle selection and rules</h2>
+
+  <p><strong>Selection</strong></p>
+  <ul>
+    <li>
+      Native manifests (tokens, utilities, icons): the
+      <code>$schema</code> URL selects the validating contract.
+      <code>schemaVersion</code> is a plain string, not version dispatch; the
+      consuming resolver selects the matching v0.4 profile.
+    </li>
+    <li>
+      A v0.3 manifest keeps its v0.3 URL and <code>"0.3.0"</code>. A migrated
+      one is valid only against v0.4 and needs a v0.4-capable consumer.
+    </li>
+    <li>
+      CEM and DTCG are host formats: no Design Lasagna <code>schemaVersion</code>.
+      A CEM manifest keeps its CEM <code>schemaVersion</code>; DTCG lifecycle
+      data lives in <code>$extensions["recipes.designlasagna"]</code>.
+    </li>
+    <li>
+      CEM and DTCG extension lifecycle fields apply only when project or
+      resolver config selects lifecycle profile <code>0.4</code>; otherwise the
+      legacy profile applies. No schema file encodes this; see
+      <a href="https://github.com/designlasagna/schemas/blob/HEAD/docs/lifecycle-migration.md"><code>docs/lifecycle-migration.md</code></a>
+      in <code>@designlasagna/schemas@0.4.0</code>.
+    </li>
+    <li>Legacy data has no automatic, lossless conversion; do not assume universal v0.4 consumer support.</li>
+    <li>During the transition, v0.3 and v0.4 documents coexist, each valid against its own contracts.</li>
+    <li>
+      Legacy parser-only forms (native booleans or strings, raw DTCG
+      <code>$status</code>/<code>$removal</code>/<code>$replacement</code>,
+      prose-derived data) have no lossless upgrade path; ask authors for
+      structured <code>message</code>, <code>removal</code>, <code>replacement</code>.
+    </li>
+  </ul>
+
+  <p><strong>Rules</strong></p>
+  <ul>
+    <li>DTCG extension <code>deprecated</code> must not be <code>false</code> or <code>null</code>; clear inherited deprecation with the standard <code>$deprecated: false</code>.</li>
+    <li>CEM <code>deprecated</code> must not be an object.</li>
+    <li>Positive evidence (<code>status: deprecated</code> or <code>removed</code>, or a deprecation record) beats <code>false</code>; the conflict is reported as <code>lifecycle-conflict</code>.</li>
+    <li><code>removed</code> is always an error.</li>
+    <li>Only exact ISO dates (<code>YYYY-MM-DD</code>) in <code>removal</code> drive severity; semver and quarters are displayed as authored.</li>
+    <li>Expand DTCG <code>$extends</code> before lifecycle selection.</li>
+    <li>Offline validation: register all six exported v0.4 schemas by <code>$id</code>, since the relative <code>$ref</code>s to this fragment do not resolve from a single file.</li>
+  </ul>
 </section>
 
 <p><a class="link-back" href="/docs/schemas/">All schemas</a></p>

@@ -9,7 +9,7 @@ const distDir = path.resolve(__dirname, '../dist');
 const pages = [
   { route: '/tools/language-server/', file: 'tools/language-server/index.html' },
   { route: '/tools/language-server/changelog/', file: 'tools/language-server/changelog/index.html' },
-  { route: '/docs/language-server/', file: 'docs/language-server/index.html' }
+  { route: '/docs/language-server/setup/', file: 'docs/language-server/setup/index.html' }
 ];
 const contents = pages.map(p => ({ ...p, html: fs.readFileSync(path.join(distDir, p.file), 'utf8') }));
 const [tool, changelog, docs] = contents;
@@ -94,6 +94,6 @@ test('internal links and anchors resolve', () => {
 test('negative missing file and fragment; query and external handling', () => {
   assert.equal(resolveInternal('/nonexistent/', '/tools/language-server/').error, 'file_not_found');
   assert.equal(resolveInternal('/tools/language-server/#bad', '/tools/language-server/').error, 'anchor_not_found');
-  assert.ok(!resolveInternal('/docs/language-server/?from=tool#install', '/tools/language-server/').error);
+  assert.ok(!resolveInternal('/docs/language-server/setup/?from=tool#install', '/tools/language-server/').error);
   assert.equal(resolveInternal('//example.org/elsewhere', '/tools/language-server/'), null);
 });

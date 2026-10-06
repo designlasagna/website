@@ -5,7 +5,7 @@
  * `npm run check`, which builds dist/ first):
  *
  *   - the sidebar navigation is grouped, in this order, on every docs
- *     page: Schema reference (Schema overview, Tokens, Utilities, Icons,
+ *     page: Schema reference (Overview, Tokens, Utilities, Icons,
  *     CEM extensions, DTCG extensions, Lifecycle — current v0.4 only, in
  *     that order), Versioning (Migrate v0.3 → v0.4 with the page subnav
  *     directly beneath it), and Language Server (existing links);
@@ -37,7 +37,7 @@ const V04_PAGES = [
   { route: '/docs/schemas/v0.4/lifecycle/', dir: 'lifecycle' },
 ];
 const MIGRATION_PAGE = { route: '/docs/schemas/migrate-v0.3-to-v0.4/' };
-const LANGUAGE_SERVER_PAGE = { route: '/docs/language-server/' };
+const LANGUAGE_SERVER_PAGE = { route: '/docs/language-server/setup/' };
 
 // The four published v0.3 reference pages: their own titles, and the v0.4
 // sibling each page's page-level version nav must link to.
@@ -119,7 +119,7 @@ function sourceDocsToc(relRoute) {
 const CURRENT_PAGES = [
   ...V04_PAGES.map(({ route, dir }) => ({ route, dir, label: `v0.4 ${dir}` })),
   { ...MIGRATION_PAGE, dir: 'migrate-v0.3-to-v0.4', label: 'migration guide' },
-  { ...LANGUAGE_SERVER_PAGE, dir: 'language-server', label: 'language server' },
+  { ...LANGUAGE_SERVER_PAGE, dir: 'language-server/setup', label: 'language server setup' },
 ];
 const V03_WITH_DIRS = V03_PAGES.map(({ route, ...rest }) => ({
   ...rest,
@@ -235,12 +235,12 @@ test('every docs page marks exactly one current top-level link with its subnav d
   }
 });
 
-test('Language Server group keeps its existing links', () => {
+test('Language Server group links only Overview then Setup, in order', () => {
   for (const { route, label } of [...CURRENT_PAGES, ...V03_WITH_DIRS]) {
     const nav = navOf(sidebarOf(readPage(route), label), label);
     const start = nav.indexOf('>Language Server</p>');
     assert.ok(start >= 0, `${label}: Language Server group heading must stay`);
     const links = topLevelLinks(nav.slice(start)).map(({ href }) => href);
-    assert.deepEqual(links, ['/docs/language-server/', '/tools/language-server/'], `${label}: Language Server group must keep its two links in order`);
+    assert.deepEqual(links, ['/docs/language-server/', '/docs/language-server/setup/'], `${label}: Language Server group must link Overview then Setup only, not the tool page`);
   }
 });

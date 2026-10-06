@@ -17,7 +17,7 @@ Release prerequisite completed on 2026-10-02: [VS Code publishing workflow](http
 - [x] Obtain approval to publish the updated VS Code extension, then verify the actual Marketplace download before deploying the website launch updates.
 
 - [ ] Recheck the npm package page, VS Code Marketplace listing, GitHub tags, and the npm/VS Code changelog files from a signed-out browser.
-- [x] Confirm `/docs/language-server/`, `/tools/language-server/`, and `/tools/language-server/changelog/` agree on names, artifact versions, release status and links.
+- [x] Confirm `/docs/language-server/`, `/docs/language-server/setup/`, `/tools/language-server/`, and `/tools/language-server/changelog/` agree on names, artifact versions, release status and links.
 - [x] Run `npm run check` after a clean dependency install (2026-10-02: 58 tests and build pass).
 - [ ] Review the generated pages at narrow and wide widths.
 - [ ] Smoke-test each editor path being advertised; one client’s result is not evidence for another:

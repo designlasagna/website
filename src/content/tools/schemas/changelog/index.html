@@ -12,7 +12,12 @@ description: Release history for Design Lasagna schemas.
     <p><a class="link-back" href="/tools/schemas/">Back to Schemas</a> · <a href="/docs/schemas/">Browse references</a> · <a href="https://github.com/designlasagna/schemas/releases">View releases on GitHub</a></p>
   </header>
 
-  <section class="change-entry">
+{% if schemasChangelog.html != "" %}
+  <div class="changelog-md">
+{{ schemasChangelog.html }}
+  </div>
+{% else %}
+  <section class="change-entry" id="v0-4-0">
     <div class="change-entry__meta"><span>v0.4.0</span></div>
     <div><h2>Lifecycle contracts</h2><p>Added the v0.4 contracts under <code>/schemas/v0.4/</code>, with a canonical <code>status</code> field, an explicit <code>deprecated: false</code>, and a shared lifecycle fragment for deprecation records. Token platform mappings are now closed and no longer accept <code>usage</code>. v0.3 documents stay valid against the v0.3 contracts. See the <a href="/docs/schemas/migrate-v0.3-to-v0.4/">migration guide</a>.</p></div>
   </section>
@@ -28,4 +33,5 @@ description: Release history for Design Lasagna schemas.
     <div class="change-entry__meta"><span>v0.3.0</span></div>
     <div><h2>v0.3 contracts</h2><p>Introduced v0.3 release validation and publishing, including DTCG authoring extensions and fixtures.</p></div>
   </section>
+{% endif %}
 </div>

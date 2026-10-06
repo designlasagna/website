@@ -177,7 +177,21 @@ test('lifecycle page keeps the field tables for the property-bearing definitions
   }
 });
 
-test('lifecycle docsToc is simplified to Definitions and Usage', () => {
+test('lifecycle usage is a flat list linking each contract and on-page definition', () => {
+  const html = readPage(LIFECYCLE_PAGE);
+  const list = html.match(/<ul class="schema-list">[\s\S]*?<\/ul>/);
+  assert.ok(list, 'lifecycle page must list how the contracts use the fragment');
+  for (const page of ['tokens', 'utilities', 'icons', 'components', 'dtcg-extensions']) {
+    assert.ok(list[0].includes(`href="/docs/schemas/v0.4/${page}/"`), `usage list must link the ${page} reference`);
+  }
+  const targets = [...list[0].matchAll(/href="#(definition-[A-Za-z]+)"/g)].map((m) => m[1]);
+  assert.equal(targets.length, 10, 'usage list must map every field row to a definition');
+  for (const id of new Set(targets)) {
+    assert.ok(html.includes(`id="${id}"`), `usage list links missing anchor #${id}`);
+  }
+});
+
+test('lifecycle docsToc is Definitions, Usage and Selection and rules', () => {
   const html = readPage(LIFECYCLE_PAGE);
   const subnav = html.match(/<div class="docs-sidebar__subnav" aria-label="Lifecycle sections">[\s\S]*?<\/div>/);
   assert.ok(subnav, 'lifecycle page must keep its section subnav');
@@ -187,8 +201,9 @@ test('lifecycle docsToc is simplified to Definitions and Usage', () => {
     [
       { href: '#definitions', label: 'Nested definitions' },
       { href: '#usage', label: 'Usage' },
+      { href: '#lifecycle-selection', label: 'Selection and rules' },
     ],
-    'docsToc must be exactly Definitions and Usage',
+    'docsToc must be exactly Definitions, Usage and Selection and rules',
   );
   for (const { href } of entries) {
     assert.match(html, new RegExp(`id="${href.slice(1)}"`), `docsToc anchor ${href} has no matching element id`);

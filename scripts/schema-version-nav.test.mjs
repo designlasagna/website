@@ -71,6 +71,8 @@ const v04RawFiles = [
   'lifecycle.json',
 ];
 
+const v03RawFiles = ['dtcg-extensions.json', 'tokens.json', 'utilities.json', 'icons.json', 'cem-extensions.json'];
+
 // Routes that really exist for these templates: the docs overview, the
 // v0.3 reference pages, the published v0.4 reference pages, the Schemas
 // tool page, the other docs/tool landing pages linked from the shared docs
@@ -81,11 +83,14 @@ const allowedRoutes = new Set([
   '/docs/schemas/',
   '/docs/schemas/migrate-v0.3-to-v0.4/',
   '/docs/language-server/',
+  '/docs/language-server/setup/',
   '/tools/schemas/',
+  '/tools/schemas/changelog/',
   '/tools/language-server/',
   ...v03Pages.map(({ route }) => route),
   ...v04Pages.map(({ route }) => route),
   ...v04RawFiles.map((file) => `/schemas/v0.4/${file}`),
+  ...v03RawFiles.map((file) => `/schemas/v0.3/${file}`),
 ]);
 
 /** Plain reader-facing text: tags stripped, whitespace collapsed. */
@@ -95,7 +100,7 @@ function plain(source) {
 
 /** Literal root-relative hrefs (dynamic {{ ... }} and #fragment hrefs excluded). */
 function internalHrefs(source) {
-  return [...source.matchAll(/href="(\/[^\"]*)"/g)].map((match) => match[1]);
+  return [...source.matchAll(/href="(\/[^\"#]*)(?:#[^\"]*)?"/g)].map((match) => match[1]);
 }
 
 test('overview presents v0.4 as current/default and v0.3 as previous', () => {
@@ -103,8 +108,6 @@ test('overview presents v0.4 as current/default and v0.3 as previous', () => {
   const text = plain(overview);
   assert.match(overview, /<h2>v0\.4\s*<span class="version-status">Current[^<]*<\/span>/, 'v0.4 heading must be marked current');
   assert.match(overview, /<h2>v0\.3\s*<span class="version-status">Previous[^<]*<\/span>/, 'v0.3 heading must be marked previous');
-  assert.match(text, /v0\.4 is the current and default schema format/i, 'overview must state v0.4 is current and default');
-  assert.match(text, /v0\.3 is the previous schema format/i, 'overview must state v0.3 is previous');
   assert.match(text, /compatibility/i, 'overview must frame v0.3 as compatibility documentation');
 });
 
@@ -126,15 +129,44 @@ test('overview links the v0.4 raw contracts and only published v0.4 reference pa
     v04Pages.map(({ route }) => route),
     'overview must link exactly the published v0.4 reference pages',
   );
-  assert.match(plain(overview), /lifecycle\s+reference pages are all published/i, 'overview must state that every v0.4 reference page is published');
 });
 
 test('overview keeps schema format v0.4 distinct from npm package 0.4.0', () => {
   const overview = read(OVERVIEW);
-  const text = plain(overview);
-  assert.ok(overview.includes('@designlasagna/schemas'), 'overview must name the npm package');
-  assert.match(text, /0\.4\.0 is the package release that ships the v0\.4 format files/, 'overview must distinguish package release 0.4.0 from format v0.4');
+  // The package version is rendered from the installed package at build time.
+  const { version } = JSON.parse(read('node_modules/@designlasagna/schemas/package.json'));
+  const text = plain(overview).replaceAll('{{ schemaPackage.version }}', version);
+  assert.ok(overview.includes('{{ schemaPackage.name }}'), 'overview must name the npm package via data');
+  assert.match(text, new RegExp(`package ${version.replaceAll('.', '\\.')} is what you install`), 'overview must distinguish the package release from format v0.4');
+  assert.ok(overview.includes('/docs/schemas/migrate-v0.3-to-v0.4/#format-vs-package'), 'overview must link the format-vs-package explanation');
   assert.match(text, /Format version ≠ package version/i, 'overview must state the two versioning schemes are different');
+});
+
+test('overview lists v0.4 contracts as cards and condenses v0.3 to one line of links', () => {
+  const overview = read(OVERVIEW);
+  assert.ok(!overview.includes('<table'), 'overview contract listings must not be tables');
+  assert.ok(!overview.includes('class="schema-list"'), 'overview no longer uses the flat schema-list');
+  const grid = overview.match(/<div class="tool-cards schemas-tool-cards" aria-label="v0\.4 contracts">([\s\S]*?)\n    <\/div>/);
+  assert.ok(grid, 'overview must have a labelled v0.4 card grid');
+  const cards = grid[1].match(/<article class="tool-card">[\s\S]*?<\/article>/g) ?? [];
+  assert.equal(cards.length, v04RawFiles.length, 'v0.4 grid must have one card per contract');
+  cards.forEach((card, i) => {
+    assert.ok(card.includes(`<h3><a href="${v04Pages[i].route}">`), `v0.4 card ${i} must link its reference page from the h3`);
+    assert.ok(card.includes(`href="/schemas/v0.4/${v04RawFiles[i]}"`), `v0.4 card ${i} must link ${v04RawFiles[i]}`);
+  });
+  const v03 = overview.match(/<section id="v0-3">[\s\S]*?<\/section>/)[0];
+  assert.match(v03, /Still on v0\.3\?/, 'v0.3 section must be the short "Still on v0.3?" line');
+  assert.ok(v03.includes('href="/docs/schemas/migrate-v0.3-to-v0.4/"'), 'v0.3 section must link the migration guide');
+});
+
+test('every docsToc anchor on the overview resolves to an element id', () => {
+  const overview = read(OVERVIEW);
+  const frontmatter = overview.slice(0, overview.indexOf('---', 3));
+  const anchors = [...frontmatter.matchAll(/href: "#([a-z0-9-]+)"/g)].map((m) => m[1]);
+  assert.ok(anchors.length >= 3, 'overview must have a table of contents');
+  for (const anchor of anchors) {
+    assert.match(overview, new RegExp(`id="${anchor}"`), `docsToc anchor #${anchor} has no matching id`);
+  }
 });
 
 test('reference pages keep their routes and carry the shared version nav', () => {
