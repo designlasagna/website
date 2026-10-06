@@ -2,7 +2,7 @@
   "home": { "href": "/docs/", "label": "Docs home" },
   "groups": [
     {
-      "heading": "Schema reference",
+      "heading": "Schemas",
       "links": [
         { "href": "/docs/schemas/", "label": "Overview" },
         { "href": "/docs/schemas/v0.4/tokens/", "label": "Tokens", "sections": "Tokens sections" },

@@ -5,7 +5,7 @@
  * `npm run check`, which builds dist/ first):
  *
  *   - the sidebar navigation is grouped, in this order, on every docs
- *     page: Schema reference (Overview, Tokens, Utilities, Icons,
+ *     page: Schemas (Overview, Tokens, Utilities, Icons,
  *     CEM extensions, DTCG extensions, Lifecycle — current v0.4 only, in
  *     that order), Versioning (Migrate v0.3 → v0.4 with the page subnav
  *     directly beneath it), and Language Server (existing links);
@@ -48,7 +48,7 @@ const V03_PAGES = [
   { route: '/docs/schemas/v0.3/components/', title: 'Components — v0.3', navLabel: 'Components', v04Href: '/docs/schemas/v0.4/components/' },
 ];
 
-// The current v0.4 links the Schema reference group must list, in order.
+// The current v0.4 links the Schemas group must list, in order.
 const SCHEMA_REFERENCE_LINKS = [
   '/docs/schemas/',
   '/docs/schemas/v0.4/tokens/',
@@ -137,28 +137,28 @@ test('sidebar groups render in the required order on every docs page', () => {
     const nav = navOf(sidebarOf(readPage(route), label), label);
     assert.deepEqual(
       groupHeadings(nav),
-      ['Schema reference', 'Versioning', 'Language Server'],
-      `${label}: groups must be Schema reference, Versioning, Language Server`,
+      ['Schemas', 'Versioning', 'Language Server'],
+      `${label}: groups must be Schemas, Versioning, Language Server`,
     );
   }
   for (const { route, label } of V03_WITH_DIRS) {
     const nav = navOf(sidebarOf(readPage(route), label), label);
     assert.deepEqual(
       groupHeadings(nav),
-      ['Schema reference', 'Versioning', 'Previous version', 'Language Server'],
+      ['Schemas', 'Versioning', 'Previous version', 'Language Server'],
       `${label}: the contextual Previous version group must sit after Versioning`,
     );
   }
 });
 
-test('Schema reference group lists only the current v0.4 pages, in order', () => {
+test('Schemas group lists only the current v0.4 pages, in order', () => {
   for (const { route, label } of [...CURRENT_PAGES, ...V03_WITH_DIRS]) {
     const nav = navOf(sidebarOf(readPage(route), label), label);
-    const start = nav.indexOf('>Schema reference</p>');
+    const start = nav.indexOf('>Schemas</p>');
     const end = nav.indexOf('>Versioning</p>');
-    assert.ok(start >= 0 && end > start, `${label}: Schema reference group must precede the Versioning group`);
+    assert.ok(start >= 0 && end > start, `${label}: Schemas group must precede the Versioning group`);
     const group = topLevelLinks(nav.slice(start, end)).map(({ href }) => href);
-    assert.deepEqual(group, SCHEMA_REFERENCE_LINKS, `${label}: Schema reference group must list exactly the current v0.4 pages, in order`);
+    assert.deepEqual(group, SCHEMA_REFERENCE_LINKS, `${label}: Schemas group must list exactly the current v0.4 pages, in order`);
   }
 });
 
