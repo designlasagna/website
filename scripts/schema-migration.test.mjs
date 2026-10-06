@@ -31,7 +31,7 @@ const read = (rel) => fs.readFileSync(path.join(projectRoot, rel), 'utf8');
 const exists = (rel) => fs.existsSync(path.join(projectRoot, rel));
 
 const GUIDE = 'src/content/docs/schemas/migrate-v0.3-to-v0.4/index.njk';
-const SIDEBAR = 'src/_includes/docs.njk';
+const SIDEBAR = 'src/_data/docsNav.json';
 const OVERVIEW = 'src/content/docs/schemas/index.njk';
 const GUIDE_ROUTE = '/docs/schemas/migrate-v0.3-to-v0.4/';
 const PACKAGE_ROOT = path.join(projectRoot, 'node_modules/@designlasagna/schemas');
@@ -109,9 +109,10 @@ test('guide links point at real source pages and raw contract files', () => {
 });
 
 test('the sidebar and the schema overview both link the migration guide', () => {
+  // The sidebar is rendered from this nav data file (src/_includes/docs.njk).
   const sidebar = read(SIDEBAR);
   assert.ok(
-    sidebar.includes(`<a href="${GUIDE_ROUTE}"`),
+    sidebar.includes(`"href": "${GUIDE_ROUTE}"`),
     'docs sidebar must link the migration guide',
   );
   const overview = read(OVERVIEW);

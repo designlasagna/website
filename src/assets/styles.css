@@ -222,17 +222,11 @@ nav a { margin: -.5rem .2rem; padding: .5rem .2rem; color: inherit; text-decorat
 .docs-sidebar__subnav a { padding-block: .28rem !important; color: var(--muted) !important; font-size: 0.8rem; }
 .docs-sidebar__subnav a:hover { color: var(--orange) !important; }
 /* Native :target gives an anchor its active treatment without requiring
-   client-side scroll tracking. Start here is active before a section link is
-   chosen. */
+   client-side scroll tracking. The per-section :target rules are generated
+   from each page's docsToc in docs.njk. Start here is active before a section
+   link is chosen. */
 .docs-sidebar__subnav a[aria-current="location"],
-html:not(.docs-scroll-nav) .docs-shell:not(:has(:target)) .docs-sidebar__subnav a[href="#start"],
-html:not(.docs-scroll-nav) .docs-shell:has(#start:target) .docs-sidebar__subnav a[href="#start"],
-html:not(.docs-scroll-nav) .docs-shell:has(#manifest-fields:target) .docs-sidebar__subnav a[href="#manifest-fields"],
-html:not(.docs-scroll-nav) .docs-shell:has(#token-fields:target) .docs-sidebar__subnav a[href="#token-fields"],
-html:not(.docs-scroll-nav) .docs-shell:has(#utility-fields:target) .docs-sidebar__subnav a[href="#utility-fields"],
-html:not(.docs-scroll-nav) .docs-shell:has(#group-fields:target) .docs-sidebar__subnav a[href="#group-fields"],
-html:not(.docs-scroll-nav) .docs-shell:has(#lifecycle-fields:target) .docs-sidebar__subnav a[href="#lifecycle-fields"],
-html:not(.docs-scroll-nav) .docs-shell:has(#definitions:target) .docs-sidebar__subnav a[href="#definitions"] { color: var(--purple) !important; font-weight: 500; text-decoration: underline; text-decoration-color: currentColor; text-decoration-thickness: 2px; text-underline-offset: .3em; }
+html:not(.docs-scroll-nav) .docs-shell:not(:has(:target)) .docs-sidebar__subnav a[href="#start"] { color: var(--purple) !important; font-weight: 500; text-decoration: underline; text-decoration-color: currentColor; text-decoration-thickness: 2px; text-underline-offset: .3em; }
 /* Once scroll tracking is available, it owns the active state rather than a
    previously clicked URL fragment. */
 html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { color: var(--muted) !important; font-weight: 400 !important; }

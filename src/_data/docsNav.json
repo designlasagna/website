@@ -1,0 +1,31 @@
+{
+  "home": { "href": "/docs/", "label": "Docs home" },
+  "groups": [
+    {
+      "heading": "Schema reference",
+      "links": [
+        { "href": "/docs/schemas/", "label": "Schema overview" },
+        { "href": "/docs/schemas/v0.4/tokens/", "label": "Tokens", "sections": "Tokens sections" },
+        { "href": "/docs/schemas/v0.4/utilities/", "label": "Utilities", "sections": "Utilities sections" },
+        { "href": "/docs/schemas/v0.4/icons/", "label": "Icons", "sections": "Icons sections" },
+        { "href": "/docs/schemas/v0.4/components/", "label": "CEM extensions", "sections": "CEM extensions sections" },
+        { "href": "/docs/schemas/v0.4/dtcg-extensions/", "label": "DTCG extensions", "sections": "DTCG extensions sections" },
+        { "href": "/docs/schemas/v0.4/lifecycle/", "label": "Lifecycle", "sections": "Lifecycle sections" }
+      ]
+    },
+    {
+      "heading": "Versioning",
+      "links": [
+        { "href": "/docs/schemas/migrate-v0.3-to-v0.4/", "label": "Migrate v0.3 → v0.4", "sections": "Migration sections" }
+      ]
+    },
+    { "previousVersion": true, "heading": "Previous version" },
+    {
+      "heading": "Language Server",
+      "links": [
+        { "href": "/docs/language-server/", "label": "Install and configure", "sections": "Language Server sections" },
+        { "href": "/tools/language-server/", "label": "Tool overview" }
+      ]
+    }
+  ]
+}
