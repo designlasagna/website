@@ -30,8 +30,8 @@ h1 em { color: var(--orange); font-style: normal; }
    font and letter-spacing (measured, rounded up so nothing overflows). Where
    two words per line would drop below ~64px (phones), each .c chunk gets its
    own line and its own --ec. Docs pages keep the plain h1 above. */
-h1.fit { container-type: inline-size; max-width: none; font-size: 1rem; line-height: .86; }
-.fit__line, .fit .c { letter-spacing: -.07em; line-height: .86; }
+h1.fit { container-type: inline-size; max-width: none; font-size: 1rem; line-height: .8; }
+.fit__line, .fit .c { letter-spacing: -.07em; line-height: .8; }
 .fit__line { display: block; font-size: calc(100cqi / var(--em)); }
 .fit em.fit__line { color: var(--orange); }
 @media (max-width: 43.99rem) {
