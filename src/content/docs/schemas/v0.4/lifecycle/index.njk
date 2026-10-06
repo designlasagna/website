@@ -20,7 +20,7 @@ docsToc:
 <p>{{ definitionGuide.summary or ref.definitions[name].description or 'See the raw schema for this definition.' }}</p>
 {% if definitionGuide.useWhen %}<p><strong>Use when:</strong> {{ definitionGuide.useWhen }}</p>{% endif %}
 {% if definitionGuide.provenance %}<p><strong>Origin:</strong> {{ definitionGuide.provenance }}</p>{% endif %}
-{% if definitionGuide.example %}<pre class="json-example"><code>{{ definitionGuide.example | jsonCode | safe }}</code></pre>{% endif %}
+{% if definitionGuide.example %}<pre class="json-example" tabindex="0"><code>{{ definitionGuide.example | jsonCode | safe }}</code></pre>{% endif %}
 {% endmacro %}
 
 <section>
@@ -60,7 +60,7 @@ docsToc:
     record carries only the required <code>message</code> field. It is a
     value the definition accepts, not a complete manifest.
   </p>
-  <pre class="json-example"><code>{{ st.minimalExampleJson }}</code></pre>
+  <pre class="json-example" tabindex="0"><code>{{ st.minimalExample | jsonCode | safe }}</code></pre>
 </section>
 
 <section id="definitions">

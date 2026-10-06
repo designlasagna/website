@@ -41,7 +41,7 @@ docsToc:
     </dl>
   </aside>
   <h2>Minimal example</h2>
-  <pre class="json-example"><code>{
+  <pre class="json-example" tabindex="0"><code>{
   <span class="json-key">&quot;$extensions&quot;</span>: {
     <span class="json-key">&quot;recipes.designlasagna&quot;</span>: {
       <span class="json-key">&quot;tier&quot;</span>: <span class="json-value">&quot;semantic&quot;</span>,
@@ -74,7 +74,7 @@ docsToc:
       <h3 id="definition-{{ name }}"><code>{{ name }}</code></h3>
       <p>{{ definitionGuide.summary or definition.description or 'See the raw schema for this definition.' }}</p>
       {% if definition.properties %}{{ fieldTable(definition.properties, name, 'v03DtcgExtensions', false) }}{% elif definition.$ref %}<p><code>{{ definition.$ref }}</code></p>{% elif definition.type %}<p><code>{{ definition.type }}</code></p>{% endif %}
-      {% if definitionGuide.example %}<p><strong>Example usage</strong></p><pre class="json-example"><code>{{ definitionGuide.example | jsonCode | safe }}</code></pre>{% endif %}
+      {% if definitionGuide.example %}<p><strong>Example usage</strong></p><pre class="json-example" tabindex="0"><code>{{ definitionGuide.example | jsonCode | safe }}</code></pre>{% endif %}
     </article>
     {% endif %}
   {% endfor %}

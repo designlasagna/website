@@ -285,7 +285,7 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
   .field-row td:nth-child(2) { padding-top: .75rem; padding-left: .4rem; text-align: right; }
   .field-row td:nth-child(2)::before { display: none; }
 }
-.json-example { margin: 0; padding: .85rem; overflow-x: auto; border-radius: .45rem; background: #261c2d; color: var(--paper); font: .78rem/1.55 "DM Mono", monospace; }
+.json-example { max-height: 28rem; margin: 0; padding: .85rem; overflow: auto; border-radius: .45rem; background: #261c2d; color: var(--paper); font: .78rem/1.55 "DM Mono", monospace; }
 
 /* The schema URL, package path, and smallest useful snippet form one action,
    rather than three disconnected lines of metadata. */
@@ -315,6 +315,7 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
 .schema-version-nav__missing { border-style: dashed; color: var(--muted); }
 .schema-version-note { margin: 0 0 2rem; padding: 1rem 1.25rem; border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-radius: .6rem; background: color-mix(in srgb, var(--gold) 8%, #fffdf8); }
 .schema-version-note p { margin: 0; }
+.json-example:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 .json-key { color: #f6b33d; }
 .json-value { color: #bfa4d4; }
 .schema-definition { margin: 2rem 0; padding: 1rem; border-left: .35rem solid var(--gold); background: color-mix(in srgb, var(--gold) 7%, transparent); }

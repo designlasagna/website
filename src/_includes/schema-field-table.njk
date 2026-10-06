@@ -75,7 +75,7 @@
               {% if field.additionalProperties and field.additionalProperties.$ref %}{% set valueDefinition = field.additionalProperties.$ref | schemaDefinitionName %}<p><strong>Values:</strong> {% if valueDefinition %}<a class="schema-ref" href="#definition-{{ valueDefinition }}"><code>{{ valueDefinition }}</code></a>{% else %}<code>{{ field.additionalProperties.$ref }}</code>{% endif %}</p>{% endif %}
               {% endif %}
             </div>
-            {% if guide.example %}<div><p><strong>Example usage</strong></p><pre class="json-example"><code>{{ guide.example | jsonCode | safe }}</code></pre></div>{% endif %}
+            {% if guide.example %}<div><p><strong>Example usage</strong></p><pre class="json-example" tabindex="0"><code>{{ guide.example | jsonCode | safe }}</code></pre></div>{% endif %}
           </div>
         </td>
       </tr>
