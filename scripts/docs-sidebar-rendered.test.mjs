@@ -36,7 +36,7 @@ const V04_PAGES = [
   { route: '/docs/schemas/v0.4/dtcg-extensions/', dir: 'dtcg-extensions' },
   { route: '/docs/schemas/v0.4/lifecycle/', dir: 'lifecycle' },
 ];
-const MIGRATION_PAGE = { route: '/docs/schemas/migrate-v0.3-to-v0.4/' };
+const MIGRATION_PAGE = { route: '/docs/schemas/migrate-to-v0.4/' };
 const LANGUAGE_SERVER_PAGE = { route: '/docs/language-server/' };
 
 // The four published v0.3 reference pages: their own titles, and the v0.4
@@ -118,7 +118,7 @@ function sourceDocsToc(relRoute) {
 
 const CURRENT_PAGES = [
   ...V04_PAGES.map(({ route, dir }) => ({ route, dir, label: `v0.4 ${dir}` })),
-  { ...MIGRATION_PAGE, dir: 'migrate-v0.3-to-v0.4', label: 'migration guide' },
+  { ...MIGRATION_PAGE, dir: 'migrate-to-v0.4', label: 'migration guide' },
   { ...LANGUAGE_SERVER_PAGE, dir: 'language-server', label: 'language server' },
 ];
 const V03_WITH_DIRS = V03_PAGES.map(({ route, ...rest }) => ({
@@ -220,7 +220,7 @@ test('migration subnav sits directly after the migration link in the Versioning 
   assert.ok(subnav, 'the migration page must keep its section subnav');
   assert.match(nav.slice(linkEnd + 4, nav.indexOf('<div class="docs-sidebar__subnav"')), /^\s*$/, 'only whitespace may sit between the migration link and its subnav');
   assert.equal(subnav.ariaLabel, 'Migration sections', 'the migration subnav must keep its section aria-label');
-  assert.deepEqual(subnavEntries(subnav.html), sourceDocsToc('/docs/schemas/migrate-v0.3-to-v0.4'), 'the migration subnav must be the guide docsToc');
+  assert.deepEqual(subnavEntries(subnav.html), sourceDocsToc('/docs/schemas/migrate-to-v0.4'), 'the migration subnav must be the guide docsToc');
 });
 
 test('every docs page marks exactly one current top-level link with its subnav directly beneath', () => {

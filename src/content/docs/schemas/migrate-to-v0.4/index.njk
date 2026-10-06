@@ -1,0 +1,606 @@
+---
+layout: docs.njk
+permalink: /docs/schemas/migrate-to-v0.4/
+title: Migrating from v0.3 to v0.4
+description: What changed between schema format v0.3 and v0.4, how lifecycle selection works, and a practical migration checklist.
+docsToc:
+  - label: Start here
+    href: "#start"
+  - label: Format version vs package version
+    href: "#format-vs-package"
+  - label: Lifecycle selection
+    href: "#lifecycle-selection"
+  - label: What changed per contract
+    href: "#per-contract"
+  - label: The new lifecycle fragment
+    href: "#lifecycle-fragment"
+  - label: What did not change
+    href: "#unchanged"
+  - label: Migration checklist
+    href: "#checklist"
+  - label: References
+    href: "#references"
+---
+
+<p class="eyebrow">Schemas / Migration</p>
+
+<h1>Migrating from v0.3 to v0.4</h1>
+
+<p class="lede">
+  You only need to migrate a document if you want its v0.4 lifecycle fields.
+  Existing v0.3 documents keep working and stay valid against the v0.3
+  contracts. For each document you do move, the work is small: point
+  <code>$schema</code> at the v0.4 URL, set <code>schemaVersion</code> to
+  <code>"0.4.0"</code>, and rewrite any lifecycle metadata in the new shape.
+</p>
+
+<h2 id="start">Start here</h2>
+
+<p>
+  v0.4 is a lifecycle release. It standardizes a canonical
+  <code>status</code> field across every manifest entity, centralizes
+  deprecation records in a new shared
+  <a href="/docs/schemas/v0.4/lifecycle/">lifecycle fragment</a>, accepts an
+  explicit <code>deprecated: false</code> assertion in native manifests, and
+  moves every contract URL from the v0.3 <code>/schemas/v0.3/…</code> addresses to
+  <code>/schemas/v0.4/…</code>. Existing v0.3 documents remain valid against the
+  v0.3 contracts: nothing is converted automatically, and migrating is an
+  explicit, document-by-document or profile-by-profile decision.
+</p>
+
+<aside class="schema-install" aria-label="Package imports">
+  <p class="schema-install__kicker">Package imports</p>
+  <h2>Install the contracts</h2>
+  <p>
+    Both formats ship in the same npm package. Pin the package release
+    (<code>0.4.0</code>) for installation; use the format version
+    (<code>v0.4</code>) in schema URLs and import paths.
+  </p>
+  <dl class="schema-install__sources">
+    <div>
+      <dt>npm</dt>
+      <dd><code>npm install @designlasagna/schemas@0.4.0</code></dd>
+    </div>
+    <div>
+      <dt>v0.4 import (migrated documents)</dt>
+      <dd><code>import schema from '@designlasagna/schemas/v0.4/tokens.json' assert { type: 'json' };</code></dd>
+    </div>
+    <div>
+      <dt>v0.3 import (unmigrated documents)</dt>
+      <dd><code>import schema from '@designlasagna/schemas/v0.3/tokens.json' assert { type: 'json' };</code></dd>
+    </div>
+  </dl>
+</aside>
+
+<h2 id="format-vs-package">Format version <code>v0.4</code> vs package release <code>0.4.0</code></h2>
+
+<p>
+  <strong><code>v0.4</code> is the schema format version</strong> — the set of
+  contracts under <code>/schemas/v0.4/</code> and the v0.4 section of these
+  docs. <strong><code>0.4.0</code> is the npm release version</strong> of
+  <code>@designlasagna/schemas</code> that ships those files
+  (<code>@designlasagna/schemas@0.4.0</code>, import paths
+  <code>@designlasagna/schemas/v0.4/*.json</code>).
+</p>
+
+<p>
+  The two move together but are different things, so keep them straight:
+</p>
+
+<ul>
+  <li>
+    In a manifest's <code>$schema</code>, use the format version in the URL:
+    <code>https://designlasagna.recipes/schemas/v0.4/tokens.json</code>.
+  </li>
+  <li>
+    In a native manifest's <code>schemaVersion</code> field (a plain semver
+    string), write <code>"0.4.0"</code> for a v0.4-format manifest —
+    <code>"0.3.0"</code> for one that stays on v0.3.
+  </li>
+  <li>
+    When installing or importing contracts, pin the package release:
+    <code>@designlasagna/schemas@0.4.0</code>.
+  </li>
+</ul>
+
+<p>
+  See the <a href="/docs/schemas/">schema overview</a> for the same
+  format-vs-release distinction.
+</p>
+
+<h2 id="lifecycle-selection">How lifecycle selection works</h2>
+
+<p>
+  v0.4 lifecycle fields are opt-in: per document for native manifests
+  (via <code>$schema</code> and <code>schemaVersion</code>), and per
+  consuming profile for CEM and DTCG extensions. There is no automatic,
+  lossless conversion of legacy data, and you should not assume universal
+  v0.4 consumer support — check the target consumer's support before
+  emitting v0.4 documents.
+</p>
+
+<h3>Native manifests (tokens, utilities, icons)</h3>
+
+<p>
+  A native manifest declares its format through its <code>$schema</code> URL
+  and <code>schemaVersion</code>. The URL selects the validating contract;
+  <code>schemaVersion</code> is validated as a plain string, not a
+  version-dispatch algorithm, so the consuming resolver selects the matching
+  v0.4 profile itself:
+</p>
+
+<ul>
+  <li>
+    A v0.3 manifest keeps its v0.3 <code>$schema</code> URL and
+    <code>schemaVersion: "0.3.0"</code>. It remains valid against the v0.3
+    contract; no re-validation or reinterpretation happens.
+  </li>
+  <li>
+    To migrate, set <code>$schema</code> to the v0.4 URL (for example
+    <code>https://designlasagna.recipes/schemas/v0.4/tokens.json</code>) and
+    <code>schemaVersion: "0.4.0"</code>. The document is then valid only
+    against the v0.4 contract, and a v0.4-capable consumer is required.
+  </li>
+</ul>
+
+<h3>CEM and DTCG (host formats)</h3>
+
+<p>
+  CEM manifests and DTCG token files are standard host formats, so there is no
+  Design Lasagna <code>schemaVersion</code> to change:
+</p>
+
+<ul>
+  <li>
+    A CEM manifest keeps its standard CEM <code>schemaVersion</code>. Never
+    replace it with a Design Lasagna version.
+  </li>
+  <li>
+    DTCG files stay standard DTCG; lifecycle metadata lives in
+    <code>$extensions["recipes.designlasagna"]</code>.
+  </li>
+  <li>
+    The lifecycle fields inside CEM extensions and DTCG extensions become
+    active when the consuming project or resolver config selects lifecycle
+    profile <code>0.4</code>. Without that selection, the legacy profile
+    applies: existing consumers keep parsing documents exactly as before, and
+    no v0.4 lifecycle rules are applied to the new fields. That selection
+    mechanism is
+    documented in the package's lifecycle documentation (<code>docs/lifecycle.md</code>
+    inside <code>@designlasagna/schemas@0.4.0</code>); no schema file encodes
+    it.
+  </li>
+  <li>
+    During the transition, keep dual support: v0.3 and v0.4 documents coexist,
+    and each validates against its own format's contracts.
+  </li>
+</ul>
+
+<p>
+  Legacy parser-only forms — native booleans/strings, raw DTCG
+  <code>$status</code>/<code>$removal</code>/<code>$replacement</code>, or
+  prose-derived data — have no lossless upgrade path. Ask authors for
+  structured <code>message</code>, <code>removal</code>, and
+  <code>replacement</code> values instead of guessing them.
+</p>
+
+<p>
+  One infrastructure note: the v0.4 contracts reference the shared
+  <a href="/docs/schemas/v0.4/lifecycle/">lifecycle fragment</a> with relative
+  <code>$ref</code>s. A validator that fetches only a single file will fail to
+  resolve them — register all six exported v0.4 schemas by <code>$id</code>
+  (as this site's validation setup does) when validating offline.
+</p>
+
+<h2 id="per-contract">What changed per contract</h2>
+
+<div class="schema-table-wrap">
+  <table class="schema-table">
+    <thead>
+      <tr>
+        <th>Contract</th>
+        <th>v0.3 → v0.4 headline</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>tokens.json</code></td>
+        <td><code>status</code> added; <code>deprecated</code> accepts an explicit <code>false</code>; platform mappings closed (<code>usage</code> removed)</td>
+      </tr>
+      <tr>
+        <td><code>utilities.json</code></td>
+        <td><code>deprecated</code> accepts an explicit <code>false</code>; <code>status</code> now references the shared definition</td>
+      </tr>
+      <tr>
+        <td><code>icons.json</code></td>
+        <td><code>status</code> added; <code>deprecated</code> accepts an explicit <code>false</code>; first v0.4 format with an icons reference page</td>
+      </tr>
+      <tr>
+        <td><code>cem-extensions.json</code></td>
+        <td>Standard <code>deprecated</code> marker modeled in the lifecycle fields; <code>status</code> now references the shared definition; per-entity extension definitions added</td>
+      </tr>
+      <tr>
+        <td><code>dtcg-extensions.json</code></td>
+        <td><code>status</code> added to token and group extensions; replacement semantics made explicit; platform mappings closed</td>
+      </tr>
+      <tr>
+        <td><code>lifecycle.json</code></td>
+        <td>New shared definitions-only fragment (no v0.3 counterpart)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p>
+  All five existing contracts also move their <code>$id</code>/<code>$schema</code>
+  from <code>https://designlasagna.recipes/v0.3/&lt;file&gt;</code> to
+  <code>https://designlasagna.recipes/schemas/v0.4/&lt;file&gt;</code>.
+</p>
+<h3>tokens.json</h3>
+
+<ul>
+  <li>
+    <strong>New optional <code>Token.status</code></strong>
+    (<code>$ref</code> <code>Status</code>). The v0.3 token definition had no
+    <code>status</code> field.
+  </li>
+  <li>
+    <strong><code>Token.deprecated</code> is now the shared
+    <code>NativeDeprecation</code> union</strong>: <code>false</code>,
+    <code>null</code>, or a <code>Deprecated</code> record. v0.3 allowed only
+    <code>null</code> or a record — the explicit <code>false</code> assertion
+    (the author asserts "not deprecated", as distinct from omitted) is new.
+    <code>null</code> still means "not asserted".
+  </li>
+  <li>
+    <strong>Platform mappings are closed.</strong> The <code>usage</code>
+    string is removed and <code>additionalProperties</code> is now
+    <code>false</code>, so v0.3 documents with custom platform keys or
+    <code>usage</code> values are no longer valid — drop or rehome that data.
+  </li>
+  <li>
+    The local <code>Deprecated</code> definition is now an alias of the shared
+    lifecycle definition: same fields (<code>message</code> required,
+    <code>removal</code>, <code>replacement</code> optional), but
+    <code>message</code> must now be a non-empty string.
+  </li>
+</ul>
+
+<h3>utilities.json</h3>
+
+<ul>
+  <li>
+    <strong><code>UtilityClass.status</code> is unchanged in accepted
+    values.</strong> v0.3 already accepted any string; v0.4 now references the
+    shared <code>Status</code> definition, giving <code>deprecated</code> and
+    <code>removed</code> normative meaning.
+  </li>
+  <li>
+    <strong><code>UtilityClass.deprecated</code> is now
+    <code>NativeDeprecation</code></strong> — the explicit
+    <code>false</code> branch is new, exactly as for tokens.
+  </li>
+  <li>
+    The local <code>Deprecated</code> definition is now an alias of the shared
+    lifecycle definition (non-empty <code>message</code> required).
+  </li>
+</ul>
+
+<h3>icons.json</h3>
+
+<ul>
+  <li>
+    <strong>New optional <code>Icon.status</code></strong>
+    (<code>$ref</code> <code>Status</code>). The v0.3 icon definition had no
+    <code>status</code> field.
+  </li>
+  <li>
+    <strong><code>Icon.deprecated</code> is now <code>NativeDeprecation</code></strong>
+    — the explicit <code>false</code> branch is new.
+  </li>
+  <li>
+    The local <code>Deprecated</code> definition is now an alias of the shared
+    lifecycle definition (non-empty <code>message</code> required).
+  </li>
+  <li>
+    v0.4 is the first format version with an
+    <a href="/docs/schemas/v0.4/icons/">icons reference page</a> on this site;
+    the v0.3 <code>icons.json</code> contract was published as a raw file
+    (<a href="/schemas/v0.3/icons.json"><code>/schemas/v0.3/icons.json</code></a>)
+    without a reference page.
+  </li>
+</ul>
+
+<h3>cem-extensions.json</h3>
+
+<p>
+  Both versions are definitions-only fragments composed against a pinned CEM
+  schema; neither validates a CEM manifest on its own.
+</p>
+
+<ul>
+  <li>
+    <strong><code>LifecycleFields.deprecated</code> is new:</strong> the
+    standard CEM deprecation marker (boolean, or string carrying the
+    human-readable message), now modeled as part of the lifecycle extension.
+    v0.3's <code>LifecycleFields</code> had only <code>status</code>,
+    <code>removal</code>, and <code>replacement</code>.
+  </li>
+  <li>
+    <strong><code>LifecycleFields.status</code> now references the shared
+    <code>Status</code> definition.</strong> v0.3 accepted any string; v0.4
+    still accepts any string, with <code>deprecated</code> and
+    <code>removed</code> given normative meaning.
+  </li>
+  <li>
+    <strong><code>removal</code> and <code>replacement</code> semantics are
+    clarified:</strong> removal targets are an ISO date
+    (<code>YYYY-MM-DD</code>), a semver (<code>X.Y.Z</code>), or a quarter
+    (<code>YYYY-Qn</code>); replacement is scoped to the same CEM entity kind
+    and owner.
+  </li>
+  <li>
+    <strong>Per-entity extension definitions:</strong> new
+    <code>DeclarationExtensions</code>, <code>MemberExtensions</code>,
+    <code>CssPartExtensions</code>, and <code>EventExtensions</code> (each a
+    <code>$ref</code> to <code>LifecycleFields</code>);
+    <code>SlotExtensions</code> and <code>CssPropertyExtensions</code> now
+    reference <code>LifecycleFields</code> instead of duplicating the fields
+    inline, gaining <code>status</code> in the process — v0.3's inline forms
+    only had <code>deprecated</code>, <code>removal</code>, and
+    <code>replacement</code>.
+  </li>
+  <li>
+    <strong><code>AttributeExtensions</code> gains <code>deprecated</code></strong>
+    (boolean or string) and <code>status</code> (<code>$ref</code>
+    <code>Status</code>); <code>enum</code> and <code>deprecatedValues</code>
+    are unchanged.
+  </li>
+  <li>
+    <strong><code>DeprecatedValue</code> is now an alias</strong> of
+    <code>lifecycle.json#/definitions/DeprecatedValue</code> — the same
+    fields (<code>value</code> and <code>message</code> required,
+    <code>removal</code>/<code>replacement</code> optional), with
+    <code>message</code> now required to be non-empty.
+  </li>
+</ul>
+
+<h3>dtcg-extensions.json</h3>
+
+<p>
+  Both versions are definitions-only fragments for
+  <code>$extensions["recipes.designlasagna"]</code> on standard DTCG files.
+</p>
+
+<ul>
+  <li>
+    <strong>New optional <code>status</code></strong> on
+    <code>TokenExtensions</code> and <code>GroupExtensions</code>
+    (<code>$ref</code> <code>Status</code>). v0.3 had no <code>status</code>
+    field in either extension.
+  </li>
+  <li>
+    <strong>Group deprecation replacement semantics are explicit:</strong>
+    the nearest declaration replaces the whole inherited record (no
+    field-level merging), and the standard DTCG <code>$deprecated: false</code>
+    clears inherited deprecation.
+  </li>
+  <li>
+    <strong><code>Deprecated</code> is now an alias of the shared
+    <code>StrictDeprecated</code></strong> — the same closed record v0.3 used
+    (<code>message</code> required, <code>removal</code> and
+    <code>replacement</code> optional, no unknown keys), with a non-empty
+    <code>message</code> required.
+  </li>
+  <li>
+    <strong>Platform mappings are closed.</strong> The <code>usage</code>
+    string is removed and <code>additionalProperties</code> is now
+    <code>false</code>.
+  </li>
+  <li>
+    Both extension objects remain closed (<code>additionalProperties:
+    false</code>) — <code>status</code> is the only field added to either.
+  </li>
+</ul>
+
+<h2 id="lifecycle-fragment">The new lifecycle fragment</h2>
+
+<p>
+  v0.4 adds <a href="/schemas/v0.4/lifecycle.json"><code>lifecycle.json</code></a>
+  — a definitions-only, composable fragment (not a manifest validator) that
+  the other v0.4 contracts reference with relative <code>$ref</code>s. See the
+  <a href="/docs/schemas/v0.4/lifecycle/">lifecycle reference page</a> for the
+  full field guide.
+</p>
+
+<div class="schema-table-wrap">
+  <table class="schema-table">
+    <thead>
+      <tr>
+        <th>Definition</th>
+        <th>Shape</th>
+        <th>Used by</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>Status</code></td>
+        <td>Any string; only <code>deprecated</code> and <code>removed</code> carry normative meaning</td>
+        <td>Every v0.4 contract's <code>status</code> field</td>
+      </tr>
+      <tr>
+        <td><code>Deprecated</code></td>
+        <td>Permissive record: <code>message</code> required (non-empty), <code>removal</code>, <code>replacement</code> optional</td>
+        <td>tokens, utilities, icons (via <code>NativeDeprecation</code>)</td>
+      </tr>
+      <tr>
+        <td><code>StrictDeprecated</code></td>
+        <td>Same fields, but closed (no unknown keys)</td>
+        <td>dtcg-extensions</td>
+      </tr>
+      <tr>
+        <td><code>NativeDeprecation</code></td>
+        <td>Union: <code>false</code> | <code>null</code> | <code>Deprecated</code></td>
+        <td>tokens, utilities, icons <code>deprecated</code> fields</td>
+      </tr>
+      <tr>
+        <td><code>DeprecatedValue</code></td>
+        <td>Per-value record: <code>value</code> and <code>message</code> (non-empty) required, <code>removal</code>, <code>replacement</code> optional</td>
+        <td>cem-extensions <code>deprecatedValues</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p>
+  In v0.3 the deprecation record shapes lived inline, duplicated per
+  contract; v0.4 gives every lifecycle definition a single canonical home.
+</p>
+
+<h2 id="unchanged">What did not change</h2>
+
+<ul>
+  <li>
+    <strong>Root manifest requirements:</strong> tokens still require
+    <code>schemaVersion</code> and <code>tokens</code>; utilities still
+    require <code>schemaVersion</code>; icons still require
+    <code>schemaVersion</code> and <code>icons</code>. <code>schemaVersion</code>
+    remains a plain string.
+  </li>
+  <li>
+    <strong>Extension namespaces:</strong> the CEM <code>$extensions</code>
+    key and the DTCG <code>recipes.designlasagna</code> key are unchanged.
+  </li>
+  <li>
+    <strong>Deprecated record core:</strong> <code>message</code> is still
+    required, and <code>removal</code>/<code>replacement</code> remain
+    optional strings.
+  </li>
+  <li>
+    <strong>Utilities <code>status</code>:</strong> still accepts any string
+    (now canonical, not constrained).
+  </li>
+  <li>
+    <strong>Old documents stay valid:</strong> v0.3 documents remain valid
+    against the v0.3 contracts, and v0.2 contracts are untouched.
+  </li>
+</ul>
+
+<h2 id="checklist">Migration checklist</h2>
+
+<ol>
+  <li>
+    <strong>Inventory.</strong> List your v0.3 documents (tokens, utilities,
+    icons manifests; CEM manifests; DTCG files with
+    <code>recipes.designlasagna</code> extensions) and the consumers of each.
+  </li>
+  <li>
+    <strong>Choose what moves.</strong> Migrate only documents whose consumers
+    support v0.4: native documents need a v0.4-capable consumer, and
+    CEM/DTCG lifecycle fields are read only where the consuming project or
+    resolver config explicitly selects lifecycle profile <code>0.4</code>.
+    Everything else stays on v0.3 — the v0.3 contracts remain published and
+    valid.
+  </li>
+  <li>
+    <strong>Native manifests.</strong> Point <code>$schema</code> at the v0.4
+    URL (for example
+    <code>https://designlasagna.recipes/schemas/v0.4/tokens.json</code>) and
+    set <code>schemaVersion: "0.4.0"</code>.
+  </li>
+  <li>
+    <strong>Rewrite lifecycle metadata.</strong> Add <code>status</code> where
+    relevant; convert <code>deprecated</code> to the record shape with a
+    non-empty <code>message</code> plus <code>removal</code> and
+    <code>replacement</code>. Use <code>deprecated: false</code> only where an
+    explicit negative assertion is wanted. There is no automatic conversion of
+    legacy parser-only values — ask authors for structured data.
+  </li>
+  <li>
+    <strong>Drop removed data.</strong> Remove <code>PlatformMapping.usage</code>
+    (tokens and DTCG extensions) and any custom platform keys in platform
+    mappings (both are closed now).
+  </li>
+  <li>
+    <strong>CEM manifests.</strong> Keep the standard CEM
+    <code>schemaVersion</code>; author <code>status</code> and
+    <code>deprecated</code> in the extension fields; select profile
+    <code>0.4</code> in the consuming project or resolver config.
+  </li>
+  <li>
+    <strong>DTCG files.</strong> Keep the standard <code>$deprecated</code>
+    boolean/string mirror; put the structured record in
+    <code>recipes.designlasagna</code>; add <code>status</code> where useful;
+    select profile <code>0.4</code> in the resolver config.
+  </li>
+  <li>
+    <strong>Tooling.</strong> Install <code>@designlasagna/schemas@0.4.0</code>
+    (or a later 0.4.x), import from the <code>v0.4/</code> paths, and register
+    all six v0.4 schemas by <code>$id</code> for offline validation.
+  </li>
+  <li>
+    <strong>Validate both directions.</strong> Migrated documents validate
+    against the v0.4 contracts; unmigrated documents continue to validate
+    against v0.3.
+  </li>
+</ol>
+
+<h2 id="references">References</h2>
+
+<div class="schema-table-wrap">
+  <table class="schema-table">
+    <thead>
+      <tr>
+        <th>Contract</th>
+        <th>v0.3 reference</th>
+        <th>v0.4 reference</th>
+        <th>v0.3 raw</th>
+        <th>v0.4 raw</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>tokens.json</td>
+        <td><a href="/docs/schemas/v0.3/tokens/">v0.3 tokens</a></td>
+        <td><a href="/docs/schemas/v0.4/tokens/">v0.4 tokens</a></td>
+        <td><a href="/schemas/v0.3/tokens.json"><code>/schemas/v0.3/tokens.json</code></a></td>
+        <td><a href="/schemas/v0.4/tokens.json"><code>/schemas/v0.4/tokens.json</code></a></td>
+      </tr>
+      <tr>
+        <td>utilities.json</td>
+        <td><a href="/docs/schemas/v0.3/utilities/">v0.3 utilities</a></td>
+        <td><a href="/docs/schemas/v0.4/utilities/">v0.4 utilities</a></td>
+        <td><a href="/schemas/v0.3/utilities.json"><code>/schemas/v0.3/utilities.json</code></a></td>
+        <td><a href="/schemas/v0.4/utilities.json"><code>/schemas/v0.4/utilities.json</code></a></td>
+      </tr>
+      <tr>
+        <td>cem-extensions.json</td>
+        <td><a href="/docs/schemas/v0.3/components/">v0.3 components</a></td>
+        <td><a href="/docs/schemas/v0.4/components/">v0.4 components</a></td>
+        <td><a href="/schemas/v0.3/cem-extensions.json"><code>/schemas/v0.3/cem-extensions.json</code></a></td>
+        <td><a href="/schemas/v0.4/cem-extensions.json"><code>/schemas/v0.4/cem-extensions.json</code></a></td>
+      </tr>
+      <tr>
+        <td>dtcg-extensions.json</td>
+        <td><a href="/docs/schemas/v0.3/dtcg-extensions/">v0.3 DTCG extensions</a></td>
+        <td><a href="/docs/schemas/v0.4/dtcg-extensions/">v0.4 DTCG extensions</a></td>
+        <td><a href="/schemas/v0.3/dtcg-extensions.json"><code>/schemas/v0.3/dtcg-extensions.json</code></a></td>
+        <td><a href="/schemas/v0.4/dtcg-extensions.json"><code>/schemas/v0.4/dtcg-extensions.json</code></a></td>
+      </tr>
+      <tr>
+        <td>icons.json</td>
+        <td><span aria-label="no v0.3 reference page">—</span></td>
+        <td><a href="/docs/schemas/v0.4/icons/">v0.4 icons</a></td>
+        <td><a href="/schemas/v0.3/icons.json"><code>/schemas/v0.3/icons.json</code></a></td>
+        <td><a href="/schemas/v0.4/icons.json"><code>/schemas/v0.4/icons.json</code></a></td>
+      </tr>
+      <tr>
+        <td>lifecycle.json</td>
+        <td><span aria-label="no v0.3 counterpart">—</span></td>
+        <td><a href="/docs/schemas/v0.4/lifecycle/">v0.4 lifecycle</a></td>
+        <td><span aria-label="no v0.3 file">—</span></td>
+        <td><a href="/schemas/v0.4/lifecycle.json"><code>/schemas/v0.4/lifecycle.json</code></a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

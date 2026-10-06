@@ -1,7 +1,7 @@
 /**
  * Regression tests for the v0.3 → v0.4 migration guide page:
  *
- *   - the guide is published at /docs/schemas/migrate-v0.3-to-v0.4/ and is a
+ *   - the guide is published at /docs/schemas/migrate-to-v0.4/ and is a
  *     cross-version guide (no schemaDocVersion frontmatter, so the shared
  *     version nav never targets it);
  *   - every internal link on the page points at a route that exists in the
@@ -30,10 +30,10 @@ const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const read = (rel) => fs.readFileSync(path.join(projectRoot, rel), 'utf8');
 const exists = (rel) => fs.existsSync(path.join(projectRoot, rel));
 
-const GUIDE = 'src/content/docs/schemas/migrate-v0.3-to-v0.4/index.njk';
+const GUIDE = 'src/content/docs/schemas/migrate-to-v0.4/index.njk';
 const SIDEBAR = 'src/_data/docsNav.json';
 const OVERVIEW = 'src/content/docs/schemas/index.njk';
-const GUIDE_ROUTE = '/docs/schemas/migrate-v0.3-to-v0.4/';
+const GUIDE_ROUTE = '/docs/schemas/migrate-to-v0.4/';
 const PACKAGE_ROOT = path.join(projectRoot, 'node_modules/@designlasagna/schemas');
 
 const source = read(GUIDE);
@@ -74,9 +74,9 @@ const V04_RAW = [
 ];
 const EXPECTED_INTERNAL = [...V03_DOCS, ...V04_DOCS, ...V03_RAW, ...V04_RAW].sort();
 
-test('migration guide is published at /docs/schemas/migrate-v0.3-to-v0.4/', () => {
+test('migration guide is published at /docs/schemas/migrate-to-v0.4/', () => {
   assert.ok(exists(GUIDE), 'guide source is missing');
-  assert.match(source, /^permalink: \/docs\/schemas\/migrate-v0\.3-to-v0\.4\/$/m);
+  assert.match(source, /^permalink: \/docs\/schemas\/migrate-to-v0\.4\/$/m);
   // Cross-version guide: it must not masquerade as a single-version
   // reference page (no schemaDocVersion, no shared version nav include).
   assert.ok(!/^schemaDocVersion:/m.test(source), 'guide must not set schemaDocVersion');
