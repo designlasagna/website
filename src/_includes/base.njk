@@ -13,6 +13,8 @@
   <meta property="og:site_name" content="{{ site.title }}">
   <meta name="twitter:card" content="summary">
   <title>{% if title and title != site.title %}{{ title }} — {% endif %}{{ site.title }}</title>
+  <link rel="preload" as="font" type="font/woff2" href="{{ '/assets/fonts/tilt-warp-400.woff2' | url }}" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="{{ '/assets/fonts/dm-sans-variable.woff2' | url }}" crossorigin>
   <link rel="stylesheet" href="{{ '/assets/styles.css' | url }}">
 </head>
 <body>
