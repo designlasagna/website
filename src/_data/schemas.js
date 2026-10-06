@@ -85,18 +85,94 @@ module.exports = async function () {
     message: 'Use the \u201cghost\u201d variant instead.',
   };
 
-  // Minimal v0.4 tokens manifest: the root requires schemaVersion + tokens,
-  // and each token requires id + resolved (each resolved value must be a
-  // string, number, or composite object per the oneOf).
+  // v0.4 tokens manifest: a condition dimension and a collection, a token
+  // with authored modes, a platform reference and contrast data, and a
+  // deprecated token with a lifecycle record pointing to its replacement.
   const v04TokensExample = {
-    $schema: 'https://designlasagna.recipes/schemas/v0.4/tokens.json',
-    schemaVersion: '0.4.0',
-    tokens: [
+    "$schema": "https://designlasagna.recipes/schemas/v0.4/tokens.json",
+    "schemaVersion": "0.4.0",
+    "designSystem": {
+      "name": "Acme UI",
+      "version": "2.3.0"
+    },
+    "conditions": {
+      "colorScheme": {
+        "type": "colorScheme",
+        "values": [
+          "light",
+          "dark"
+        ],
+        "default": "light"
+      }
+    },
+    "collections": {
+      "semantic": {
+        "name": "Semantic",
+        "conditions": [
+          "colorScheme"
+        ],
+        "defaults": {
+          "tier": "semantic"
+        }
+      }
+    },
+    "tokens": [
       {
-        id: 'color.blue.500',
-        resolved: { light: '#0b5fff', dark: '#5b93ff' },
+        "id": "color.action.primary",
+        "path": [
+          "color",
+          "action",
+          "primary"
+        ],
+        "collection": "semantic",
+        "type": "color",
+        "description": "Background for primary actions.",
+        "platforms": {
+          "web": {
+            "reference": "var(--color-action-primary)"
+          }
+        },
+        "resolved": {
+          "light": "#0b5fff",
+          "dark": "#5b93ff"
+        },
+        "modes": {
+          "light": "{color.blue.500}",
+          "dark": "{color.blue.300}"
+        },
+        "a11y": {
+          "wcagContrast": {
+            "light": {
+              "ratio": 5.2,
+              "against": "#ffffff",
+              "level": "AA"
+            }
+          }
+        },
+        "keywords": [
+          "button",
+          "cta"
+        ],
+        "tags": [
+          "interactive"
+        ]
       },
-    ],
+      {
+        "id": "color.brand.legacy",
+        "collection": "semantic",
+        "type": "color",
+        "resolved": {
+          "light": "#0b5fff",
+          "dark": "#5b93ff"
+        },
+        "status": "deprecated",
+        "deprecated": {
+          "message": "Use color.action.primary instead.",
+          "removal": "2027-01-01",
+          "replacement": "color.action.primary"
+        }
+      }
+    ]
   };
 
   // Minimal v0.4 utilities manifest: the root requires schemaVersion, and

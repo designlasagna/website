@@ -95,8 +95,14 @@ docsToc:
       <div><dt>Repository</dt><dd><a href="https://github.com/designlasagna/schemas">designlasagna/schemas</a></dd></div>
     </dl>
   </aside>
+  <h2>Example</h2>
+  <p>This manifest declares a condition dimension and a collection, then two tokens.
+  Each token requires an <code>id</code> and a <code>resolved</code> value per condition.
+  The first token adds authored <code>modes</code> aliases, a web platform reference and
+  contrast data. The second is marked deprecated with a <code>status</code> and a
+  lifecycle <code>deprecated</code> record that points to its replacement.</p>
+  <pre class="json-example"><code>{{ st.minimalExampleJson }}</code></pre>
 </section>
-
 <section id="manifest-fields">
   <h2>Manifest fields</h2>
   <p>The root object is the resolved tokens manifest. Required fields are marked with <code>*</code>.</p>
