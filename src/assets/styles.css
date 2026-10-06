@@ -33,8 +33,9 @@ h1 em { color: var(--orange); font-style: normal; }
 .tool-page h1, .library-page h1, .changelog-page h1, .about-page h1 { --w: 4.6; max-width: none; font-size: min(calc((100vw - 2.5rem) / var(--w)), 6rem); line-height: .84; }
 .library-page h1 { --w: 4.9; }
 .changelog-page h1 { --w: 5.5; }
+.about-page h1 { margin-bottom: 1.75rem; }
 em { color: inherit; }
-h2 { margin: 0 0 1.35rem; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: clamp(2rem, 10vw, 3.25rem); font-weight: 400; letter-spacing: -.04em; line-height: .98; text-transform: uppercase; }
+h2 { margin: 0 0 1.35rem; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: clamp(1.6rem, 7vw, 2.25rem); font-weight: 400; letter-spacing: -.025em; line-height: 1.05; }
 .lede { max-width: 30rem; margin: 1.75rem 0; color: var(--lede); font-size: clamp(1.05rem, 4.5vw, 1.35rem); line-height: 1.45; }
 .lsp-screenshots { display: grid; gap: 1.5rem; margin: 1.75rem 0 0; }
 .lsp-screenshots figure { margin: 0; }
@@ -48,8 +49,8 @@ h2 { margin: 0 0 1.35rem; color: var(--purple); font-family: "Tilt Warp", "DM Sa
 .tool-page__header { max-width: none; padding-block: clamp(1.5rem, 3vw, 3rem) 1rem; }
 .tool-library .tool-library__list { margin-top: 0; padding-top: 1.5rem; }
 .tool-page section { padding-block: clamp(2.5rem, 5vw, 4.5rem); }
-.tool-page h2 { max-width: 18ch; margin-bottom: 1rem; font-size: clamp(2rem, 4vw, 3.5rem); }
-.tool-page h3 { margin: 0; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.4rem; font-weight: 400; line-height: 1; letter-spacing: -.03em; text-transform: uppercase; }
+.tool-page h2 { max-width: 28ch; margin-bottom: 1rem; }
+.tool-page h3 { margin: 0; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.25rem; font-weight: 400; line-height: 1.1; letter-spacing: -.02em; }
 .tool-hero { max-width: none; }
 .tool-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1.5rem 0 0; }
 .tool-action { display: inline-flex; align-items: center; min-height: 2.75rem; padding: .55rem .85rem; border-radius: .45rem; background: var(--purple); color: var(--paper); font: 500 .82rem/1.2 "DM Mono", monospace; text-decoration: none; }
@@ -64,7 +65,7 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .tool-card { padding: 1.5rem; border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-radius: .85rem; background: #fffdf8; box-shadow: 4px 4px 0 color-mix(in srgb, var(--gold) 38%, transparent); }
 .tool-card .eyebrow { margin-bottom: .8rem; }
 .tool-card h2, .tool-card h3 { margin: 0 0 .8rem; }
-.tool-card h2 { max-width: 13ch; font-size: clamp(1.5rem, 3vw, 2.2rem); }
+.tool-card h2 { max-width: 24ch; font-size: clamp(1.35rem, 2.2vw, 1.65rem); }
 .tool-card p { margin: .7rem 0 0; line-height: 1.65; }
 .tool-card--featured { border-top: .45rem solid var(--orange); background: color-mix(in srgb, var(--gold) 9%, #fffdf8); }
 .tool-card__status { color: var(--muted); font: 500 .8rem "DM Mono", monospace; }
@@ -93,7 +94,7 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .schema-layer--extensions { background: color-mix(in srgb, var(--gold) 11%, #fffdf8); border-top: .45rem solid var(--gold); }
 .schema-layer--manifests { background: color-mix(in srgb, var(--purple) 7%, #fffdf8); border-top: .45rem solid var(--purple); }
 .schema-layer .eyebrow { margin-bottom: .75rem; }
-.schema-layer h3 { margin: 0; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 400; line-height: .95; letter-spacing: -.04em; text-transform: uppercase; }
+.schema-layer h3 { margin: 0; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.5rem; font-weight: 400; line-height: 1.05; letter-spacing: -.02em; }
 .schema-layer > p:not(.eyebrow) { margin: .8rem 0 0; color: var(--lede); line-height: 1.6; }
 .schema-layer dl { display: grid; gap: .7rem; margin: 1.25rem 0 0; }
 .schema-layer dl div { padding-top: .7rem; border-top: 1px solid color-mix(in srgb, var(--purple) 18%, var(--paper)); }
@@ -102,19 +103,19 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .schemas-flow { max-width: 62rem; margin-top: 2rem; padding: 1.25rem; border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-radius: .85rem; background: color-mix(in srgb, var(--gold) 8%, #fffdf8); }
 .schemas-flow__sources, .schemas-flow__outcomes { display: grid; gap: .8rem; }
 .schemas-flow article { padding: 1rem; border-radius: .55rem; background: #fffdf8; }
-.schemas-flow h3 { margin: 0; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.15rem; font-weight: 400; line-height: 1; letter-spacing: -.03em; text-transform: uppercase; }
+.schemas-flow h3 { margin: 0; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.1rem; font-weight: 400; line-height: 1.1; letter-spacing: -.02em; }
 .schemas-flow article p, .schemas-flow__derived > p:last-child { margin: .5rem 0 0; color: var(--lede); font-size: .92rem; line-height: 1.5; }
 .schemas-flow__arrow { width: 1rem; height: 1rem; margin: .9rem auto; border-right: .15rem solid var(--orange); border-bottom: .15rem solid var(--orange); transform: rotate(45deg); }
 .schemas-flow__derived { max-width: 38rem; margin-inline: auto; padding: 1.25rem; border-radius: .6rem; text-align: center; background: color-mix(in srgb, var(--gold) 22%, #fffdf8); }
 .schemas-flow__derived .eyebrow { margin-bottom: .6rem; }
-.schemas-flow__derived h3 { margin: 0; font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.4rem; font-weight: 400; line-height: 1; letter-spacing: -.03em; text-transform: uppercase; }
+.schemas-flow__derived h3 { margin: 0; font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.25rem; font-weight: 400; line-height: 1.1; letter-spacing: -.02em; }
 .schemas-tool-cards { grid-template-columns: 1fr; }
 .schemas-tool-start { max-width: 48rem; }
 
 /* Documentation discovery uses a calm index rather than a broad card wall. */
 .library-page { width: min(100%, 68rem); margin-inline: auto; }
 .library-page__header { max-width: none; padding-block: clamp(1.5rem, 3vw, 3rem) 1.5rem; }
-.library-page h2 { max-width: 18ch; font-size: clamp(2rem, 4vw, 3.5rem); }
+.library-page h2 { max-width: 28ch; }
 .library-feature { max-width: 56rem; padding: clamp(1.5rem, 4vw, 2.5rem); border-top: .45rem solid var(--gold); background: color-mix(in srgb, var(--gold) 10%, #fffdf8); }
 .library-feature h2, .library-note h2 { margin: 0 0 .8rem; }
 .library-feature p, .library-note p { margin: .7rem 0 0; line-height: 1.65; }
@@ -135,7 +136,7 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .change-entry__meta { display: flex; flex-wrap: wrap; gap: .5rem; align-content: start; color: var(--muted); font: 500 .72rem "DM Mono", monospace; letter-spacing: .04em; text-transform: uppercase; }
 .change-entry__meta span:first-child { padding: .25rem .45rem; border-radius: .25rem; background: color-mix(in srgb, var(--gold) 25%, var(--paper)); color: var(--ink); }
 .change-entry__kind { padding: .25rem .45rem; border: 1px solid color-mix(in srgb, var(--purple) 25%, var(--paper)); border-radius: .25rem; color: var(--purple); }
-.change-entry h2 { margin: 0 0 .55rem; font-size: clamp(1.45rem, 3vw, 2.1rem); }
+.change-entry h2 { margin: 0 0 .55rem; font-size: clamp(1.3rem, 2.4vw, 1.6rem); }
 .change-entry p { margin: 0; line-height: 1.65; }
 main p { max-width: 65ch; line-height: 1.55; }
 main ul { margin: 0; padding-left: 1.25rem; }
@@ -288,7 +289,7 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
 /* The schema URL, package path, and smallest useful snippet form one action,
    rather than three disconnected lines of metadata. */
 .schema-install { display: grid; gap: 1.25rem; margin: 2rem 0 3rem; padding: 1.25rem; border: 1px solid color-mix(in srgb, var(--purple) 28%, var(--paper)); border-radius: .6rem; background: color-mix(in srgb, var(--gold) 9%, #fffdf8); box-shadow: 5px 5px 0 color-mix(in srgb, var(--gold) 38%, transparent); }
-.schema-install__intro h2 { margin: .2rem 0 .6rem; font-size: clamp(1.55rem, 4vw, 2.3rem); }
+.schema-install__intro h2 { margin: .2rem 0 .6rem; font-size: clamp(1.4rem, 3vw, 1.8rem); }
 .schema-install__intro p:last-child { margin: 0; }
 .schema-install__kicker, .schema-install__sources dt { margin: 0; color: var(--purple); font: 500 .68rem "DM Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
 .schema-install__sources { display: grid; gap: .7rem; margin: 0; }
@@ -324,7 +325,7 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
   .tool-page h1, .library-page h1, .about-page h1 { font-size: min(10.5vw, 8.5rem); line-height: .82; }
   .changelog-page h1 { font-size: min(9vw, 6rem); line-height: .82; }
   h1 { font-size: clamp(3.5rem, 10vw, 9.5rem); line-height: .83; }
-  h2 { margin-bottom: 1.6rem; font-size: clamp(2rem, 4.5vw, 3.25rem); line-height: .95; }
+  h2 { margin-bottom: 1.25rem; font-size: clamp(1.75rem, 3vw, 2.5rem); }
   .lede { margin-block: 2.3rem; }
   .lsp-screenshots { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
   .tool-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
