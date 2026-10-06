@@ -203,7 +203,8 @@ a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .site-footer__note { width: 100%; margin: 0; color: var(--muted); font: 500 .72rem "DM Mono", monospace; }
 nav { display: flex; flex-wrap: wrap; gap: .25rem 1rem; font: 500 .76rem "DM Mono", monospace; }
 nav a { margin: -.5rem .2rem; padding: .5rem .2rem; color: inherit; text-decoration-color: var(--gold); text-decoration-thickness: 2px; text-underline-offset: .35em; }
-.site-nav a[aria-current="page"] { color: var(--purple); font-weight: 500; text-decoration-line: underline; text-decoration-thickness: 3px; }
+.site-nav a[aria-current="page"],
+.site-nav a[aria-current="true"] { color: var(--purple); font-weight: 500; text-decoration-line: underline; text-decoration-thickness: 3px; }
 
 /* Documentation pages keep navigation near the reference without making the
    landing page carry a sidebar. On narrow screens the same navigation is a
@@ -305,7 +306,8 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
 .schema-version-nav__list ul { display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin: 0; padding: 0; list-style: none; }
 .schema-version-nav__list a { color: var(--purple); text-decoration: underline; text-decoration-color: var(--gold); }
 .schema-version-nav__list a[aria-current="page"] { text-decoration-thickness: 2px; }
-.schema-version-nav__status, .schema-version-nav__fallback, .version-status { margin-left: .45em; color: var(--muted); font: 500 .68rem "DM Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
+.schema-version-nav__status, .version-status { margin-left: .45em; color: var(--muted); font: 500 .68rem "DM Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
+.schema-version-nav__missing { color: var(--muted); }
 .schema-version-note { margin: 0 0 2rem; padding: 1rem 1.25rem; border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-radius: .6rem; background: color-mix(in srgb, var(--gold) 8%, #fffdf8); }
 .schema-version-note p { margin: 0; }
 .json-key { color: #f6b33d; }
