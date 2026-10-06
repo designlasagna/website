@@ -16,7 +16,7 @@
     {
       "heading": "Versioning",
       "links": [
-        { "href": "/docs/schemas/migrate-to-v0.4/", "label": "Migrate v0.3 → v0.4", "sections": "Migration sections" }
+        { "href": "/docs/schemas/migrate-v0.3-to-v0.4/", "label": "Migrate v0.3 → v0.4", "sections": "Migration sections" }
       ]
     },
     { "previousVersion": true, "heading": "Previous version" },
