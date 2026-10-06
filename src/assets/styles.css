@@ -24,6 +24,15 @@ section { margin: 0; padding-block: 2.25rem; }
 .eyebrow { margin: 0 0 1.1rem; color: var(--purple); font: 500 .7rem "DM Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
 h1 { margin: 0; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: clamp(3rem, 15vw, 9.5rem); font-weight: 400; line-height: .88; letter-spacing: -.07em; text-transform: uppercase; }
 h1 em { color: var(--orange); font-style: normal; }
+
+/* Landing headlines are sized to the viewport so the title fills the page
+   like cover lettering. --w is the em-width of the longest word in the Tilt
+   Warp setting; on phones the type is sized so that word spans the gutters.
+   Docs pages keep the plain h1 above. */
+.hero h1 { --w: 3.75; font-size: min(calc((100vw - 2.5rem) / var(--w)), 7.5rem); line-height: .84; }
+.tool-page h1, .library-page h1, .changelog-page h1, .about-page h1 { --w: 4.6; max-width: none; font-size: min(calc((100vw - 2.5rem) / var(--w)), 6rem); line-height: .84; }
+.library-page h1 { --w: 4.9; }
+.changelog-page h1 { --w: 5.5; }
 em { color: inherit; }
 h2 { margin: 0 0 1.35rem; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: clamp(2rem, 10vw, 3.25rem); font-weight: 400; letter-spacing: -.04em; line-height: .98; text-transform: uppercase; }
 .lede { max-width: 30rem; margin: 1.75rem 0; color: var(--lede); font-size: clamp(1.05rem, 4.5vw, 1.35rem); line-height: 1.45; }
@@ -36,13 +45,12 @@ h2 { margin: 0 0 1.35rem; color: var(--purple); font-family: "Tilt Warp", "DM Sa
 /* Tool profile and library index: the product canvas is deliberately narrower
    than the site shell; prose stays in a calm spine and only demos break out. */
 .tool-page { width: min(100%, 68rem); margin-inline: auto; }
-.tool-page__header { max-width: 46rem; padding-block: clamp(1.5rem, 3vw, 3rem) 1rem; }
+.tool-page__header { max-width: none; padding-block: clamp(1.5rem, 3vw, 3rem) 1rem; }
 .tool-library .tool-library__list { margin-top: 0; padding-top: 1.5rem; }
-.tool-page h1 { max-width: 12ch; font-size: clamp(3.25rem, 8vw, 7rem); }
 .tool-page section { padding-block: clamp(2.5rem, 5vw, 4.5rem); }
 .tool-page h2 { max-width: 18ch; margin-bottom: 1rem; font-size: clamp(2rem, 4vw, 3.5rem); }
 .tool-page h3 { margin: 0; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.4rem; font-weight: 400; line-height: 1; letter-spacing: -.03em; text-transform: uppercase; }
-.tool-hero { max-width: 46rem; }
+.tool-hero { max-width: none; }
 .tool-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1.5rem 0 0; }
 .tool-action { display: inline-flex; align-items: center; min-height: 2.75rem; padding: .55rem .85rem; border-radius: .45rem; background: var(--purple); color: var(--paper); font: 500 .82rem/1.2 "DM Mono", monospace; text-decoration: none; }
 .tool-action:hover { background: var(--orange); color: var(--paper); }
@@ -105,9 +113,7 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
 /* Documentation discovery uses a calm index rather than a broad card wall. */
 .library-page { width: min(100%, 68rem); margin-inline: auto; }
-.library-page__header { max-width: 52rem; padding-block: clamp(1.5rem, 3vw, 3rem) 1.5rem; }
-.tool-library .tool-page__header h1, .library-page .library-page__header h1 { max-width: 18ch; font-size: clamp(2.75rem, 6vw, 4.5rem); line-height: .95; }
-.library-page h1 { max-width: 15ch; font-size: clamp(3.25rem, 8vw, 7rem); }
+.library-page__header { max-width: none; padding-block: clamp(1.5rem, 3vw, 3rem) 1.5rem; }
 .library-page h2 { max-width: 18ch; font-size: clamp(2rem, 4vw, 3.5rem); }
 .library-feature { max-width: 56rem; padding: clamp(1.5rem, 4vw, 2.5rem); border-top: .45rem solid var(--gold); background: color-mix(in srgb, var(--gold) 10%, #fffdf8); }
 .library-feature h2, .library-note h2 { margin: 0 0 .8rem; }
@@ -123,8 +129,7 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
 /* Release notes stay a compact, scannable record rather than an article. */
 .changelog-page { width: min(100%, 58rem); margin-inline: auto; }
-.changelog-page__header { max-width: 44rem; padding-block: clamp(2.5rem, 7vw, 5rem) 2.5rem; }
-.changelog-page h1 { max-width: 12ch; font-size: clamp(3.25rem, 8vw, 7rem); }
+.changelog-page__header { max-width: none; padding-block: clamp(2.5rem, 7vw, 5rem) 2.5rem; }
 .change-entry { display: grid; gap: .75rem; padding: 1.6rem 0; border-top: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); }
 .change-entry:last-child { border-bottom: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); }
 .change-entry__meta { display: flex; flex-wrap: wrap; gap: .5rem; align-content: start; color: var(--muted); font: 500 .72rem "DM Mono", monospace; letter-spacing: .04em; text-transform: uppercase; }
@@ -313,6 +318,11 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
   main { padding: clamp(1.5rem, 5vw, 5rem); }
   section { padding-block: 3rem; }
   .hero { padding-block: clamp(3rem, 6vw, 6rem); }
+  /* 14.2vw makes "Make systems" (6.17em) span the 90vw content box; the
+     other landing titles are deliberately smaller. */
+  .hero h1 { font-size: min(14.2vw, 12.75rem); line-height: .8; }
+  .tool-page h1, .library-page h1, .about-page h1 { font-size: min(10.5vw, 8.5rem); line-height: .82; }
+  .changelog-page h1 { font-size: min(9vw, 6rem); line-height: .82; }
   h1 { font-size: clamp(3.5rem, 10vw, 9.5rem); line-height: .83; }
   h2 { margin-bottom: 1.6rem; font-size: clamp(2rem, 4.5vw, 3.25rem); line-height: .95; }
   .lede { margin-block: 2.3rem; }
