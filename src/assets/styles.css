@@ -46,7 +46,6 @@ h2 { margin: 0 0 1.35rem; color: var(--purple); font-family: "Tilt Warp", "DM Sa
 .tool-action--secondary { border: 1px solid var(--purple); background: transparent; color: var(--purple); }
 .tool-action--secondary:hover { border-color: var(--orange); background: transparent; color: var(--orange); }
 .tool-meta-link { margin-top: .8rem; font-size: .9rem; }
-.quickstart-config { max-width: 42rem; margin-block: 1.25rem; }
 .tool-examples { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid color-mix(in srgb, var(--purple) 25%, var(--paper)); }
 .tool-examples summary { padding-block: .75rem; color: var(--purple); font-weight: 500; cursor: pointer; }
 summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
@@ -95,14 +94,9 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .schemas-flow h3 { margin: 0; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.15rem; font-weight: 400; line-height: 1; letter-spacing: -.03em; text-transform: uppercase; }
 .schemas-flow article p, .schemas-flow__derived > p:last-child { margin: .5rem 0 0; color: var(--lede); font-size: .92rem; line-height: 1.5; }
 .schemas-flow__arrow { width: 1rem; height: 1rem; margin: .9rem auto; border-right: .15rem solid var(--orange); border-bottom: .15rem solid var(--orange); transform: rotate(45deg); }
-.schemas-flow__derived, .schemas-flow__contract { max-width: 38rem; margin-inline: auto; padding: 1.25rem; border-radius: .6rem; text-align: center; }
-.schemas-flow__derived { background: color-mix(in srgb, var(--gold) 22%, #fffdf8); }
-.schemas-flow__contract { background: var(--purple); color: var(--paper); }
-.schemas-flow__derived .eyebrow, .schemas-flow__contract .eyebrow { margin-bottom: .6rem; }
-.schemas-flow__contract .eyebrow { color: var(--gold); }
-.schemas-flow__derived h3, .schemas-flow__contract h3 { margin: 0; font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.4rem; font-weight: 400; line-height: 1; letter-spacing: -.03em; text-transform: uppercase; }
-.schemas-flow__contract h3 { color: var(--paper); }
-.schemas-flow-note { margin: 1rem 0 0; color: var(--lede); font-size: .92rem; }
+.schemas-flow__derived { max-width: 38rem; margin-inline: auto; padding: 1.25rem; border-radius: .6rem; text-align: center; background: color-mix(in srgb, var(--gold) 22%, #fffdf8); }
+.schemas-flow__derived .eyebrow { margin-bottom: .6rem; }
+.schemas-flow__derived h3 { margin: 0; font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.4rem; font-weight: 400; line-height: 1; letter-spacing: -.03em; text-transform: uppercase; }
 .schemas-tool-cards { grid-template-columns: 1fr; }
 .schemas-tool-start { max-width: 48rem; }
 
@@ -121,7 +115,7 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .library-row__meta { margin: 0; color: var(--muted); font: 500 .7rem "DM Mono", monospace; letter-spacing: .05em; text-transform: uppercase; }
 .library-row h3 { margin: 0; font: 500 1.2rem/1.15 "DM Sans", sans-serif; }
 .library-row p:not(.library-row__meta) { margin: .45rem 0 0; color: var(--lede); line-height: 1.6; }
-.library-row__link { align-self: start; font: 500 .76rem "DM Mono", monospace; }
+.library-row__link { align-self: start; font: 500 0.8rem "DM Mono", monospace; }
 .library-note { max-width: 56rem; padding: clamp(1.5rem, 4vw, 2.5rem); border-left: .4rem solid var(--orange); background: color-mix(in srgb, var(--orange) 7%, #fffdf8); }
 
 /* Release notes stay a compact, scannable record rather than an article. */
@@ -201,7 +195,7 @@ a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .site-nav { width: 100%; }
 .site-footer { padding-block: 1.5rem 2rem; }
 .site-footer nav { margin-left: 0; }
-.site-footer__note { width: 100%; margin: 0; color: var(--muted); font: 500 .72rem "DM Mono", monospace; }
+.site-footer__note { width: 100%; margin: 0; color: var(--muted); font: 500 0.8rem "DM Mono", monospace; }
 nav { display: flex; flex-wrap: wrap; gap: .25rem 1rem; font: 500 .76rem "DM Mono", monospace; }
 nav a { margin: -.5rem .2rem; padding: .5rem .2rem; color: inherit; text-decoration-color: var(--gold); text-decoration-thickness: 2px; text-underline-offset: .35em; }
 .site-nav a[aria-current="page"],
@@ -214,7 +208,7 @@ nav a { margin: -.5rem .2rem; padding: .5rem .2rem; color: inherit; text-decorat
 .docs-sidebar { margin: 0 0 1.5rem; }
 .docs-sidebar__menu { border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-radius: .65rem; background: color-mix(in srgb, var(--gold) 8%, #fffdf8); }
 .docs-sidebar__menu summary { padding: .9rem 1rem; color: var(--purple); cursor: pointer; font: 500 .72rem "DM Mono", monospace; letter-spacing: .06em; text-transform: uppercase; }
-.docs-sidebar__menu nav { display: grid; gap: .15rem; padding: .25rem .65rem .8rem; }
+.docs-sidebar__menu nav { display: grid; gap: .15rem; padding: .25rem .65rem .8rem; font-size: .84rem; }
 .docs-sidebar__group { display: grid; gap: .15rem; margin-top: .7rem; padding-top: .55rem; border-top: 1px solid color-mix(in srgb, var(--purple) 16%, var(--paper)); }
 .docs-sidebar__group .docs-sidebar__heading { margin-top: 0; }
 .docs-sidebar__menu nav a { margin: 0; padding: .45rem .35rem; color: var(--lede); text-decoration: none; }
@@ -222,7 +216,7 @@ nav a { margin: -.5rem .2rem; padding: .5rem .2rem; color: inherit; text-decorat
 .docs-sidebar__menu nav a[aria-current="page"] { color: var(--purple); font-weight: 500; text-decoration: underline; text-decoration-color: currentColor; text-decoration-thickness: 2px; text-underline-offset: .3em; }
 .docs-sidebar__heading { margin: .65rem .35rem .25rem; color: var(--muted); font: 500 .65rem "DM Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
 .docs-sidebar__subnav { display: grid; gap: .1rem; margin: -.1rem 0 .25rem .6rem; padding-left: .45rem; border-left: 1px solid color-mix(in srgb, var(--purple) 25%, var(--paper)); }
-.docs-sidebar__subnav a { padding-block: .28rem !important; color: var(--muted) !important; font-size: .86em; }
+.docs-sidebar__subnav a { padding-block: .28rem !important; color: var(--muted) !important; font-size: 0.8rem; }
 .docs-sidebar__subnav a:hover { color: var(--orange) !important; }
 /* Native :target gives an anchor its active treatment without requiring
    client-side scroll tracking. Start here is active before a section link is
@@ -334,7 +328,7 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
   .schema-layers { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
   .schemas-flow { padding: 1.5rem; }
   .schemas-flow__sources, .schemas-flow__outcomes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .schemas-flow__derived, .schemas-flow__contract { padding: 1.5rem; }
+  .schemas-flow__derived { padding: 1.5rem; }
   .schemas-tool-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .change-entry { grid-template-columns: 8rem minmax(0, 1fr); gap: 1.5rem; padding: 2rem 0; }
   .library-row { grid-template-columns: 8rem minmax(0, 1fr) 4rem; gap: 1.5rem; padding: 1.75rem 0; }
