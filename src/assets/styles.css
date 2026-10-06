@@ -35,18 +35,6 @@ h1 em { color: var(--orange); font-style: normal; }
 .library-page h1 { --w: 4.9; }
 .changelog-page h1 { --w: 5.5; }
 .about-page h1 { margin-bottom: 1.75rem; }
-
-/* Home only: the hero is a full-bleed purple cover block. Contrast on
-   --purple (#8342b0): paper 5.99:1 (body text, links), gold 3.39:1 (large
-   headline type and non-text accents only). The ink shadow is decorative. */
-main:has(> .hero) { padding-block: 0; }
-.hero { flex: 1; background: var(--purple); color: var(--paper); clip-path: inset(0 -100vmax); box-shadow: 0 0 0 100vmax var(--purple); }
-.hero h1 { color: var(--paper); text-shadow: .04em .04em 0 var(--ink); }
-.hero h1 em { color: var(--gold); }
-.hero .lede { color: var(--paper); }
-.hero a, .hero a:visited, .hero a:hover { color: var(--paper); text-decoration-color: var(--gold); }
-.hero a:hover { text-decoration-thickness: 3px; }
-.hero a:focus-visible { outline-color: var(--gold); }
 em { color: inherit; }
 h2 { margin: 0 0 1.35rem; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: clamp(1.6rem, 7vw, 2.25rem); font-weight: 400; letter-spacing: -.025em; line-height: 1.05; }
 .lede { max-width: 30rem; margin: 1.75rem 0; color: var(--lede); font-size: clamp(1.05rem, 4.5vw, 1.35rem); line-height: 1.45; }
