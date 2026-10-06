@@ -15,7 +15,7 @@
  *     (v0.3 tokens -> v0.4 tokens and v0.3 utilities -> v0.4 utilities via
  *     schemaDocV04Href, v0.4 tokens -> v0.3 tokens and v0.4 utilities ->
  *     v0.3 utilities via schemaDocV03Href), and otherwise falls back to the
- *     schema overview with an explicit visible "overview fallback" label
+ *     schema overview, except that the v0.3 entry of a v0.4 page with no sibling is unlinked ("not in this version")
  *     (currently the v0.4 icons and lifecycle pages' v0.3 entries, which
  *     have no v0.3 siblings yet);
  *   - the schema format v0.4 stays distinct from the npm package 0.4.0.
@@ -51,8 +51,7 @@ const v04Pages = [
   // pages exist, so they override the nav's previous-version href to point
   // at their v0.3 siblings. The v0.4 icons and lifecycle pages have no
   // published v0.3 sibling yet (v0.3 lifecycle fields lived inside the v0.3
-  // CEM extensions page), so their v0.3 entries keep the explicit overview
-  // fallback (labeled in the nav).
+  // CEM extensions page), so their v0.3 entries are unlinked and read "not in this version".
   { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/dtcg-extensions/index.njk', route: '/docs/schemas/v0.4/dtcg-extensions/', v03Href: '/docs/schemas/v0.3/dtcg-extensions/' },
   { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/tokens/index.njk', route: '/docs/schemas/v0.4/tokens/', v03Href: '/docs/schemas/v0.3/tokens/' },
   { version: 'v0.4', rel: 'src/content/docs/schemas/v0.4/utilities/index.njk', route: '/docs/schemas/v0.4/utilities/', v03Href: '/docs/schemas/v0.3/utilities/' },
@@ -187,7 +186,7 @@ test("shared version nav links each page's own version to the current page", () 
   assert.ok(!/href="\/docs\/schemas\/v0\.3/.test(nav), 'version nav must not link v0.3 reference pages that do not exist yet');
 });
 
-test('shared version nav honours sibling overrides and labels the overview fallback', () => {
+test('shared version nav honours sibling overrides and marks absent v0.3 siblings', () => {
   const nav = read(VERSION_NAV);
   assert.ok(
     /if schemaDocVersion == 'v0\.4'[\s\S]*?set v03Href = schemaDocV03Href or '\/docs\/schemas\/'/.test(nav),
@@ -199,9 +198,10 @@ test('shared version nav honours sibling overrides and labels the overview fallb
   );
   assert.ok(nav.includes("set v04Fallback = not schemaDocV04Href"), 'v0.4 entry must flag the overview fallback when no v0.4 sibling override is provided');
   assert.ok(nav.includes("set v03Fallback = not schemaDocV03Href"), 'v0.3 entry must flag the overview fallback when no v0.3 sibling override is provided');
+  assert.ok(!nav.includes('overview fallback</span>'), 'version nav must not render "overview fallback" as visible text');
   assert.ok(
-    nav.includes('<span class="schema-version-nav__fallback">overview fallback</span>'),
-    'version nav must render an explicit visible/accessible "overview fallback" label for absent counterpart entries',
+    nav.includes('not in this version') && nav.includes('unavailable: v03Fallback'),
+    'v0.4 pages without a v0.3 sibling must render the v0.3 entry as an unlinked "not in this version"',
   );
 });
 

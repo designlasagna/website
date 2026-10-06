@@ -67,7 +67,8 @@ test('docs installation, compatibility and lifecycle', () => {
   assert.match(docs.html, /Switch to Pre-Release Version/i);
   assert.match(docs.html, /Minimum VS Code version is 1\.90/i);
   assert.match(docs.html, /@designlasagna\/ds-language-server@0\.2\.0/);
-  assert.match(docs.html, /compatibility\s+references/i);
+  assert.match(docs.html, /href="\/docs\/schemas\/v0\.4\/tokens\//);
+  assert.doesNotMatch(docs.html, /compatibility\s+references/i);
   assert.match(docs.html, /opt-?in/i);
   assert.match(docs.html, /lifecycle\.profile/i);
   assert.match(docs.html, /schemaVersion/);

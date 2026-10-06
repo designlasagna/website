@@ -12,9 +12,9 @@
     2. The counterpart entry links to the published sibling page when the
        including page provides the matching override: schemaDocV04Href for
        the v0.4 entry, schemaDocV03Href for the v0.3 entry.
-    3. Otherwise the counterpart entry explicitly falls back to the schema
-       overview (/docs/schemas/) and renders a visible "overview fallback"
-       label. This partial must never invent /docs/schemas/v0.4/... or
+    3. Otherwise the counterpart entry falls back to the schema overview
+       (/docs/schemas/). On a v0.4 page with no v0.3 sibling the v0.3 entry
+       is not linked and reads "not in this version". This partial must never invent /docs/schemas/v0.4/... or
        /docs/schemas/v0.3/... URLs for reference pages that do not exist
        yet.
 
@@ -22,8 +22,7 @@
   dtcg-extensions, v0.3 tokens <-> v0.4 tokens, v0.3 utilities <-> v0.4
   utilities, and v0.3 components <-> v0.4 components (mapped in both
   directions via the overrides). The v0.4 icons and lifecycle pages have no
-  v0.3 siblings yet, so their v0.3 entries use the labeled overview
-  fallback. When a
+  v0.3 siblings, so their v0.3 entries read "not in this version". When a
   missing sibling page is published, add its override to the including
   page's front matter (and update scripts/schema-version-nav.test.mjs).
 -#}
@@ -47,8 +46,8 @@
 {%- set v03Fallback = not schemaDocV03Href -%}
 {%- endif %}
 {%- set versions = [
-  { version: 'v0.4', status: 'current', href: v04Href, overviewFallback: v04Fallback },
-  { version: 'v0.3', status: 'previous', href: v03Href, overviewFallback: v03Fallback }
+  { version: 'v0.4', status: 'current', href: v04Href, unavailable: false },
+  { version: 'v0.3', status: 'previous', href: v03Href, unavailable: v03Fallback and schemaDocVersion == 'v0.4' }
 ] -%}
 <aside class="schema-version-nav">
   {%- if schemaDocVersion and schemaDocVersion != 'v0.4' %}
@@ -63,7 +62,11 @@
   <nav class="schema-version-nav__list" aria-label="Schema format versions">
     <ul>
       {%- for entry in versions %}
-      <li><a href="{{ entry.href }}"{% if entry.version == schemaDocVersion %} aria-current="page"{% endif %}>{{ entry.version }}<span class="schema-version-nav__status">{{ entry.status }}</span>{%- if entry.overviewFallback %}<span class="schema-version-nav__fallback">overview fallback</span>{% endif %}</a></li>
+      {%- if entry.unavailable %}
+      <li><span class="schema-version-nav__missing">{{ entry.version }}<span class="schema-version-nav__status">not in this version</span></span></li>
+      {%- else %}
+      <li><a href="{{ entry.href }}"{% if entry.version == schemaDocVersion %} aria-current="page"{% endif %}>{{ entry.version }}<span class="schema-version-nav__status">{{ entry.status }}</span></a></li>
+      {%- endif %}
       {%- endfor %}
     </ul>
   </nav>
