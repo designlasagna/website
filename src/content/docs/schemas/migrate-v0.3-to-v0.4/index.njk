@@ -27,15 +27,11 @@ docsToc:
 <h1>Migrating from v0.3 to v0.4</h1>
 
 <p class="lede">
-  This guide moves Design Lasagna documents — token, utility, and icon
-  manifests, CEM lifecycle extensions, and DTCG
-  <code>recipes.designlasagna</code> extensions — from schema format
-  <strong>v0.3</strong> to <strong>v0.4</strong>. Every change listed here is
-  derived from the archived v0.3 contracts (for example
-  <a href="/schemas/v0.3/tokens.json"><code>tokens.json</code></a>), the v0.4
-  contracts shipped in <code>@designlasagna/schemas@0.4.0</code>, and that
-  package's lifecycle documentation, as summarized in the
-  <a href="/docs/schemas/">schema reference</a>.
+  You only need to migrate a document if you want its v0.4 lifecycle fields.
+  Existing v0.3 documents keep working and stay valid against the v0.3
+  contracts. For each document you do move, the work is small: point
+  <code>$schema</code> at the v0.4 URL, set <code>schemaVersion</code> to
+  <code>"0.4.0"</code>, and rewrite any lifecycle metadata in the new shape.
 </p>
 
 <h2 id="start">Start here</h2>
@@ -46,7 +42,7 @@ docsToc:
   deprecation records in a new shared
   <a href="/docs/schemas/v0.4/lifecycle/">lifecycle fragment</a>, accepts an
   explicit <code>deprecated: false</code> assertion in native manifests, and
-  moves every contract URL from the v0.3 <code>/v0.3/…</code> addresses to
+  moves every contract URL from the v0.3 <code>/schemas/v0.3/…</code> addresses to
   <code>/schemas/v0.4/…</code>. Existing v0.3 documents remain valid against the
   v0.3 contracts: nothing is converted automatically, and migrating is an
   explicit, document-by-document or profile-by-profile decision.

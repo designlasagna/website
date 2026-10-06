@@ -34,8 +34,8 @@ layout: base.njk
         {% if schemaDocVersion == 'v0.3' %}
         <div class="docs-sidebar__group" role="group" aria-label="Previous version">
           <p class="docs-sidebar__heading">Previous version</p>
-          <a href="{{ page.url }}" aria-current="page">{{ title }}</a>
-          {% if docsToc %}<div class="docs-sidebar__subnav" aria-label="{{ title }} sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
+          <a href="{{ page.url }}" aria-current="page">{{ navLabel or title }}</a>
+          {% if docsToc %}<div class="docs-sidebar__subnav" aria-label="{{ navLabel or title }} sections">{% for item in docsToc %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}</div>{% endif %}
         </div>
         {% endif %}
 
@@ -74,7 +74,7 @@ layout: base.njk
 
     const update = () => {
       const readingLine = 180;
-      let active = entries[0];
+      let active = null; // Above the first section (the page header), mark nothing.
       for (const entry of entries) {
         if (entry.section.getBoundingClientRect().top <= readingLine) active = entry;
       }

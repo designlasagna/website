@@ -42,10 +42,10 @@ const LANGUAGE_SERVER_PAGE = { route: '/docs/language-server/' };
 // The four published v0.3 reference pages: their own titles, and the v0.4
 // sibling each page's page-level version nav must link to.
 const V03_PAGES = [
-  { route: '/docs/schemas/v0.3/dtcg-extensions/', title: 'DTCG token extensions — v0.3', v04Href: '/docs/schemas/v0.4/dtcg-extensions/' },
-  { route: '/docs/schemas/v0.3/tokens/', title: 'Tokens — v0.3', v04Href: '/docs/schemas/v0.4/tokens/' },
-  { route: '/docs/schemas/v0.3/utilities/', title: 'Utilities — v0.3', v04Href: '/docs/schemas/v0.4/utilities/' },
-  { route: '/docs/schemas/v0.3/components/', title: 'Components — v0.3', v04Href: '/docs/schemas/v0.4/components/' },
+  { route: '/docs/schemas/v0.3/dtcg-extensions/', title: 'DTCG token extensions — v0.3', navLabel: 'DTCG extensions', v04Href: '/docs/schemas/v0.4/dtcg-extensions/' },
+  { route: '/docs/schemas/v0.3/tokens/', title: 'Tokens — v0.3', navLabel: 'Tokens', v04Href: '/docs/schemas/v0.4/tokens/' },
+  { route: '/docs/schemas/v0.3/utilities/', title: 'Utilities — v0.3', navLabel: 'Utilities', v04Href: '/docs/schemas/v0.4/utilities/' },
+  { route: '/docs/schemas/v0.3/components/', title: 'Components — v0.3', navLabel: 'Components', v04Href: '/docs/schemas/v0.4/components/' },
 ];
 
 // The current v0.4 links the Schema reference group must list, in order.
@@ -181,12 +181,12 @@ test('v0.4 and current pages show no v0.3 sidebar links', () => {
 });
 
 test('v0.3 pages show only their own contextual Previous version link, not all four', () => {
-  for (const { route, title, label } of V03_WITH_DIRS) {
+  for (const { route, navLabel, label } of V03_WITH_DIRS) {
     const nav = navOf(sidebarOf(readPage(route), label), label);
     const v03Links = topLevelLinks(nav).filter(({ href }) => href.startsWith('/docs/schemas/v0.3/'));
     assert.deepEqual(
       v03Links.map(({ href, label: linkLabel, attrs }) => ({ href, linkLabel, attrs })),
-      [{ href: route, linkLabel: title, attrs: ' aria-current="page"' }],
+      [{ href: route, linkLabel: navLabel, attrs: ' aria-current="page"' }],
       `${label}: the Previous version group must contain only this page's own link with aria-current`,
     );
     // The page's docsToc sits directly beneath that link.
