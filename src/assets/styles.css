@@ -57,6 +57,7 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .tool-card h2 { max-width: 13ch; font-size: clamp(1.5rem, 3vw, 2.2rem); }
 .tool-card p { margin: .7rem 0 0; line-height: 1.65; }
 .tool-card--featured { border-top: .45rem solid var(--orange); background: color-mix(in srgb, var(--gold) 9%, #fffdf8); }
+.tool-card__status { color: var(--muted); font: 500 .8rem "DM Mono", monospace; }
 .tool-media { max-width: 60rem; }
 .tool-media .lsp-screenshots { grid-template-columns: 1fr; max-width: 58rem; gap: 2.5rem; }
 .tool-flow { max-width: 60rem; margin-top: 2rem; padding: 1.5rem; border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-radius: .85rem; background: color-mix(in srgb, var(--gold) 8%, #fffdf8); }

@@ -6,8 +6,14 @@
     { "label": "Docs", "href": "/docs/" }
   ],
   "external": [
-    { "label": "Schemas", "href": "https://github.com/designlasagna/schemas" },
-    { "label": "Language server", "href": "https://github.com/designlasagna/ds-language-server" },
+    { "label": "Schemas on GitHub", "href": "https://github.com/designlasagna/schemas" },
+    { "label": "Language server on GitHub", "href": "https://github.com/designlasagna/ds-language-server" },
     { "label": "Contact", "href": "mailto:admin@designlasagna.recipes" }
-  ]
+  ],
+  "languageServer": {
+    "version": "v0.2.0",
+    "channel": "Pre-Release",
+    "minVsCode": "1.90",
+    "zedStatus": "Registry submission awaiting review"
+  }
 }

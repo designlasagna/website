@@ -15,7 +15,7 @@ description: Local-first design-system IntelliSense, diagnostics, and migration 
         <a class="tool-action" href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">Install Pre-Release for VS Code</a>
         <a class="tool-action tool-action--secondary" href="https://github.com/designlasagna/ds-language-server">View source on GitHub</a>
       </div>
-      <p>VS Code v0.2.0 · Pre-Release · Minimum VS Code 1.90</p>
+      <p>VS Code {{ site.languageServer.version }} · {{ site.languageServer.channel }} · Minimum VS Code {{ site.languageServer.minVsCode }}</p>
       <p class="tool-meta-link"><a href="/docs/language-server/">Setup documentation</a> · <a href="/tools/language-server/changelog/">Changelog</a></p>
     </div>
   </section>
@@ -135,10 +135,10 @@ description: Local-first design-system IntelliSense, diagnostics, and migration 
   <section class="tool-section tool-editors">
     <p class="eyebrow">Get started</p>
     <h2>Use it in your editor</h2>
-    <p>The VS Code integration activates for web-focused files and connects to the manifests in your workspace. Zed status: Registry submission awaiting review.</p>
+    <p>The VS Code integration activates for web-focused files and connects to the manifests in your workspace.</p>
     <div class="tool-cards">
-      <article class="tool-card"><p class="eyebrow">Editor integration</p><h3>VS Code</h3><p>Completions, diagnostics, hover details, and migration actions in supported web files.</p><p><a href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">Install Pre-Release from the VS Code Marketplace</a></p><p>v0.2.0 · Pre-Release · Minimum VS Code 1.90</p></article>
-      <article class="tool-card"><p class="eyebrow">Development integration</p><h3>Zed</h3><p><strong>Registry submission awaiting review.</strong> No public registry install is available yet.</p><p><a href="https://github.com/zed-industries/extensions/pull/7741">View PR</a> · <a href="https://github.com/designlasagna/ds-language-server/blob/main/editors/zed/SETUP.md">Optional development setup</a></p></article>
+      <article class="tool-card"><p class="eyebrow">Editor integration</p><h3>VS Code</h3><p>Completions, diagnostics, hover details, and migration actions in supported web files.</p><p><a href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">Install Pre-Release from the VS Code Marketplace</a></p><p>{{ site.languageServer.version }} · {{ site.languageServer.channel }} · Minimum VS Code {{ site.languageServer.minVsCode }}</p></article>
+      <article class="tool-card"><p class="eyebrow">Development integration</p><h3>Zed</h3><p><strong>{{ site.languageServer.zedStatus }}.</strong> No public registry install is available yet.</p><p><a href="https://github.com/zed-industries/extensions/pull/7741">View PR</a> · <a href="https://github.com/designlasagna/ds-language-server/blob/main/editors/zed/SETUP.md">Optional development setup</a></p></article>
     </div>
   </section>
 

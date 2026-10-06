@@ -28,10 +28,10 @@ docsToc:
   <p class="eyebrow">Step 1</p>
   <h2>Install an editor integration</h2>
   <h3>VS Code</h3>
-  <p>Install <a href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">Design Lasagna: Design System Language Server from the Visual Studio Marketplace</a>. Select <strong>Install Pre-Release</strong> or <strong>Switch to Pre-Release Version</strong> to get the current v0.2.0 build. The extension starts the server for supported web files; no separate npm install is needed. Minimum VS Code version is 1.90.</p>
+  <p>Install <a href="https://marketplace.visualstudio.com/items?itemName=DesignLasagna.design-system-language-server">Design Lasagna: Design System Language Server from the Visual Studio Marketplace</a>. Select <strong>Install Pre-Release</strong> or <strong>Switch to Pre-Release Version</strong> to get the current {{ site.languageServer.version }} build. The extension starts the server for supported web files; no separate npm install is needed. Minimum VS Code version is {{ site.languageServer.minVsCode }}.</p>
 
   <h3>Zed</h3>
-  <p><strong>Registry submission awaiting review.</strong> There is no Zed registry install action yet. If you want to help develop or evaluate the integration before review completes, follow the repository’s <a href="https://github.com/designlasagna/ds-language-server/blob/main/editors/zed/SETUP.md">optional development installation</a>; it is not the public installation path. See <a href="https://github.com/zed-industries/extensions/pull/7741">PR #7741</a>.</p>
+  <p><strong>{{ site.languageServer.zedStatus }}.</strong> There is no Zed registry install action yet. If you want to help develop or evaluate the integration before review completes, follow the repository’s <a href="https://github.com/designlasagna/ds-language-server/blob/main/editors/zed/SETUP.md">optional development installation</a>; it is not the public installation path. See <a href="https://github.com/zed-industries/extensions/pull/7741">PR #7741</a>.</p>
 
   <h3>Other LSP clients</h3>
   <p>Compatible clients that can start an LSP over stdio can install the server locally (Node.js 20 or newer):</p>
