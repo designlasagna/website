@@ -200,9 +200,9 @@ a.link-back::before {
 a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
 .site-header, .site-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; padding-inline: 1.25rem; }
-.site-header { padding-block: 1.25rem .5rem; }
+.site-header { flex-wrap: nowrap; padding-block: 1.25rem .5rem; }
 .site-header .brand { width: 2.6rem; }
-.site-nav { width: 100%; }
+.site-nav { width: auto; margin-left: auto; }
 .site-footer { padding-block: 1.5rem 2rem; }
 .site-footer nav { margin-left: 0; }
 .site-footer__note { width: 100%; margin: 0; color: var(--muted); font: 500 0.8rem "DM Mono", monospace; }
@@ -345,7 +345,6 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
   .site-header, .site-footer { gap: .75rem 2rem; padding-inline: clamp(1.5rem, 5vw, 5rem); }
   .site-header { padding-block: 1.25rem; }
   .site-header .brand { width: clamp(2.4rem, 4vw, 3.4rem); }
-  .site-nav { width: auto; margin-left: auto; }
   .site-footer { padding-block: 1.25rem 2rem; }
   .site-footer__note { width: auto; margin-left: auto; }
   nav { gap: .5rem 1.5rem; }
