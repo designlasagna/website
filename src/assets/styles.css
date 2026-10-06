@@ -300,13 +300,19 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
 
 /* Shared schema-format version navigation and maintenance notice for the
    reference pages, plus the overview's version status labels. */
-.schema-version-nav { display: grid; gap: .7rem; margin: 0 0 1.75rem; padding: .9rem 1.1rem; border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-radius: .6rem; background: color-mix(in srgb, var(--gold) 8%, #fffdf8); }
-.schema-version-nav__notice { margin: 0; font-size: .92rem; }
-.schema-version-nav__list ul { display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin: 0; padding: 0; list-style: none; }
-.schema-version-nav__list a { color: var(--purple); text-decoration: underline; text-decoration-color: var(--gold); }
-.schema-version-nav__list a[aria-current="page"] { text-decoration-thickness: 2px; }
+.schema-version-nav { display: grid; gap: .7rem; margin: 0 0 1.5rem; }
+.schema-version-nav__notice { margin: 0; padding: .7rem .9rem; border-left: .3rem solid var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--paper)); font-size: .92rem; }
+.schema-version-nav__list { font: inherit; }
+.schema-version-nav__list ul { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+.schema-version-nav__list li { margin: 0; }
+.schema-version-nav__list a, .schema-version-nav__missing { display: inline-flex; align-items: baseline; gap: .1rem; padding: .35rem .75rem; border: 1px solid color-mix(in srgb, var(--purple) 40%, var(--paper)); border-radius: 999px; font: 500 .8rem "DM Mono", monospace; text-decoration: none; }
+.schema-version-nav__list a { margin: 0; color: var(--purple); }
+.schema-version-nav__list a:visited { color: var(--purple); }
+.schema-version-nav__list a:hover { border-color: var(--orange); color: var(--orange); }
+.schema-version-nav__list a[aria-current="page"], .schema-version-nav__list a[aria-current="page"]:visited { border-color: var(--purple); background: var(--purple); color: var(--paper); }
+.schema-version-nav__list a[aria-current="page"] .schema-version-nav__status { color: var(--paper); }
 .schema-version-nav__status, .version-status { margin-left: .45em; color: var(--muted); font: 500 .68rem "DM Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
-.schema-version-nav__missing { color: var(--muted); }
+.schema-version-nav__missing { border-style: dashed; color: var(--muted); }
 .schema-version-note { margin: 0 0 2rem; padding: 1rem 1.25rem; border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-radius: .6rem; background: color-mix(in srgb, var(--gold) 8%, #fffdf8); }
 .schema-version-note p { margin: 0; }
 .json-key { color: #f6b33d; }
