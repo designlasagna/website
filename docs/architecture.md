@@ -92,6 +92,7 @@ GitHub Actions will install dependencies, run `npm run check` and `npm run build
 ## Constraints
 
 - Generated output must be plain, accessible HTML and work without JavaScript.
-- Released `/schemas/<version>/...` files are immutable. Breaking contracts require a new version directory.
+- v0.2, v0.3 and DTCG snapshots under `/schemas/` are immutable and keep their published bytes.
+- `/schemas/v0.4/...` serves the latest `@designlasagna/schemas` 0.4.x release. A patch may only fix or relax validation, so every document valid under an earlier 0.4.x file stays valid. Anything that would reject a previously valid document needs a new version directory.
 - Every schema page must be readable before it is exhaustive: purpose and valid examples precede full JSON Schema detail.
 - v0.2 remains documented as legacy/compatibility material; current v0.3 material is the default path.

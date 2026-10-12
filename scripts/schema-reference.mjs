@@ -157,8 +157,19 @@ function summarize(rootSchema, depth, ctx) {
   }
 }
 
+// `{ description, allOf: [{ $ref }] }` is the draft-07 way to describe a
+// reference (siblings of a bare $ref are ignored), so document it as that ref.
+function wrappedRef(raw) {
+  if (typeof raw.$ref === 'string' || !Array.isArray(raw.allOf) || raw.allOf.length !== 1) return undefined;
+  const [branch] = raw.allOf;
+  return isPlainObject(branch) && Object.keys(branch).length === 1 && typeof branch.$ref === 'string'
+    ? branch.$ref
+    : undefined;
+}
+
 function buildNode(raw, depth, ctx) {
   const node = {};
+  const ref = typeof raw.$ref === 'string' ? raw.$ref : wrappedRef(raw);
 
   if (typeof raw.$id === 'string') node.$id = raw.$id;
   if (typeof raw.title === 'string') node.title = raw.title;
@@ -182,9 +193,9 @@ function buildNode(raw, depth, ctx) {
     : undefined;
   if (required) node.required = [...required];
 
-  if (typeof raw.$ref === 'string') {
-    node.$ref = raw.$ref;
-    const match = INTERNAL_REF_RE.exec(raw.$ref);
+  if (ref !== undefined) {
+    node.$ref = ref;
+    const match = INTERNAL_REF_RE.exec(ref);
     if (match) {
       const defName = match[2];
       if (ctx.allDefinitions.has(defName)) node.$refLocalDef = defName;
@@ -197,7 +208,7 @@ function buildNode(raw, depth, ctx) {
         if (defName in rootDefs) node.$refLocalDef = defName;
       }
     }
-    ctx.refs.push(raw.$ref);
+    ctx.refs.push(ref);
   }
 
   const constraints = {};
@@ -248,7 +259,11 @@ function buildNode(raw, depth, ctx) {
     node.definitions = summarizeDefs(definitions, depth, ctx);
   }
 
-  const composition = summarizeComposition(raw, depth, ctx);
+  const composition = summarizeComposition(
+    ref !== undefined && raw.$ref === undefined ? { ...raw, allOf: undefined } : raw,
+    depth,
+    ctx,
+  );
   if (composition) node.composition = composition;
 
   return clean(node);
