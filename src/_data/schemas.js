@@ -190,8 +190,8 @@ module.exports = async function () {
 
   // Minimal v0.4 icons manifest: the root requires schemaVersion + icons;
   // each icon requires name + platforms (at least one platform entry), and
-  // each platform entry must assert import, usage, or component per its
-  // oneOf.
+  // each platform entry must assert at least one of import, usage, and
+  // component (anyOf since schemas 0.4.3).
   const v04IconsExample = {
     $schema: 'https://designlasagna.recipes/schemas/v0.4/icons.json',
     schemaVersion: '0.4.0',

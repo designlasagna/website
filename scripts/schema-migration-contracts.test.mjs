@@ -29,6 +29,8 @@ const STATUS_REF = 'lifecycle.json#/definitions/Status';
 const DEPRECATED_REF = 'lifecycle.json#/definitions/Deprecated';
 const STRICT_DEPRECATED_REF = 'lifecycle.json#/definitions/StrictDeprecated';
 const NATIVE_DEPRECATION_REF = 'lifecycle.json#/definitions/NativeDeprecation';
+// Since schemas 0.4.3 some refs sit in a one-item allOf so a description can sit beside them.
+const refOf = (node) => node.$ref ?? (node.allOf?.length === 1 ? node.allOf[0].$ref : undefined);
 
 test('v0.4 adds a new lifecycle.json fragment with no v0.3 counterpart', () => {
   assert.ok(!fs.existsSync(path.join(projectRoot, 'src/schemas/v0.3/lifecycle.json')), 'v0.3 must not have a lifecycle.json');
@@ -80,7 +82,7 @@ test('tokens.json: status added, deprecated gains explicit false, platform mappi
   // v0.3: null or a record. v0.4: the shared NativeDeprecation union (adds false).
   assert.equal(a.definitions.Token.properties.deprecated.oneOf.length, 2);
   assert.ok(a.definitions.Token.properties.deprecated.oneOf.every((branch) => branch.const !== false), 'v0.3 Token.deprecated must not accept false');
-  assert.equal(b.definitions.Token.properties.deprecated.$ref, NATIVE_DEPRECATION_REF);
+  assert.equal(refOf(b.definitions.Token.properties.deprecated), NATIVE_DEPRECATION_REF);
   // Platform mappings: usage removed, now closed.
   assert.ok('usage' in a.definitions.PlatformMapping.properties, 'v0.3 PlatformMapping must have usage');
   assert.equal(a.definitions.PlatformMapping.additionalProperties, true);
@@ -88,7 +90,7 @@ test('tokens.json: status added, deprecated gains explicit false, platform mappi
   assert.equal(b.definitions.PlatformMapping.additionalProperties, false);
   // Local Deprecated becomes an alias of the shared definition (message now non-empty).
   assert.ok(!('minLength' in a.definitions.Deprecated.properties.message), 'v0.3 tokens Deprecated.message must not require minLength');
-  assert.equal(b.definitions.Deprecated.$ref, DEPRECATED_REF);
+  assert.equal(refOf(b.definitions.Deprecated), DEPRECATED_REF);
 });
 
 test('utilities.json: status now references the shared definition, deprecated gains explicit false', () => {
@@ -157,7 +159,7 @@ test('dtcg-extensions.json: status added to token and group extensions, StrictDe
   assert.equal(a.definitions.Deprecated.additionalProperties, false);
   assert.equal(a.definitions.Deprecated.required[0], 'message');
   assert.ok(!('minLength' in a.definitions.Deprecated.properties.message), 'v0.3 dtcg Deprecated.message must not require minLength');
-  assert.equal(b.definitions.Deprecated.$ref, STRICT_DEPRECATED_REF);
+  assert.equal(refOf(b.definitions.Deprecated), STRICT_DEPRECATED_REF);
   // Platform mappings: usage removed, now closed.
   assert.ok('usage' in a.definitions.PlatformMapping.properties, 'v0.3 dtcg PlatformMapping must have usage');
   assert.equal(a.definitions.PlatformMapping.additionalProperties, true);

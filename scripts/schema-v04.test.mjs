@@ -65,6 +65,21 @@ test('every v0.4 contract compiles and its documented example validates', async 
   }
 });
 
+test('an icon platform entry accepts any combination of import, usage and component', () => {
+  const iconsId = schemas.get('icons.json').$id;
+  const validatePlatform = ajv.getSchema(`${iconsId}#/definitions/PlatformIcon`);
+
+  // anyOf since schemas 0.4.3; the docs say "at least one, in any combination".
+  const all = { import: 'lasagna-icon.js', usage: '<ds-icon name="lasagna"></ds-icon>', component: 'LasagnaIcon' };
+  assert.ok(validatePlatform({ import: all.import }), 'a single field must be accepted');
+  assert.ok(
+    validatePlatform({ import: all.import, component: all.component }),
+    `two fields must be accepted: ${JSON.stringify(validatePlatform.errors)}`,
+  );
+  assert.ok(validatePlatform(all), `all three fields must be accepted: ${JSON.stringify(validatePlatform.errors)}`);
+  assert.ok(!validatePlatform({}), 'an entry with none of the fields must be rejected');
+});
+
 test("the lifecycle fragment definitions constrain their records as documented", async () => {
   const docs = await dataFn();
   const guidance = require('../src/_data/schemaDocs.js').v04Lifecycle;

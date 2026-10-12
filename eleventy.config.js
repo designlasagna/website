@@ -29,7 +29,8 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/robots.txt");
 
   // Historical raw contracts are immutable snapshots. The build then adds
-  // v0.4 directly from the released package via publish-schemas.mjs.
+  // v0.4 directly from the released package via publish-schemas.mjs, so
+  // /schemas/v0.4/ always tracks the latest compatible 0.4.x patch.
   eleventyConfig.addPassthroughCopy("src/schemas");
 
   return {

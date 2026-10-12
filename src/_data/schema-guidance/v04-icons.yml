@@ -243,7 +243,7 @@ v04Icons:
       useWhen: "Use for every icon declared in the manifest."
       provenance: "Defined by the v0.4 icons schema."
     PlatformIcon:
-      summary: "How one icon is realised on a specific platform: exactly one of an import path, a usage snippet, or a component name."
+      summary: "How one icon is realised on a specific platform: at least one of an import path, a usage snippet, and a component name, in any combination."
       useWhen: "Use when tooling must realise the icon faithfully per platform."
       provenance: "Defined by the v0.4 icons schema."
     Docs:

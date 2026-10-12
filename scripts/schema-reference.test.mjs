@@ -230,3 +230,18 @@ test('truncates deeply nested schemas at maxDepth', () => {
   assert.ok(text.includes('max-depth-reached'));
   JSON.parse(text);
 });
+
+test('documents a described one-item allOf $ref as that $ref', () => {
+  const ref = describeSchema({
+    definitions: {
+      Deprecated: { description: 'Token deprecation.', allOf: [{ $ref: 'lifecycle.json#/definitions/Deprecated' }] },
+      Mixed: { allOf: [{ $ref: '#/definitions/Deprecated', type: 'object' }] },
+    },
+  });
+  assert.equal(ref.definitions.Deprecated.$ref, 'lifecycle.json#/definitions/Deprecated');
+  assert.equal(ref.definitions.Deprecated.description, 'Token deprecation.');
+  assert.equal(ref.definitions.Deprecated.composition, undefined);
+  // A branch with more than a bare $ref stays real composition.
+  assert.equal(ref.definitions.Mixed.$ref, undefined);
+  assert.equal(ref.definitions.Mixed.composition.allOf.length, 1);
+});
