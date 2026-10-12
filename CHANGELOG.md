@@ -4,6 +4,10 @@
 
 ### Changed
 
+- Upgraded to `@designlasagna/schemas` 0.4.4. `/schemas/v0.4/` now serves the latest 0.4.x patch; v0.2, v0.3 and DTCG files stay frozen.
+- The v0.4 Icons docs say a platform entry needs at least one of `import`, `usage` and `component`, in any combination.
+- The v0.4 tokens docs list string arrays as a `resolved` value, for multi-layer shadows and gradient stops.
+- Schema reference tables show the type of a `$ref` wrapped in a one-item `allOf` instead of "—".
 - Split the language server docs into an overview at `/docs/language-server/` and a setup page at `/docs/language-server/setup/`; old section links such as `#install` are forwarded by a small script.
 - Gave the schema listings one job per page: the docs home is now a router (Schemas and Language Server cards plus a link to the two-layers overview), and the schemas overview shows the v0.4 contracts as cards, reduces v0.3 to a one-line pointer to its references and the migration guide, and folds the Migrating section into it.
 - Linked the docs-home card titles to the Schemas and Language Server overviews, and removed the tool-page link from the docs sidebar.
