@@ -206,7 +206,7 @@ v04Tokens:
           ios:
             reference: "Color.Blue500"
     resolved:
-      summary: "Resolved values of the token, keyed by condition."
+      summary: "Resolved values of the token, keyed by condition. Each value is a string, a number, an object for composite values, or (since 0.4.4) an array of strings with one entry per layer, for multi-layer shadows and gradient stops."
       useWhen: "Provide the concrete values consumers render or consume."
       provenance: "Computed by resolution tooling."
       related: ["type", "modes"]
