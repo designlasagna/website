@@ -20,6 +20,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { collectProperties } from './schema-reference.mjs';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const v03 = (file) => JSON.parse(fs.readFileSync(path.join(projectRoot, 'src/schemas/v0.3', file), 'utf8'));
@@ -31,6 +32,16 @@ const STRICT_DEPRECATED_REF = 'lifecycle.json#/definitions/StrictDeprecated';
 const NATIVE_DEPRECATION_REF = 'lifecycle.json#/definitions/NativeDeprecation';
 // Since schemas 0.4.3 some refs sit in a one-item allOf so a description can sit beside them.
 const refOf = (node) => node.$ref ?? (node.allOf?.length === 1 ? node.allOf[0].$ref : undefined);
+// Since schemas 0.4.5 some definitions reuse another's fields through allOf.
+const fieldsOf = (contract, name) => collectProperties(contract.definitions[name], contract.definitions).properties;
+// A record is closed by additionalProperties: false, or (from 0.4.5) by
+// propertyNames listing exactly its fields.
+const isClosed = (contract, name) => {
+  const def = contract.definitions[name];
+  if (def.additionalProperties === false) return true;
+  const allowed = def.propertyNames?.enum;
+  return Array.isArray(allowed) && [...allowed].sort().join() === Object.keys(fieldsOf(contract, name)).sort().join();
+};
 
 test('v0.4 adds a new lifecycle.json fragment with no v0.3 counterpart', () => {
   assert.ok(!fs.existsSync(path.join(projectRoot, 'src/schemas/v0.3/lifecycle.json')), 'v0.3 must not have a lifecycle.json');
@@ -46,7 +57,7 @@ test('v0.4 adds a new lifecycle.json fragment with no v0.3 counterpart', () => {
   assert.equal(native[0].type, 'boolean');
   assert.equal(native[1].type, 'null');
   assert.equal(native[2].$ref, '#/definitions/Deprecated');
-  assert.equal(lifecycle.definitions.StrictDeprecated.additionalProperties, false);
+  assert.ok(isClosed(lifecycle, 'StrictDeprecated'), 'StrictDeprecated must stay closed');
   assert.notEqual(lifecycle.definitions.Deprecated.additionalProperties, false, 'Deprecated record must stay permissive');
   assert.equal(lifecycle.definitions.Deprecated.properties.message.minLength, 1);
   assert.deepEqual(lifecycle.definitions.DeprecatedValue.required.sort(), ['message', 'value']);
@@ -142,8 +153,8 @@ test('cem-extensions.json: definitions-only in both versions, deprecated marker 
   // AttributeExtensions gains deprecated and status.
   assert.ok(!('deprecated' in a.definitions.AttributeExtensions.properties), 'v0.3 AttributeExtensions must not have deprecated');
   assert.ok(!('status' in a.definitions.AttributeExtensions.properties), 'v0.3 AttributeExtensions must not have status');
-  assert.deepEqual(b.definitions.AttributeExtensions.properties.deprecated.oneOf, [{ type: 'boolean' }, { type: 'string' }]);
-  assert.equal(b.definitions.AttributeExtensions.properties.status.$ref, STATUS_REF);
+  assert.deepEqual(fieldsOf(b, 'AttributeExtensions').deprecated.oneOf, [{ type: 'boolean' }, { type: 'string' }]);
+  assert.equal(fieldsOf(b, 'AttributeExtensions').status.$ref, STATUS_REF);
   assert.equal(b.definitions.DeprecatedValue.$ref, 'lifecycle.json#/definitions/DeprecatedValue');
 });
 
@@ -170,7 +181,7 @@ test('dtcg-extensions.json: status added to token and group extensions, StrictDe
 test('the shared Deprecated record requires a non-empty message in v0.4 (a real constraint change)', () => {
   const lifecycle = v04('lifecycle.json');
   assert.equal(lifecycle.definitions.Deprecated.properties.message.minLength, 1);
-  assert.equal(lifecycle.definitions.StrictDeprecated.properties.message.minLength, 1);
+  assert.equal(fieldsOf(lifecycle, 'StrictDeprecated').message.minLength, 1);
   for (const file of ['tokens.json', 'utilities.json', 'icons.json']) {
     assert.equal(v03(file).definitions.Deprecated.properties.message.minLength, undefined, `v0.3 ${file} allowed empty messages`);
   }

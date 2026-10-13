@@ -10,7 +10,8 @@
  *   - title / description
  *   - type
  *   - required properties (list + per-property `required` flag)
- *   - properties (recursively summarized)
+ *   - properties (recursively summarized), including fields inherited
+ *     through `allOf` from local definitions
  *   - $defs / definitions (recursively summarized)
  *   - enums, const, defaults, examples
  *   - common validation constraints
@@ -159,12 +160,54 @@ function summarize(rootSchema, depth, ctx) {
 
 // `{ description, allOf: [{ $ref }] }` is the draft-07 way to describe a
 // reference (siblings of a bare $ref are ignored), so document it as that ref.
+// A node with structure of its own extends the ref instead of aliasing it.
+const OWN_STRUCTURE_KEYS = ['type', 'properties', 'propertyNames', 'additionalProperties'];
+
 function wrappedRef(raw) {
   if (typeof raw.$ref === 'string' || !Array.isArray(raw.allOf) || raw.allOf.length !== 1) return undefined;
+  if (OWN_STRUCTURE_KEYS.some((key) => raw[key] !== undefined)) return undefined;
   const [branch] = raw.allOf;
   return isPlainObject(branch) && Object.keys(branch).length === 1 && typeof branch.$ref === 'string'
     ? branch.$ref
     : undefined;
+}
+
+/**
+ * The fields of an object schema: those inherited through `allOf` from local
+ * definitions (draft-07's only way to reuse a record's fields), then its own,
+ * which win on a name clash. External refs are not followed.
+ *
+ * @param {object} raw JSON Schema object.
+ * @param {object} [definitions] The root schema's `definitions` / `$defs`.
+ * @returns {{ properties: object, required: string[], inherited: boolean }}
+ */
+export function collectProperties(raw, definitions = {}, seen = new Set()) {
+  const properties = {};
+  const required = [];
+  let inherited = false;
+  if (!isPlainObject(raw)) return { properties, required, inherited };
+  for (const branch of Array.isArray(raw.allOf) ? raw.allOf : []) {
+    const ref = isPlainObject(branch) && typeof branch.$ref === 'string' ? INTERNAL_REF_RE.exec(branch.$ref) : null;
+    const name = ref?.[2];
+    if (!name || !isPlainObject(definitions[name]) || seen.has(name)) continue;
+    const parent = collectProperties(definitions[name], definitions, new Set([...seen, name]));
+    if (Object.keys(parent.properties).length === 0) continue;
+    Object.assign(properties, parent.properties);
+    required.push(...parent.required);
+    inherited = true;
+  }
+  if (isPlainObject(raw.properties)) Object.assign(properties, raw.properties);
+  if (Array.isArray(raw.required)) required.push(...raw.required.filter((name) => typeof name === 'string'));
+  return { properties, required: [...new Set(required)], inherited };
+}
+
+function rootDefinitions(root) {
+  if (!isPlainObject(root)) return {};
+  return Object.assign(
+    {},
+    isPlainObject(root.definitions) ? root.definitions : {},
+    isPlainObject(root.$defs) ? root.$defs : {},
+  );
 }
 
 function buildNode(raw, depth, ctx) {
@@ -188,10 +231,13 @@ function buildNode(raw, depth, ctx) {
   }
   if (typeof raw.format === 'string') node.format = raw.format;
 
-  const required = Array.isArray(raw.required)
-    ? raw.required.filter((name) => typeof name === 'string')
-    : undefined;
-  if (required) node.required = [...required];
+  const fields = collectProperties(raw, rootDefinitions(ctx.root));
+  const required = fields.inherited
+    ? fields.required
+    : Array.isArray(raw.required)
+      ? raw.required.filter((name) => typeof name === 'string')
+      : undefined;
+  if (required && (required.length > 0 || Array.isArray(raw.required))) node.required = [...required];
 
   if (ref !== undefined) {
     node.$ref = ref;
@@ -231,7 +277,7 @@ function buildNode(raw, depth, ctx) {
       : [];
   if (examples.length > 0) node.examples = examples.map(safeValue);
 
-  const properties = summarizeProperties(raw.properties, depth, {
+  const properties = summarizeProperties(fields.inherited ? fields.properties : raw.properties, depth, {
     ...ctx,
     schemaRequired: required,
   });
