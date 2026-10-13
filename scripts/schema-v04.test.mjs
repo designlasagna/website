@@ -80,6 +80,19 @@ test('an icon platform entry accepts any combination of import, usage and compon
   assert.ok(!validatePlatform({}), 'an entry with none of the fields must be rejected');
 });
 
+test('utility variants accept design-system-specific variant kinds', () => {
+  const utilitiesId = schemas.get('utilities.json').$id;
+  const validateVariants = ajv.getSchema(`${utilitiesId}#/definitions/UtilityVariants`);
+
+  // Open since schemas 0.4.5, matching the open root variantPatterns.
+  assert.ok(
+    validateVariants({ states: ['hover'], responsive: true, colorScheme: true }),
+    `a custom variant kind must be accepted: ${JSON.stringify(validateVariants.errors)}`,
+  );
+  assert.ok(!validateVariants({ states: 'hover' }), 'states must still be a boolean or an array');
+  assert.ok(!validateVariants({ responsive: 'yes' }), 'responsive must still be a boolean');
+});
+
 test("the lifecycle fragment definitions constrain their records as documented", async () => {
   const docs = await dataFn();
   const guidance = require('../src/_data/schemaDocs.js').v04Lifecycle;

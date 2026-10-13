@@ -220,7 +220,7 @@ v04Utilities:
             properties:
               display: "grid"
     properties:
-      summary: "Deprecated in v0.3. Maps CSS property names to utility values; new manifests should use `platforms.web.properties` instead."
+      summary: "Legacy field, still accepted in v0.4. Maps CSS property names to utility values; prefer `platforms.web.properties` in new manifests."
       useWhen: "Read it for legacy manifests only; do not add it to new ones."
       provenance: "Legacy authored mapping."
       related: ["platforms"]
@@ -361,7 +361,7 @@ v04Utilities:
       useWhen: "Use for every utility declared in the manifest."
       provenance: "Defined by the v0.4 utilities schema."
     UtilityVariants:
-      summary: "Per-utility variant support flags, recording which states and whether responsive variants apply to this utility."
+      summary: "Which variant kinds this utility supports: `states`, `responsive`, and (since 0.4.5) any other kind the design system declares in `variantPatterns`, such as `colorScheme` or `print`."
       useWhen: "Use to advertise one utility's variant support in autocomplete, separately from the shared variant vocabulary."
       provenance: "Defined by the v0.4 utilities schema."
     VariantPatterns:
