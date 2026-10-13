@@ -4,6 +4,9 @@
 
 ### Changed
 
+- Upgraded to `@designlasagna/schemas` 0.4.5. v0.4 utility `variants` accept design-system-specific variant kinds, the Utilities page says so, and a regression checks it.
+- Schema reference pages list fields a definition inherits through `allOf`, so `StrictDeprecated` and CEM `AttributeExtensions` keep their full field tables after 0.4.5 reuses shared definitions.
+- The v0.4 token `cssVariable` and utility `properties` guidance calls them legacy fields that are still accepted, matching the schema; the token `PlatformMapping` introduction says the entry holds only `reference`.
 - Upgraded to `@designlasagna/schemas` 0.4.4. `/schemas/v0.4/` now serves the latest 0.4.x patch; v0.2, v0.3 and DTCG files stay frozen.
 - The v0.4 Icons docs say a platform entry needs at least one of `import`, `usage` and `component`, in any combination.
 - The v0.4 tokens docs list string arrays as a `resolved` value, for multi-layer shadows and gradient stops.

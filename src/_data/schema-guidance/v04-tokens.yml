@@ -190,9 +190,9 @@ v04Tokens:
       example:
         description: "Primary brand color."
     cssVariable:
-      summary: "Deprecated in v0.3. A legacy CSS custom-property name for this token."
+      summary: "Legacy field, still accepted in v0.4. A CSS custom-property name for this token; prefer `platforms.web.reference` in new manifests."
       useWhen: "Carry over existing CSS variable names during migration."
-      provenance: "Authored metadata; deprecated by the schema."
+      provenance: "Authored metadata; marked deprecated in the schema."
       related: ["platforms"]
       example:
         cssVariable: "--color-brand"
@@ -567,7 +567,7 @@ v04Tokens:
     Format:
       summary: "Format metadata for a token, such as its color space or unit."
     PlatformMapping:
-      summary: "The platform-specific reference developers use for a token."
+      summary: "The platform-specific reference developers use for a token. The entry holds only `reference`; put other per-platform data on the token, for example under `metadata`."
     TokenRelation:
       summary: "A named relationship between tokens, such as a derived token."
     Usage:

@@ -4,7 +4,7 @@
 
 ## Hosted artifacts
 
-The build copies every `@designlasagna/schemas@0.4.0` export below `v0.4/` byte-for-byte to its canonical path:
+The build copies every export below `v0.4/` of the installed `@designlasagna/schemas` 0.4.x release byte-for-byte to its canonical path:
 
 - `/schemas/v0.4/lifecycle.json`
 - `/schemas/v0.4/tokens.json`
@@ -15,7 +15,7 @@ The build copies every `@designlasagna/schemas@0.4.0` export below `v0.4/` byte-
 
 Each has an exact `https://designlasagna.recipes/schemas/v0.4/...` `$id`. The check parses every served JSON file, checks its bytes against the installed release, validates it with AJV, and compiles all files together so `lifecycle.json` cross-file references resolve.
 
-The dependency declaration intentionally permits `^0.4.0`; `package-lock.json` locks the reviewed installed artifact to `@designlasagna/schemas@0.4.0`. The verifier derives both the release version and the exact `v0.4/` exports from that installed, locked package. Any schema-version dependency update requires intentional review of the changed exports, bytes, identifiers, and this document before the lockfile is updated.
+The dependency declaration permits `^0.4.x`, and `package-lock.json` locks the reviewed installed release. `/schemas/v0.4/` serves the latest 0.4.x patch: a patch may only fix or relax validation (see `docs/architecture.md`). The verifier derives both the release version and the exact `v0.4/` exports from that installed, locked package. Any schema-version dependency update requires intentional review of the changed exports, bytes, identifiers, and this document before the lockfile is updated.
 
 ## Historical routes
 
