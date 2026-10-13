@@ -59,7 +59,7 @@ dist/                           Generated deployment output; never hand-edit
 
 The website consumes the published `@designlasagna/schemas` package. The two infrastructure scripts live in `scripts/` and are standalone (Node built-ins only):
 
-1. `schema-reference.mjs` reads the immutable v0.3 snapshots used by existing reference pages and produces a plain, JSON-serializable reference structure for the reference templates.
+1. `schema-reference.mjs` reads the immutable v0.3 snapshots used by existing reference pages and produces a plain, JSON-serializable reference structure for the reference templates. A definition's fields include those it inherits through `allOf` from local definitions, since draft-07 has no other way to reuse a record's fields.
 2. Eleventy renders hand-written guides plus generated schema-reference sections into `dist/`.
 3. Immutable v0.2/v0.3/DTCG snapshots in `src/schemas/` are copied to retain already-published bytes. `publish-schemas.mjs --prefix v0.4` then copies every released v0.4 JSON export into `dist/schemas/` and, before writing anything, verifies every v0.4 `$id` equals its deployed `<base-url>/schemas/<path>` URL.
 4. CI runs the built-artifact checks: exact v0.4 package bytes, JSON parsing, canonical `$id`s, and AJV compilation including cross-file references.
