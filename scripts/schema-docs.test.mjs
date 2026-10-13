@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 import { createRequire } from 'node:module';
+import { collectProperties } from './schema-reference.mjs';
 
 const require = createRequire(import.meta.url);
 const docs = require('../src/_data/schemaDocs.js');
@@ -96,7 +97,9 @@ function propertyGroups(schema) {
   // a missing manifest scope does not become an `undefined` group.
   if (schema.properties) groups.manifest = schema.properties;
   for (const [name, definition] of Object.entries(definitions)) {
-    if (definition.properties) groups[name] = definition.properties;
+    // Include fields inherited through allOf, which the reference pages list too.
+    const { properties } = collectProperties(definition, definitions);
+    if (Object.keys(properties).length > 0) groups[name] = properties;
     if (definition.additionalProperties?.properties) groups[`${name}Entry`] = definition.additionalProperties.properties;
   }
   return groups;

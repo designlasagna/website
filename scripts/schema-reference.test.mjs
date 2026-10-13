@@ -2,7 +2,7 @@
 // `node --test scripts/schema-reference.test.mjs`.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { describeSchema } from './schema-reference.mjs';
+import { collectProperties, describeSchema } from './schema-reference.mjs';
 import describeDefault from './schema-reference.mjs';
 
 assert.equal(describeDefault, describeSchema, 'default export is the named function');
@@ -244,4 +244,47 @@ test('documents a described one-item allOf $ref as that $ref', () => {
   // A branch with more than a bare $ref stays real composition.
   assert.equal(ref.definitions.Mixed.$ref, undefined);
   assert.equal(ref.definitions.Mixed.composition.allOf.length, 1);
+});
+
+test('lists fields inherited through allOf from local definitions', () => {
+  const schema = {
+    definitions: {
+      Deprecated: {
+        type: 'object',
+        required: ['message'],
+        properties: { message: { type: 'string' }, removal: { type: 'string' } },
+      },
+      StrictDeprecated: {
+        type: 'object',
+        description: 'Closed record.',
+        allOf: [{ $ref: '#/definitions/Deprecated' }],
+        propertyNames: { enum: ['message', 'removal'] },
+      },
+      Attribute: {
+        type: 'object',
+        allOf: [{ $ref: '#/definitions/Deprecated' }],
+        properties: { enum: { type: 'array' }, removal: { type: 'string', description: 'Own wins.' } },
+      },
+    },
+  };
+  const ref = describeSchema(schema);
+  // Extending a ref is not aliasing it: the definition keeps its own fields.
+  assert.equal(ref.definitions.StrictDeprecated.$ref, undefined);
+  assert.deepEqual(ref.definitions.StrictDeprecated.properties.map((p) => [p.name, p.required]), [['message', true], ['removal', false]]);
+  assert.deepEqual(ref.definitions.StrictDeprecated.required, ['message']);
+  assert.deepEqual(ref.definitions.Attribute.properties.map((p) => p.name), ['message', 'removal', 'enum']);
+  assert.equal(ref.definitions.Attribute.properties[1].description, 'Own wins.');
+  // A plain definition is unchanged.
+  assert.deepEqual(ref.definitions.Deprecated.properties.map((p) => p.name), ['message', 'removal']);
+});
+
+test('collectProperties ignores external and missing refs and survives cycles', () => {
+  const definitions = {
+    A: { allOf: [{ $ref: '#/definitions/B' }], properties: { a: {} } },
+    B: { allOf: [{ $ref: '#/definitions/A' }], properties: { b: {} } },
+  };
+  assert.deepEqual(Object.keys(collectProperties(definitions.A, definitions).properties).sort(), ['a', 'b']);
+  const external = collectProperties({ allOf: [{ $ref: 'other.json#/definitions/X' }, { $ref: '#/definitions/Missing' }], properties: { own: {} } }, definitions);
+  assert.deepEqual(Object.keys(external.properties), ['own']);
+  assert.equal(external.inherited, false);
 });
