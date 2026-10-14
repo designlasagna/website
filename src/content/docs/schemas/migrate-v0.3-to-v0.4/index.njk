@@ -58,7 +58,9 @@ docsToc:
     The v0.3 copy shipped inside <code>@designlasagna/schemas@0.4.0</code> is
     already stricter: its platform mappings are closed, <code>usage</code> is
     removed, and its <code>$id</code> differs. Validating against that copy
-    surfaces the platform-mapping break before you migrate. Package 0.4.0
+    surfaces the platform-mapping break before you migrate. The v0.4 contracts
+    from package 0.4.6 accept extra fields on a platform mapping, so a
+    leftover <code>usage</code> no longer fails v0.4 validation. Package 0.4.0
     tightened the v0.3 contracts as well, so you meet that change when you
     upgrade the package, whether or not you move documents to v0.4.
   </p>
@@ -76,14 +78,15 @@ docsToc:
     <li>
       <code>message</code> in a deprecation record must be a non-empty string.
     </li>
-    <li>
-      Platform mappings in tokens and DTCG extensions are closed, and
-      <code>usage</code> is removed.
-    </li>
   </ul>
 
   <h3>Optional</h3>
   <ul>
+    <li>
+      <code>usage</code> is removed from platform mappings in tokens and DTCG
+      extensions. A leftover <code>usage</code> still validates against v0.4
+      (mappings accept extra fields), but tools ignore it.
+    </li>
     <li>A <code>status</code> field on every entity.</li>
     <li>An explicit <code>deprecated: false</code> in native manifests.</li>
     <li>Per-entity lifecycle extensions in CEM manifests.</li>
@@ -122,7 +125,7 @@ docsToc:
     </li>
     <li>
       <strong>Drop removed data.</strong> Remove <code>PlatformMapping.usage</code>
-      and any custom platform keys from tokens.
+      from tokens. It is no longer part of the schema, and tools ignore it.
     </li>
   </ol>
 
@@ -137,7 +140,7 @@ docsToc:
       <strong>DTCG.</strong> Keep the standard <code>$deprecated</code>
       boolean/string mirror; put the structured record in
       <code>recipes.designlasagna</code>; add <code>status</code> where useful;
-      remove <code>PlatformMapping.usage</code> and any custom platform keys.
+      remove <code>PlatformMapping.usage</code>; it is no longer part of the schema, and tools ignore it.
     </li>
     <li>
       <strong>Select the profile.</strong> Select lifecycle profile
