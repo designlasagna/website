@@ -93,6 +93,22 @@ test('utility variants accept design-system-specific variant kinds', () => {
   assert.ok(!validateVariants({ responsive: 'yes' }), 'responsive must still be a boolean');
 });
 
+test('token platform mappings accept extra fields but still require reference', () => {
+  for (const file of ['tokens.json', 'dtcg-extensions.json']) {
+    const id = schemas.get(file).$id;
+    const validateMapping = ajv.getSchema(`${id}#/definitions/PlatformMapping`);
+
+    // Open since schemas 0.4.6; reference is the only defined field.
+    assert.ok(validateMapping({ reference: 'Color.Blue500' }), `${file}: reference alone must be accepted`);
+    assert.ok(
+      validateMapping({ reference: 'Color.Blue500', usage: 'Use on primary actions.', team: 'mobile' }),
+      `${file}: extra fields must be accepted: ${JSON.stringify(validateMapping.errors)}`,
+    );
+    assert.ok(!validateMapping({ usage: 'Use on primary actions.' }), `${file}: reference must stay required`);
+    assert.ok(!validateMapping({ reference: 1 }), `${file}: reference must stay a string`);
+  }
+});
+
 test("the lifecycle fragment definitions constrain their records as documented", async () => {
   const docs = await dataFn();
   const guidance = require('../src/_data/schemaDocs.js').v04Lifecycle;

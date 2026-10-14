@@ -567,7 +567,7 @@ v04Tokens:
     Format:
       summary: "Format metadata for a token, such as its color space or unit."
     PlatformMapping:
-      summary: "The platform-specific reference developers use for a token. The entry holds only `reference`; put other per-platform data on the token, for example under `metadata`."
+      summary: "The platform-specific reference developers use for a token. `reference` is the only defined field. The entry accepts other per-platform data a design system needs; tools ignore what they do not support."
     TokenRelation:
       summary: "A named relationship between tokens, such as a derived token."
     Usage:

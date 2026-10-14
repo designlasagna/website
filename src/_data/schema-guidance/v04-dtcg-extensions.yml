@@ -361,7 +361,7 @@ v04DtcgExtensions:
     reference:
       summary: "The platform-specific implementation reference, e.g. a resource or API name."
       useWhen: "Map the token to where it actually lives on a platform that does not follow the naming transform."
-      provenance: "Authored DTCG extension metadata; reference is the only (required) field."
+      provenance: "Authored DTCG extension metadata; reference is the only defined field and is required."
       example:
         reference: "Color/Brand/Primary"
   TokenRelationRef:
@@ -420,7 +420,7 @@ v04DtcgExtensions:
       useWhen: "Control how a token is emitted without changing its authored value."
       provenance: "Defined by the v0.4 DTCG extensions schema."
     PlatformMapping:
-      summary: "One platform's implementation reference, keyed per platform under platforms; reference is required and the record is closed."
+      summary: "One platform's implementation reference, keyed per platform under platforms; reference is required."
       useWhen: "Override the emitted reference for one platform."
       provenance: "Defined by the v0.4 DTCG extensions schema."
     TokenRelationRef:

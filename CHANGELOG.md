@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Upgraded to `@designlasagna/schemas` 0.4.6. v0.4 token and DTCG `PlatformMapping` accepts fields beyond `reference`, which stays the only defined and required field. The token and DTCG guidance and the v0.3 to v0.4 migration guide say so (a leftover `usage` no longer fails v0.4 validation, and tools ignore it), the contract tests assert the open mapping, and a regression validates it.
 - Upgraded to `@designlasagna/schemas` 0.4.5. v0.4 utility `variants` accept design-system-specific variant kinds, the Utilities page says so, and a regression checks it.
 - Schema reference pages list fields a definition inherits through `allOf`, so `StrictDeprecated` and CEM `AttributeExtensions` keep their full field tables after 0.4.5 reuses shared definitions.
 - The v0.4 token `cssVariable` and utility `properties` guidance calls them legacy fields that are still accepted, matching the schema; the token `PlatformMapping` introduction says the entry holds only `reference`.

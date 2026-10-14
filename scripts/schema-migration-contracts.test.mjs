@@ -85,7 +85,7 @@ test('root manifest requirements are unchanged', () => {
   }
 });
 
-test('tokens.json: status added, deprecated gains explicit false, platform mappings closed', () => {
+test('tokens.json: status added, deprecated gains explicit false, platform mappings open', () => {
   const a = v03('tokens.json');
   const b = v04('tokens.json');
   assert.ok(!('status' in a.definitions.Token.properties), 'v0.3 Token must not have status');
@@ -94,11 +94,12 @@ test('tokens.json: status added, deprecated gains explicit false, platform mappi
   assert.equal(a.definitions.Token.properties.deprecated.oneOf.length, 2);
   assert.ok(a.definitions.Token.properties.deprecated.oneOf.every((branch) => branch.const !== false), 'v0.3 Token.deprecated must not accept false');
   assert.equal(refOf(b.definitions.Token.properties.deprecated), NATIVE_DEPRECATION_REF);
-  // Platform mappings: usage removed, now closed.
+  // Platform mappings: usage removed. Open since schemas 0.4.6; reference stays required.
   assert.ok('usage' in a.definitions.PlatformMapping.properties, 'v0.3 PlatformMapping must have usage');
   assert.equal(a.definitions.PlatformMapping.additionalProperties, true);
   assert.ok(!('usage' in b.definitions.PlatformMapping.properties), 'v0.4 PlatformMapping must not have usage');
-  assert.equal(b.definitions.PlatformMapping.additionalProperties, false);
+  assert.notEqual(b.definitions.PlatformMapping.additionalProperties, false, 'v0.4 PlatformMapping must be open');
+  assert.deepEqual(b.definitions.PlatformMapping.required, ['reference']);
   // Local Deprecated becomes an alias of the shared definition (message now non-empty).
   assert.ok(!('minLength' in a.definitions.Deprecated.properties.message), 'v0.3 tokens Deprecated.message must not require minLength');
   assert.equal(refOf(b.definitions.Deprecated), DEPRECATED_REF);
@@ -158,7 +159,7 @@ test('cem-extensions.json: definitions-only in both versions, deprecated marker 
   assert.equal(b.definitions.DeprecatedValue.$ref, 'lifecycle.json#/definitions/DeprecatedValue');
 });
 
-test('dtcg-extensions.json: status added to token and group extensions, StrictDeprecated alias, platform mappings closed', () => {
+test('dtcg-extensions.json: status added to token and group extensions, StrictDeprecated alias, platform mappings open', () => {
   const a = v03('dtcg-extensions.json');
   const b = v04('dtcg-extensions.json');
   for (const name of ['TokenExtensions', 'GroupExtensions']) {
@@ -171,11 +172,12 @@ test('dtcg-extensions.json: status added to token and group extensions, StrictDe
   assert.equal(a.definitions.Deprecated.required[0], 'message');
   assert.ok(!('minLength' in a.definitions.Deprecated.properties.message), 'v0.3 dtcg Deprecated.message must not require minLength');
   assert.equal(refOf(b.definitions.Deprecated), STRICT_DEPRECATED_REF);
-  // Platform mappings: usage removed, now closed.
+  // Platform mappings: usage removed. Open since schemas 0.4.6; reference stays required.
   assert.ok('usage' in a.definitions.PlatformMapping.properties, 'v0.3 dtcg PlatformMapping must have usage');
   assert.equal(a.definitions.PlatformMapping.additionalProperties, true);
   assert.ok(!('usage' in b.definitions.PlatformMapping.properties), 'v0.4 dtcg PlatformMapping must not have usage');
-  assert.equal(b.definitions.PlatformMapping.additionalProperties, false);
+  assert.notEqual(b.definitions.PlatformMapping.additionalProperties, false, 'v0.4 PlatformMapping must be open');
+  assert.deepEqual(b.definitions.PlatformMapping.required, ['reference']);
 });
 
 test('the shared Deprecated record requires a non-empty message in v0.4 (a real constraint change)', () => {
