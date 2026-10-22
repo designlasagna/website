@@ -49,7 +49,9 @@ dist/                           Generated deployment output; never hand-edit
 /docs/language-server/          Language Server overview
 /docs/language-server/setup/    Language Server setup
 /learn/                         Evergreen guides
-/writing/                       Dated editorial writing
+/writing/                       Dated editorial index
+/writing/<slug>/               A single article
+/writing/feed.xml              RSS 2.0 feed of the writing section
 /schemas/v0.3/tokens.json       Raw, machine-readable JSON Schema
 ```
 
@@ -88,6 +90,24 @@ GitHub Actions will install dependencies, run `npm run check` and `npm run build
 - **Schemas repository:** schema definitions, `$id` values, validation fixtures, and package release.
 - **Website repository:** page introductions, curated examples, guides, writing, tool copy, layouts, and site styles.
 - **Generated reference data:** derived during the website build and never edited by hand.
+
+## Writing section
+
+`/writing/` is the chronological, editorial half of the site. It holds dated essays, announcements, release commentary, and design-system explorations. It is deliberately separate from `/docs/` (authoritative reference) and from the planned `/learn/` (evergreen, task-oriented guides): a post can explain *why* something was designed a certain way, while docs define the exact contract and guides show how to apply it. Writing may link to docs and tool pages, but it must not become their container.
+
+**Publishing.** An article is a single Markdown file in `src/content/writing/` with front matter:
+
+- `layout: writing.njk` — the shared article layout
+- `permalink` — `/writing/<slug>/`, matching the file name (as with every other page in this repository, permalinks are explicit)
+- `title`, `date` (UTC, `YYYY-MM-DD`), `description` (the index summary)
+- `tags` — must include `writing` (collection membership); extra tags are displayed
+- `related` (optional) — list of `{ label, href }` links to tools/docs pages, rendered in the article footer
+
+The URL is the file slug (`/writing/<slug>/`). Adding a file publishes it: the index, the feed, and the sitemap pick it up at build time with no other change.
+
+**Publication and archival.** Posts are published when finished and dated on publication. They are not rewritten afterward — corrections and updates go into a newer post, and the older post stays as it was. Posts are never deleted or renamed, so URLs remain stable; a post that becomes outdated gets an archival note at the top rather than being removed.
+
+**Feed.** `src/content/writing/feed.njk` renders RSS 2.0 at `/writing/feed.xml` (newest first, full content in `content:encoded`), linked from the index with `rel="alternate"`.
 
 ## Constraints
 

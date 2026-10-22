@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- Launched the writing section at `/writing/`: a dated, editorial home for essays, announcements, and explorations. Articles are Markdown files rendered through a shared layout with title, date, summary, tags, and related tool/docs links; the index lists them newest first and links the RSS 2.0 feed at `/writing/feed.xml` (full content in `content:encoded`). The section is in the main navigation, distinct from the docs sidebar layout, and `docs/architecture.md` documents the publishing, archival, and feed rules. The first post, “The Design Lasagna approach”, explains the project's approach.
+
 ### Changed
 
 - Upgraded to `@designlasagna/schemas` 0.4.6. v0.4 token and DTCG `PlatformMapping` accepts fields beyond `reference`, which stays the only defined and required field. The token and DTCG guidance and the v0.3 to v0.4 migration guide say so (a leftover `usage` no longer fails v0.4 validation, and tools ignore it), the contract tests assert the open mapping, and a regression validates it.
