@@ -15,6 +15,41 @@ module.exports = function (eleventyConfig) {
     );
   });
 
+  // Deterministic date formatting for editorial content, independent of the
+  // build machine's timezone (front-matter dates are UTC midnight).
+  const MONTHS = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
+  ];
+  const toDate = (value) => (value instanceof Date ? value : new Date(value));
+  eleventyConfig.addFilter("dateISO", (value) => {
+    const date = toDate(value);
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}`;
+  });
+  eleventyConfig.addFilter("dateLong", (value) => {
+    const date = toDate(value);
+    return `${date.getUTCDate()} ${MONTHS[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
+  });
+  eleventyConfig.addFilter("dateRSS", (value) => toDate(value).toUTCString());
+
+  // Newest-first ordering for the writing index and its RSS feed.
+  eleventyConfig.addFilter("writingNewestFirst", (pages) =>
+    [...pages].sort((a, b) => (a.date === b.date ? 0 : a.date > b.date ? -1 : 1)),
+  );
+
+  // Tags shown to readers: the section tag and Eleventy's implicit "all"
+  // are collection machinery, not labels.
+  eleventyConfig.addFilter("writingTags", (tags) =>
+    (Array.isArray(tags) ? tags : []).filter((tag) => tag !== "all" && tag !== "writing"),
+  );
+
+  // Feed readers expect absolute URLs, so embedded article links become
+  // absolute against the site origin.
+  eleventyConfig.addFilter("absoluteLinks", (html, baseUrl) =>
+    html.replaceAll('href="/', `href="${baseUrl.replace(/\/$/, "")}/`),
+  );
+
   // Local schema references are presented as links to their reader-facing
   // definition rather than exposing JSON Pointer internals in the UI.
   eleventyConfig.addFilter("schemaDefinitionName", (reference) => {

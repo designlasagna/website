@@ -1,0 +1,35 @@
+---
+layout: base.njk
+permalink: /writing/
+title: Writing
+description: Dated essays, announcements, and explorations from the Design Lasagna kitchen.
+---
+<div class="writing-page">
+  <header class="writing-page__header">
+    <p class="eyebrow">Writing</p>
+    <h1>Notes from<br><em>the kitchen.</em></h1>
+    <p class="lede">Dated essays, announcements, and explorations — the thinking behind Design Lasagna's tools, kept out of the reference docs.</p>
+    <p><a href="/writing/feed.xml" rel="alternate" type="application/rss+xml">RSS feed</a></p>
+  </header>
+
+  {% set articles = collections.writing | writingNewestFirst %}
+  {% if articles.length %}
+  <div class="writing-list">
+    {% for article in articles %}
+    <article class="writing-entry">
+      <p class="writing-entry__meta">{{ article.date | dateISO }}{% for tag in article.data.tags | writingTags %} · {{ tag }}{% endfor %}</p>
+      <div>
+        <h2><a href="{{ article.url }}">{{ article.data.title }}</a></h2>
+        <p>{{ article.data.description }}</p>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>Nothing has been written here yet.</p>
+  {% endif %}
+
+  <footer class="writing-note">
+    <p>Writing is chronological: posts are dated when they are published and are not rewritten afterward. For exact contracts and setup, read the <a href="/docs/">docs</a>; for what each tool does and where to start, see <a href="/tools/">Tools</a>; for what we are building and why, start with <a href="/about/">About Design Lasagna</a>.</p>
+  </footer>
+</div>

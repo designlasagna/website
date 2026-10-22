@@ -4,7 +4,8 @@
   "description": "Design Lasagna — tools and ideas for design-system teams.",
   "nav": [
     { "label": "Tools", "href": "/tools/" },
-    { "label": "Docs", "href": "/docs/" }
+    { "label": "Docs", "href": "/docs/" },
+    { "label": "Writing", "href": "/writing/" }
   ],
   "external": [
     { "label": "About", "href": "/about/" },

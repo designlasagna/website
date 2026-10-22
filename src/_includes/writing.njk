@@ -1,0 +1,36 @@
+---
+layout: base.njk
+---
+{#- Layout for a single piece of writing. A standalone editorial column: no
+    docs sidebar, no tool cards — just a dated reading surface. -#}
+<section class="article-page">
+  <header class="article-page__header">
+    <p class="eyebrow">Writing · {{ page.date | dateLong }}</p>
+    <h1>{{ title }}</h1>
+    {% if description %}<p class="lede">{{ description }}</p>{% endif %}
+  </header>
+
+  <div class="article-md">
+    {{ content | safe }}
+  </div>
+
+  <footer class="article-footer">
+    {% set displayTags = tags | writingTags %}
+    {% if displayTags.length %}
+    <ul class="writing-tags" aria-label="Tags">
+      {% for tag in displayTags %}
+      <li>{{ tag }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% if related and related.length %}
+    <h2>Related</h2>
+    <ul class="article-related">
+      {% for item in related %}
+      <li><a href="{{ item.href }}">{{ item.label }}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <a class="link-back" href="/writing/">All writing</a>
+  </footer>
+</section>

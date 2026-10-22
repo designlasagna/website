@@ -148,6 +148,34 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .changelog-md h3 { margin: 1.2rem 0 .5rem; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.1rem; font-weight: 400; }
 .changelog-md p, .changelog-md li { line-height: 1.65; }
 .changelog-md ul { margin: 0 0 1rem; padding-left: 1.25rem; }
+
+/* Writing: dated editorial content. The index is a scannable list and each
+   article is a standalone reading column — deliberately without the docs
+   sidebar or the tool-page cards, so the section reads as its own thing. */
+.writing-page { width: min(100%, 58rem); margin-inline: auto; }
+.writing-page__header { max-width: none; padding-block: clamp(2.5rem, 7vw, 5rem) 2.5rem; }
+.writing-page h1 { --w: 4.9; max-width: none; font-size: min(calc((100vw - 2.5rem) / var(--w)), 6rem); line-height: .84; }
+.writing-list { margin-top: 1.5rem; border-top: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); }
+.writing-entry { display: grid; gap: .5rem; padding: 1.6rem 0; border-bottom: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); }
+.writing-entry__meta { margin: 0; color: var(--muted); font: 500 .72rem "DM Mono", monospace; letter-spacing: .04em; text-transform: uppercase; overflow-wrap: anywhere; }
+.writing-entry h2 { margin: 0 0 .55rem; font-size: clamp(1.3rem, 2.4vw, 1.6rem); }
+.writing-entry p:not(.writing-entry__meta) { margin: 0; line-height: 1.6; }
+.writing-note { margin-top: 3rem; }
+
+.article-page { width: min(100%, 48rem); margin-inline: auto; }
+.article-page__header { max-width: none; padding-block: clamp(2.5rem, 7vw, 5rem) 1.5rem; }
+.article-page h1 { max-width: none; font-size: clamp(2.4rem, 7vw, 4.25rem); line-height: .9; }
+.article-md h2 { margin: 2.5rem 0 .9rem; }
+.article-md h3 { margin: 1.75rem 0 .6rem; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.25rem; font-weight: 400; line-height: 1.1; letter-spacing: -.02em; }
+.article-md blockquote { margin: 1.5rem 0; padding: .9rem 1.1rem; border-left: .3rem solid var(--gold); background: color-mix(in srgb, var(--gold) 8%, transparent); }
+.article-md blockquote p { margin: 0; }
+.article-md hr { margin: 2rem 0; border: 0; border-top: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); }
+.article-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); }
+.article-footer h2 { margin: 1.5rem 0 .75rem; font-size: clamp(1.6rem, 4vw, 1.9rem); }
+.article-footer h2:first-of-type { margin-top: 0; }
+.writing-tags { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0; padding: 0; list-style: none; }
+.writing-tags li { padding: .25rem .5rem; border: 1px solid color-mix(in srgb, var(--purple) 25%, var(--paper)); border-radius: .25rem; color: var(--purple); font: 500 .72rem "DM Mono", monospace; letter-spacing: .04em; text-transform: uppercase; }
+.article-related { margin: 0 0 1.25rem; padding-left: 1.25rem; }
 main p { max-width: 65ch; line-height: 1.55; }
 main ul { margin: 0; padding-left: 1.25rem; }
 main li { margin: 0 0 .9rem; line-height: 1.55; }
@@ -363,6 +391,9 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
   .schemas-flow__derived { padding: 1.5rem; }
   .schemas-tool-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .change-entry { grid-template-columns: 8rem minmax(0, 1fr); gap: 1.5rem; padding: 2rem 0; }
+  .writing-entry { grid-template-columns: 8.5rem minmax(0, 1fr); gap: 1.5rem; padding: 2rem 0; }
+  .writing-entry__meta { text-align: left; }
+  .article-page h1 { font-size: clamp(2.8rem, 6vw, 4.75rem); }
   .library-row { grid-template-columns: 8rem minmax(0, 1fr) 4rem; gap: 1.5rem; padding: 1.75rem 0; }
   .library-row__link { justify-self: end; }
   .site-header, .site-footer { gap: .75rem 2rem; padding-inline: clamp(1.5rem, 5vw, 5rem); }
