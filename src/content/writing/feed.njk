@@ -1,6 +1,9 @@
----
-permalink: /writing/feed.xml
-eleventyExcludeFromCollections: true
+---js
+{
+  eleventyExcludeFromCollections: true,
+  // Built only while the section has published content (see _data/sections.js).
+  permalink: (data) => (data.sections.writing ? "/writing/feed.xml" : false),
+}
 ---
 {%- set articles = collections.writing | writingNewestFirst -%}
 <?xml version="1.0" encoding="utf-8"?>
@@ -19,7 +22,8 @@ eleventyExcludeFromCollections: true
       <guid isPermaLink="true">{{ site.url }}{{ article.url }}</guid>
       <pubDate>{{ article.date | dateRSS }}</pubDate>
       <description>{{ article.data.description }}</description>
-      <content:encoded><![CDATA[{{ article.templateContent | absoluteLinks(site.url) | safe }}]]></content:encoded>
+      {%- set heroImg = article.data.hero | heroImage %}
+      <content:encoded><![CDATA[{% if heroImg %}<p><img src="{{ site.url }}{{ heroImg.src }}" width="{{ heroImg.width }}" height="{{ heroImg.height }}" alt="{{ heroImg.alt }}"></p>{% endif %}{{ article.templateContent | absoluteLinks(site.url) | safe }}]]></content:encoded>
     </item>
 {%- endfor %}
   </channel>

@@ -3,9 +3,10 @@
   "title": "Design Lasagna",
   "description": "Design Lasagna — tools and ideas for design-system teams.",
   "nav": [
-    { "label": "Tools", "href": "/tools/" },
+    { "label": "Tasty parts", "href": "/tools/" },
     { "label": "Docs", "href": "/docs/" },
-    { "label": "Writing", "href": "/writing/" }
+    { "label": "Learn", "href": "/learn/", "section": "learn" },
+    { "label": "Writing", "href": "/writing/", "section": "writing" }
   ],
   "external": [
     { "label": "About", "href": "/about/" },

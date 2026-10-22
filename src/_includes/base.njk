@@ -9,9 +9,23 @@
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">{% endif %}
   <meta property="og:title" content="{% if title and title != site.title %}{{ title }} — {% endif %}{{ site.title }}">
   <meta property="og:description" content="{{ description or site.description }}">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="{{ ogType or 'website' }}">
   <meta property="og:site_name" content="{{ site.title }}">
-  <meta name="twitter:card" content="summary">
+  {% shareImageMeta hero %}
+  {%- set shareImage = hero | heroImage %}
+  {%- if ogType == "article" %}
+  <meta property="article:published_time" content="{{ page.date | dateISO }}">
+  {%- for tag in tags | writingTags %}
+  <meta property="article:tag" content="{{ tag }}">
+  {%- endfor %}
+  <script type="application/ld+json">{{ { "@context": "https://schema.org", "@type": "BlogPosting", "headline": title, "description": description, "datePublished": page.date | dateISO, "image": (site.url + shareImage.src) if shareImage else undefined, "url": site.url + page.url, "keywords": tags | writingTags, "author": { "@type": "Organization", "name": site.title, "url": site.url }, "publisher": { "@type": "Organization", "name": site.title, "url": site.url } } | jsonLd | safe }}</script>
+  {%- endif %}
+  {%- if draft %}
+  <meta name="robots" content="noindex">
+  {%- endif %}
+  {%- if page.url and page.url.startsWith("/writing/") %}
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }} — Writing" href="/writing/feed.xml">
+  {%- endif %}
   <title>{% if title and title != site.title %}{{ title }} — {% endif %}{{ site.title }}</title>
   <link rel="preload" as="font" type="font/woff2" href="{{ '/assets/fonts/tilt-warp-400.woff2' | url }}" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="{{ '/assets/fonts/dm-sans-variable.woff2' | url }}" crossorigin>
@@ -22,9 +36,11 @@
   <header class="site-header">
     <a class="brand" href="/" aria-label="Design Lasagna home"><img src="{{ '/assets/logotype.svg' | url }}" alt="Design Lasagna" width="213" height="202"></a>
     <nav class="site-nav" aria-label="Main">
-      {% for link in site.nav %}
+      {%- for link in site.nav %}
+      {%- if not link.section or sections[link.section] %}
       <a href="{{ link.href }}"{% if page.url and link.href == page.url %} aria-current="page"{% elif page.url and link.href != "/" and page.url.startsWith(link.href) %} aria-current="true"{% endif %}>{{ link.label }}</a>
-      {% endfor %}
+      {%- endif %}
+      {%- endfor %}
     </nav>
   </header>
   <main id="main">

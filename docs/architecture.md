@@ -48,7 +48,8 @@ dist/                           Generated deployment output; never hand-edit
 /docs/schemas/v0.3/tokens/      Human-readable schema documentation
 /docs/language-server/          Language Server overview
 /docs/language-server/setup/    Language Server setup
-/learn/                         Evergreen guides
+/learn/                         Evergreen guides (index)
+/learn/<slug>/                  A single guide
 /writing/                       Dated editorial index
 /writing/<slug>/               A single article
 /writing/feed.xml              RSS 2.0 feed of the writing section
@@ -93,7 +94,7 @@ GitHub Actions will install dependencies, run `npm run check` and `npm run build
 
 ## Writing section
 
-`/writing/` is the chronological, editorial half of the site. It holds dated essays, announcements, release commentary, and design-system explorations. It is deliberately separate from `/docs/` (authoritative reference) and from the planned `/learn/` (evergreen, task-oriented guides): a post can explain *why* something was designed a certain way, while docs define the exact contract and guides show how to apply it. Writing may link to docs and tool pages, but it must not become their container.
+`/writing/` is the chronological, editorial half of the site. It holds dated essays, announcements, release commentary, and design-system explorations. It is deliberately separate from `/docs/` (authoritative reference) and from `/learn/` (evergreen, task-oriented guides): a post can explain *why* something was designed a certain way, while docs define the exact contract and guides show how to apply it. Writing may link to docs and tool pages, but it must not become their container.
 
 **Publishing.** An article is a single Markdown file in `src/content/writing/` with front matter:
 
@@ -102,12 +103,44 @@ GitHub Actions will install dependencies, run `npm run check` and `npm run build
 - `title`, `date` (UTC, `YYYY-MM-DD`), `description` (the index summary)
 - `tags` — must include `writing` (collection membership); extra tags are displayed
 - `related` (optional) — list of `{ label, href }` links to tools/docs pages, rendered in the article footer
+- `hero` (optional) — `{ src, alt, caption? }` for a lead image. It sits below the title, breaking out of the reading column to the 68rem tool-page canvas, and also tops the post's index card, leads the feed item, and becomes the share preview (a 1200px JPEG for `og:image` and the large Twitter card). `alt` is required. Commit one large source (about 2400px wide); the build resizes it.
+- `draft: true` (optional) — the post renders under `npm run dev` (which builds into `.dev/`, never `dist/`) with a Draft chip, and production builds leave it out entirely (no page, index entry, feed item or sitemap entry). Remove the flag and set `date` to publish.
 
 The URL is the file slug (`/writing/<slug>/`). Adding a file publishes it: the index, the feed, and the sitemap pick it up at build time with no other change.
 
+**Empty sections.** `src/_data/sections.js` records whether Writing and Learn have anything published in the current build. A section whose posts or guides are all drafts is left out of production builds entirely — no nav item, index page, feed or sitemap entry — so the site never links to an empty page. Under `npm run dev` drafts count, so both sections show while writing. Publishing the first post or guide brings its section back with no other change.
+
 **Publication and archival.** Posts are published when finished and dated on publication. They are not rewritten afterward — corrections and updates go into a newer post, and the older post stays as it was. Posts are never deleted or renamed, so URLs remain stable; a post that becomes outdated gets an archival note at the top rather than being removed.
 
-**Feed.** `src/content/writing/feed.njk` renders RSS 2.0 at `/writing/feed.xml` (newest first, full content in `content:encoded`), linked from the index with `rel="alternate"`.
+**Media and code.** Article Markdown is processed with Nunjucks, so it can use two shortcodes (keyword arguments; captions accept inline Markdown). Assets live in `src/assets/`.
+
+- `{% figure src="/assets/x.webp", alt="…", caption="**Lead.** Text" %}` — `alt` is required (`alt=""` for a decorative image).
+- `{% video src="/assets/x.mp4", poster="/assets/x.webp", label="…", caption="…" %}` — self-hosted MP4, WebM or MOV; no third-party embeds. `poster` and `label` are required; the poster sets the size. Optional `captions="/assets/x.vtt"` adds a WebVTT track, and `loop=true` makes a silent looping clip for short UI demos. Videos never autoplay and load nothing until played.
+
+**Images are resized at build time.** Figures and heroes go through `@11ty/eleventy-img` (pinned): each source is written to `/assets/img/` at 480, 960, 1440, 1920 and 2400px wide (never upscaled; the original width is kept as the largest) as AVIF with a WebP fallback, and rendered as a `<picture>` with `srcset`, `sizes`, intrinsic `width`/`height`, and lazy loading (heroes load eagerly). The plain `src` is the largest WebP, for feed readers. Output file names are content hashes, so unchanged images are not re-encoded. Video posters are used as committed.
+
+Fenced code is coloured for `json`, `jsonc`, `css`, `html` and `js` (`javascript`, `mjs`); other languages render as plain text. Code keeps its exact lines and scrolls sideways when it does not fit, with a soft edge marking the side that has more. Keep samples to about 60 characters per line so they fit the desktop column. Tables get ruled rows; the first column is styled as the row label, and on phones each row stacks into a block whose values carry their column heading. Because Markdown runs through Nunjucks, wrap code that contains `{{` or `{%` in `{% raw %}…{% endraw %}`.
+
+**Metadata.** Article pages declare `og:type` `article`, `article:published_time`, `article:tag`, a schema.org `BlogPosting` in JSON-LD, and feed autodiscovery.
+
+**Feed.** `src/content/writing/feed.njk` renders RSS 2.0 at `/writing/feed.xml` (newest first, full content in `content:encoded`, with links, image and video sources and posters made absolute), linked from the index with `rel="alternate"`.
+
+## Learn section
+
+`/learn/` holds maintained, task-oriented guides: how to get one job done with the schemas or tools. Unlike writing, a guide is updated when the tools change, so it has no publication date; it says which releases it was last checked against instead. The main navigation is Tasty parts (`/tools/`), Docs, Learn and Writing.
+
+**Publishing.** A guide is a Markdown file in `src/content/learn/` with front matter:
+
+- `layout: guide.njk`, `permalink: /learn/<slug>/` matching the file name, and `tags: [learn]`
+- `title`, `description` (the index summary)
+- `outcome` — what the reader will have at the end (inline Markdown)
+- `prerequisites` — list of what they need first (inline Markdown)
+- `updated` (`YYYY-MM-DD`) and `testedWith` — when the guide was last checked, and the releases and runtimes it was checked with
+- `related` (optional) and `draft: true` (optional), as for writing
+
+The layout opens with a facts panel (outcome, prerequisites, last checked) and reuses the article reading column, so code, lists, tables and the `{% figure %}` and `{% video %}` shortcodes work the same way. The index lists guides alphabetically. `scripts/learn.test.mjs` enforces the front matter.
+
+**Keeping guides true.** Every command, script and output in a guide is run against the released packages before it is published or re-checked, on the oldest supported runtime as well as the current one, and `updated` and `testedWith` change with it. A guide that no longer works is fixed, not left with a note.
 
 ## Constraints
 

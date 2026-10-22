@@ -3,6 +3,7 @@ layout: writing.njk
 permalink: /writing/the-design-lasagna-approach/
 title: The Design Lasagna approach
 date: 2026-10-16
+draft: true
 description: Why Design Lasagna treats a design system as layers — and what the project builds and writes for the people who maintain them.
 tags: [writing, approach, design-systems]
 related:

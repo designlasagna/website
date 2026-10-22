@@ -1,35 +1,43 @@
----
-layout: base.njk
-permalink: /writing/
-title: Writing
-description: Dated essays, announcements, and explorations from the Design Lasagna kitchen.
+---js
+{
+  layout: "base.njk",
+  title: "Writing",
+  description: "Dated essays, announcements, and explorations from the Design Lasagna kitchen.",
+  // Built only while the section has published content (see _data/sections.js).
+  permalink: (data) => (data.sections.writing ? "/writing/" : false),
+}
 ---
 <div class="writing-page">
   <header class="writing-page__header">
     <p class="eyebrow">Writing</p>
-    <h1>Notes from<br><em>the kitchen.</em></h1>
+    <h1 class="fit"><span class="fit__line" style="--em:5.32">Notes from</span> <em class="fit__line" style="--em:5.48">the kitchen.</em></h1>
     <p class="lede">Dated essays, announcements, and explorations — the thinking behind Design Lasagna's tools, kept out of the reference docs.</p>
-    <p><a href="/writing/feed.xml" rel="alternate" type="application/rss+xml">RSS feed</a></p>
+    <p class="tool-actions"><a class="tool-action tool-action--secondary" href="/writing/feed.xml" rel="alternate" type="application/rss+xml">Follow the RSS feed</a></p>
   </header>
 
   {% set articles = collections.writing | writingNewestFirst %}
   {% if articles.length %}
-  <div class="writing-list">
-    {% for article in articles %}
-    <article class="writing-entry">
-      <p class="writing-entry__meta">{{ article.date | dateISO }}{% for tag in article.data.tags | writingTags %} · {{ tag }}{% endfor %}</p>
-      <div>
-        <h2><a href="{{ article.url }}">{{ article.data.title }}</a></h2>
-        <p>{{ article.data.description }}</p>
-      </div>
+  <section class="writing-list" aria-label="Articles, newest first">
+    {#- asyncEach: the hero shortcode resizes images asynchronously. #}
+    {% asyncEach article in articles %}
+    <article class="tool-card writing-card{% if loop.first %} tool-card--featured{% endif %}">
+      {% if article.data.hero %}{% heroPicture article.data.hero, "card-first" if loop.first else "card" %}{% endif %}
+      <p class="writing-meta">
+        {% if article.data.draft %}<strong>Draft</strong>{% endif %}
+        <time datetime="{{ article.date | dateISO }}">{{ article.date | dateLong }}</time>
+        {% for tag in article.data.tags | writingTags %}<span>{{ tag }}</span>{% endfor %}
+      </p>
+      <h2><a class="writing-card__link" href="{{ article.url }}">{{ article.data.title }}</a></h2>
+      <p>{{ article.data.description }}</p>
     </article>
-    {% endfor %}
-  </div>
+    {% endeach %}
+  </section>
   {% else %}
   <p>Nothing has been written here yet.</p>
   {% endif %}
 
-  <footer class="writing-note">
-    <p>Writing is chronological: posts are dated when they are published and are not rewritten afterward. For exact contracts and setup, read the <a href="/docs/">docs</a>; for what each tool does and where to start, see <a href="/tools/">Tools</a>; for what we are building and why, start with <a href="/about/">About Design Lasagna</a>.</p>
-  </footer>
+  <aside class="library-note writing-note">
+    <h2>Dated, not maintained</h2>
+    <p>Posts are dated when they are published and are not rewritten afterward. For exact contracts and setup, read the <a href="/docs/">docs</a>; for what each tool does and where to start, see <a href="/tools/">Tasty parts</a>; for step-by-step help, follow a <a href="/learn/">guide</a>; for what we are building and why, start with <a href="/about/">About Design Lasagna</a>.</p>
+  </aside>
 </div>
