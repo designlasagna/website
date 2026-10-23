@@ -1,0 +1,48 @@
+---
+layout: base.njk
+---
+{#- Layout for a Learn guide: evergreen and maintained, so it leads with what
+    the reader will have at the end, what they need first, and which releases
+    it was last checked against — instead of a publication date. Shares the
+    article reading column and its code, list and table styles. -#}
+<article class="article-page guide-page">
+  <header class="article-page__header">
+    <p><a class="link-back" href="/learn/">All guides</a></p>
+    <p class="eyebrow">{% if draft %}<strong class="learn-draft">Draft</strong> {% endif %}Learn · Guide</p>
+    <h1>{{ title }}</h1>
+    {% if description %}<p class="lede">{{ description }}</p>{% endif %}
+  </header>
+
+  <dl class="guide-facts">
+    <div class="guide-facts__outcome">
+      <dt>You will have</dt>
+      <dd>{{ outcome | markdownInline | safe }}</dd>
+    </div>
+    <div>
+      <dt>Before you start</dt>
+      <dd><ul>{% for item in prerequisites %}<li>{{ item | markdownInline | safe }}</li>{% endfor %}</ul></dd>
+    </div>
+    <div>
+      <dt>Last checked</dt>
+      <dd><time datetime="{{ updated | dateISO }}">{{ updated | dateLong }}</time>, with {{ testedWith | join(", ") }}</dd>
+    </div>
+  </dl>
+
+  <div class="article-md">
+    {{ content | safe }}
+  </div>
+
+  <footer class="article-footer">
+    {% if related and related.length %}
+    <aside class="tool-card article-related" aria-label="Related">
+      <p class="eyebrow">Related</p>
+      <ul>
+        {% for item in related %}
+        <li><a class="link-open" href="{{ item.href }}">{{ item.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </aside>
+    {% endif %}
+    <p><a class="link-back" href="/learn/">All guides</a></p>
+  </footer>
+</article>

@@ -1,0 +1,30 @@
+---js
+{
+  eleventyExcludeFromCollections: true,
+  // Built only while the section has published content (see _data/sections.js).
+  permalink: (data) => (data.sections.writing ? "/writing/feed.xml" : false),
+}
+---
+{%- set articles = collections.writing | writingNewestFirst -%}
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.title }} — Writing</title>
+    <link>{{ site.url }}/writing/</link>
+    <description>Dated essays, announcements, and explorations from the Design Lasagna kitchen.</description>
+    <language>en</language>
+    <lastBuildDate>{% if articles.length %}{{ articles[0].date | dateRSS }}{% else %}{{ "1970-01-01T00:00:00Z" | dateRSS }}{% endif %}</lastBuildDate>
+    <atom:link href="{{ site.url }}/writing/feed.xml" rel="self" type="application/rss+xml" />
+{%- for article in articles %}
+    <item>
+      <title>{{ article.data.title }}</title>
+      <link>{{ site.url }}{{ article.url }}</link>
+      <guid isPermaLink="true">{{ site.url }}{{ article.url }}</guid>
+      <pubDate>{{ article.date | dateRSS }}</pubDate>
+      <description>{{ article.data.description }}</description>
+      {%- set heroImg = article.data.hero | heroImage %}
+      <content:encoded><![CDATA[{% if heroImg %}<p><img src="{{ site.url }}{{ heroImg.src }}" width="{{ heroImg.width }}" height="{{ heroImg.height }}" alt="{{ heroImg.alt }}"></p>{% endif %}{{ article.templateContent | absoluteLinks(site.url) | safe }}]]></content:encoded>
+    </item>
+{%- endfor %}
+  </channel>
+</rss>

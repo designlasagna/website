@@ -134,6 +134,23 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .library-row__link { align-self: start; font: 500 0.8rem "DM Mono", monospace; }
 .library-note { max-width: 56rem; padding: clamp(1.5rem, 4vw, 2.5rem); border-left: .4rem solid var(--orange); background: color-mix(in srgb, var(--orange) 7%, #fffdf8); }
 
+/* Learn: maintained guides. The index uses the docs' calm rows; a guide page
+   reuses the article reading column and opens with a facts panel (outcome,
+   prerequisites, last checked) in place of a publication date. */
+.learn-draft { padding: .15rem .35rem; border-radius: .25rem; background: var(--orange); color: var(--paper); font-weight: 500; }
+.learn-list { padding-top: 1rem; }
+.library-row h3 a { text-decoration-color: var(--gold); }
+.guide-facts { display: grid; gap: 0; margin: 2rem 0 .5rem; padding: 1.25rem; border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-top: .45rem solid var(--gold); border-radius: .6rem; background: color-mix(in srgb, var(--gold) 9%, #fffdf8); }
+.guide-facts > div { min-width: 0; padding-block: .8rem; border-top: 1px solid color-mix(in srgb, var(--purple) 16%, var(--paper)); }
+.guide-facts > div:first-child { padding-top: 0; border-top: 0; }
+.guide-facts > div:last-child { padding-bottom: 0; }
+.guide-facts dt { color: var(--purple); font: 500 .68rem "DM Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
+.guide-facts dd { margin: .35rem 0 0; color: var(--ink); line-height: 1.55; }
+.guide-facts__outcome dd { font-size: 1.08rem; }
+.guide-facts ul { margin: 0; padding-left: 1.1rem; }
+.guide-facts li { margin: 0 0 .3rem; }
+.guide-page .article-md { padding-top: 1.5rem; }
+
 /* Release notes stay a compact, scannable record rather than an article. */
 .changelog-page { width: min(100%, 58rem); margin-inline: auto; }
 .changelog-page__header { max-width: none; padding-block: clamp(2.5rem, 7vw, 5rem) 2.5rem; }
@@ -148,6 +165,109 @@ summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .changelog-md h3 { margin: 1.2rem 0 .5rem; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.1rem; font-weight: 400; }
 .changelog-md p, .changelog-md li { line-height: 1.65; }
 .changelog-md ul { margin: 0 0 1rem; padding-left: 1.25rem; }
+
+/* Writing: dated editorial content. The index shares the tool library's
+   canvas, cover headline and cards; each article is a standalone reading
+   column with the same date-and-tag meta row as the index. */
+.writing-page { width: min(100%, 68rem); margin-inline: auto; }
+.writing-page__header { max-width: none; padding-block: clamp(1.5rem, 3vw, 3rem) 1rem; }
+.writing-list { display: grid; gap: 1.25rem; padding-block: 1.5rem 0; }
+.writing-card__image { display: block; width: 100%; height: auto; aspect-ratio: 21 / 9; margin-bottom: 1.25rem; object-fit: cover; border-radius: .55rem; }
+.writing-card .writing-meta { margin: 0 0 .9rem; }
+.writing-card h2 { max-width: 28ch; margin: .2rem 0 .8rem; font-size: clamp(1.5rem, 3vw, 2.25rem); }
+.writing-card h2 a { color: var(--purple); text-decoration-color: var(--gold); text-decoration-thickness: 2px; }
+.writing-card h2 a:hover { color: var(--orange); text-decoration-thickness: 3px; }
+.writing-card > p:last-child { color: var(--lede); font-size: 1.05rem; }
+.writing-note { margin-top: clamp(2.5rem, 5vw, 4rem); }
+.writing-meta { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin: 0 0 1rem; color: var(--purple); font: 500 .72rem "DM Mono", monospace; letter-spacing: .04em; text-transform: uppercase; }
+.writing-meta time { padding: .25rem .45rem; border-radius: .25rem; background: color-mix(in srgb, var(--gold) 25%, var(--paper)); color: var(--ink); }
+.writing-meta span { padding: .25rem .45rem; border: 1px solid color-mix(in srgb, var(--purple) 25%, var(--paper)); border-radius: .25rem; }
+.writing-meta strong { padding: .25rem .45rem; border-radius: .25rem; background: var(--orange); color: var(--paper); font-weight: 500; }
+@media (max-width: 43.99rem) {
+  .writing-meta { gap: .3rem; font-size: .66rem; letter-spacing: .02em; }
+  .writing-meta time, .writing-meta span, .writing-meta strong { padding: .2rem .35rem; }
+}
+
+/* The article is a three-column grid: everything sits in the 46rem reading
+   column, and a hero image spans the wider 68rem tool-page canvas. */
+.article-page { display: grid; grid-template-columns: minmax(0, 1fr) min(100%, 46rem) minmax(0, 1fr); width: min(100%, 68rem); margin-inline: auto; }
+.article-page > * { grid-column: 2; min-width: 0; }
+.article-page > .article-hero { grid-column: 1 / -1; margin: clamp(1.5rem, 4vw, 2.5rem) 0 .75rem; }
+.article-page__header:has(+ .article-hero) { border-bottom: 0; padding-bottom: 0; }
+.article-hero img { display: block; width: 100%; height: auto; border-radius: .8rem; }
+.article-hero figcaption { max-width: 46rem; margin-inline: auto; padding: .9rem .25rem 0; color: var(--lede); font-size: .95rem; line-height: 1.5; }
+.article-hero figcaption strong { color: var(--purple); }
+.article-page__header { max-width: none; padding-block: clamp(1rem, 3vw, 2.5rem) 2.25rem; border-bottom: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); }
+.article-page__header > p:first-child { margin: 0 0 clamp(1.5rem, 4vw, 2.5rem); font-size: .95rem; }
+.article-page__header .writing-meta { margin-bottom: 1.25rem; }
+.article-page h1 { max-width: none; font-size: clamp(2.6rem, 11vw, 4.75rem); line-height: .86; }
+.article-page__header .lede { max-width: 36rem; margin-bottom: 0; }
+.article-md { --body-size: 1.075rem; --body-leading: 1.7; padding-top: 1.25rem; font-size: var(--body-size); }
+.article-md p, .article-md li { line-height: var(--body-leading); }
+.article-md > p:first-child { color: var(--lede); font-size: clamp(1.1rem, 3vw, 1.2rem); line-height: 1.6; }
+/* Lists share one marker column: a 1.65rem slot, then the text. Numbered
+   items show an orange badge, bulleted items an orange dot centred in the
+   same slot, so both kinds line up with each other and with the first line
+   of their text. Marker offsets use rem from the body size and leading
+   (em inside ::before would resolve against the marker's own font). */
+.article-md ul, .article-md ol { --marker: 1.65rem; --line: calc(var(--body-size) * var(--body-leading)); margin: 0; padding: 0; list-style: none; counter-reset: step; }
+.article-md li { position: relative; padding-left: calc(var(--marker) + .75rem); }
+.article-md ol > li { counter-increment: step; }
+.article-md li::before { position: absolute; left: 0; }
+.article-md ol > li::before { content: counter(step); top: calc((var(--line) - var(--marker)) / 2); width: var(--marker); height: var(--marker); border-radius: 50%; background: var(--orange); color: var(--paper); font: 500 .8rem/var(--marker) "DM Mono", monospace; text-align: center; }
+.article-md ul > li::before { content: ""; top: calc((var(--line) - .5rem) / 2); left: calc((var(--marker) - .5rem) / 2); width: .5rem; height: .5rem; border-radius: 50%; background: var(--orange); }
+.article-md li > ul, .article-md li > ol { margin-top: .6rem; }
+.article-md strong { color: var(--purple); font-weight: 500; }
+.article-md h2 { margin: 3rem 0 1rem; font-size: clamp(1.6rem, 6vw, 2.1rem); }
+.article-md h3 { margin: 1.75rem 0 .6rem; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.25rem; font-weight: 400; line-height: 1.1; letter-spacing: -.02em; }
+.article-md blockquote { margin: 2.25rem 0; padding: 0 0 0 1.25rem; border-left: .3rem solid var(--orange); }
+.article-md blockquote p { margin: 0; color: var(--purple); font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: clamp(1.35rem, 4vw, 1.7rem); line-height: 1.2; letter-spacing: -.02em; }
+.article-md pre { margin: 1.5rem 0; padding: 1rem 1.1rem; border-radius: .55rem; background: var(--ink); color: var(--paper); font: .85rem/1.6 "DM Mono", monospace; }
+.article-md pre code { font: inherit; }
+/* Code keeps its exact lines and scrolls sideways when it does not fit. A
+   soft light edge marks the side with more code: the two ink "covers" move
+   with the content (local) and hide the edges (scroll) once you reach them. */
+.article-md pre {
+  overflow-x: auto;
+  background:
+    linear-gradient(to right, var(--ink) 40%, transparent) left / 2.5rem 100% no-repeat local,
+    linear-gradient(to left, var(--ink) 40%, transparent) right / 2.5rem 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgb(255 250 241 / .22), transparent) left / .9rem 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgb(255 250 241 / .22), transparent) right / .9rem 100% no-repeat scroll,
+    var(--ink);
+}
+@media (max-width: 43.99rem) {
+  .article-md pre { padding: .9rem 1rem; font-size: .78rem; }
+}
+.article-md img, .article-md video { display: block; max-width: 100%; height: auto; border: 1px solid color-mix(in srgb, var(--purple) 28%, var(--paper)); border-radius: .8rem; box-shadow: 5px 5px 0 color-mix(in srgb, var(--gold) 42%, transparent); }
+.article-md video { width: 100%; background: var(--ink); }
+.article-md figure { margin: 2rem 0; }
+.article-md figcaption { padding: .9rem .25rem 0; color: var(--lede); font-size: .95rem; line-height: 1.5; }
+.article-md figcaption strong { color: var(--purple); }
+/* Tables: ruled rows with monospace column headings at tablet width and up.
+   On phones each row becomes a stacked block: the first cell is its title,
+   and every other value carries its column heading (data-label, added at
+   build time) so nothing depends on a header row scrolled out of view. */
+.article-md table { width: 100%; margin: 1.75rem 0; border-collapse: collapse; font-size: .95rem; line-height: 1.5; }
+.article-md th { padding: 0 .75rem .6rem; border-bottom: 2px solid var(--purple); color: var(--purple); font: 500 .68rem "DM Mono", monospace; letter-spacing: .07em; text-align: left; text-transform: uppercase; vertical-align: bottom; }
+.article-md td { padding: .75rem; border-bottom: 1px solid color-mix(in srgb, var(--purple) 18%, var(--paper)); vertical-align: top; }
+.article-md th:first-child, .article-md td:first-child { padding-left: 0; }
+.article-md td:first-child { color: var(--purple); font-weight: 500; }
+@media (max-width: 43.99rem) {
+  .article-md table, .article-md tbody, .article-md tr, .article-md td { display: block; }
+  .article-md thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .article-md table { border-top: 2px solid var(--purple); }
+  .article-md tr { padding: .9rem 0; border-bottom: 1px solid color-mix(in srgb, var(--purple) 18%, var(--paper)); }
+  .article-md td { padding: .2rem 0; border: 0; }
+  .article-md td:first-child { padding-bottom: .4rem; font-family: "Tilt Warp", "DM Sans", sans-serif; font-size: 1.1rem; font-weight: 400; letter-spacing: -.02em; }
+  .article-md td[data-label]:not([data-label=""])::before { content: attr(data-label); display: block; margin-top: .35rem; color: var(--muted); font: 500 .62rem "DM Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
+}
+.article-md hr { margin: 2rem 0; border: 0; border-top: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); }
+.article-footer { display: grid; gap: 1.75rem; margin-top: 3.5rem; }
+.article-footer > p { margin: 0; }
+.article-related ul { display: grid; gap: .1rem; padding: 0; list-style: none; }
+.article-related li { margin: 0; }
+.article-related a { display: inline-block; padding-block: .4rem; font-size: 1.05rem; }
 main p { max-width: 65ch; line-height: 1.55; }
 main ul { margin: 0; padding-left: 1.25rem; }
 main li { margin: 0 0 .9rem; line-height: 1.55; }
@@ -212,6 +332,11 @@ a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .site-header { flex-wrap: nowrap; padding-block: 1.25rem .5rem; }
 .site-header .brand { width: 2.6rem; }
 .site-nav { width: auto; margin-left: auto; }
+/* Four sections do not fit one row beside the logo on phones; a tidy two-by-
+   two grid reads better than a ragged wrap with one item left over. */
+@media (max-width: 25.99rem) {
+  .site-nav { display: grid; grid-template-columns: repeat(2, auto); justify-content: end; gap: .55rem 1rem; }
+}
 .site-footer { padding-block: 1.5rem 2rem; }
 .site-footer nav { margin-left: 0; }
 .site-footer__note { width: 100%; margin: 0; color: var(--muted); font: 500 0.8rem "DM Mono", monospace; }
@@ -335,8 +460,10 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
 .schema-version-note { margin: 0 0 2rem; padding: 1rem 1.25rem; border: 1px solid color-mix(in srgb, var(--purple) 22%, var(--paper)); border-radius: .6rem; background: color-mix(in srgb, var(--gold) 8%, #fffdf8); }
 .schema-version-note p { margin: 0; }
 .json-example:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
-.json-key { color: #f6b33d; }
-.json-value { color: #bfa4d4; }
+.json-key, .code-key { color: #f6b33d; }
+.json-value, .code-value { color: #bfa4d4; }
+.code-comment { color: #a99bb3; font-style: italic; }
+.code-attr { color: #f3c9b4; }
 .schema-definition { margin: 2rem 0; padding: 1rem; border-left: .35rem solid var(--gold); background: color-mix(in srgb, var(--gold) 7%, transparent); }
 .schema-definition h3 { margin: 0; color: var(--ink); font: 500 1rem "DM Mono", monospace; }
 .schema-definition p { margin: .75rem 0 0; }
@@ -363,6 +490,8 @@ html.docs-scroll-nav .docs-sidebar__subnav a:not([aria-current="location"]) { co
   .schemas-flow__derived { padding: 1.5rem; }
   .schemas-tool-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .change-entry { grid-template-columns: 8rem minmax(0, 1fr); gap: 1.5rem; padding: 2rem 0; }
+  .writing-card { padding: 2rem; }
+  .article-related ul { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.5rem; }
   .library-row { grid-template-columns: 8rem minmax(0, 1fr) 4rem; gap: 1.5rem; padding: 1.75rem 0; }
   .library-row__link { justify-self: end; }
   .site-header, .site-footer { gap: .75rem 2rem; padding-inline: clamp(1.5rem, 5vw, 5rem); }

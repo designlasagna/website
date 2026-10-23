@@ -1,0 +1,36 @@
+---js
+{
+  layout: "base.njk",
+  title: "Learn",
+  description: "Maintained, step-by-step guides for working with Design Lasagna schemas and tools.",
+  // Built only while the section has published content (see _data/sections.js).
+  permalink: (data) => (data.sections.learn ? "/learn/" : false),
+}
+---
+<div class="library-page learn-page">
+  <header class="library-page__header">
+    <p class="eyebrow">Learn</p>
+    <h1 class="fit"><span class="fit__line" style="--em:3.40">How to</span> <em class="fit__line" style="--em:3.46">cook it.</em></h1>
+    <p class="lede">Step-by-step guides for getting a job done with the schemas and tools — kept up to date as the tools change.</p>
+  </header>
+
+  {% set guides = collections.learn | sort(false, false, "data.title") %}
+  <section class="library-section learn-list" aria-label="Guides">
+    <div class="library-rows">
+      {% for guide in guides %}
+      <article class="library-row">
+        <p class="library-row__meta">{% if guide.data.draft %}<strong class="learn-draft">Draft</strong> {% endif %}Guide · checked <time datetime="{{ guide.data.updated | dateISO }}">{{ guide.data.updated | dateLong }}</time></p>
+        <div>
+          <h3><a href="{{ guide.url }}">{{ guide.data.title }}</a></h3>
+          <p>{{ guide.data.description }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <aside class="library-note">
+    <h2>Maintained, not dated</h2>
+    <p>Guides are updated when the tools change, and each one says which releases it was last checked against. For exact contracts, read the <a href="/docs/">docs</a>; for the thinking behind the tools, read the <a href="/writing/">writing</a>.</p>
+  </aside>
+</div>

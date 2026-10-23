@@ -2,8 +2,28 @@
 
 ## Unreleased
 
+### Added
+
+- Launched the writing section at `/writing/`: a dated, editorial home for essays, announcements, and explorations. Articles are Markdown files rendered through a shared layout with title, date, summary, tags, and related tool/docs links; the index lists them newest first and links the RSS 2.0 feed at `/writing/feed.xml` (full content in `content:encoded`). The section is in the main navigation, distinct from the docs sidebar layout, and `docs/architecture.md` documents the publishing, archival, and feed rules. The first post, “The Design Lasagna approach”, explains the project's approach.
+
 ### Changed
 
+- The main navigation names the tools “Tasty parts” (still at `/tools/`) and adds Learn; on phones it is a two-by-two grid.
+- Writing and Learn appear (nav, index, feed, sitemap) only when they have published content; all current posts and the first guide are drafts.
+- Launched `/learn/` for maintained guides, with a guide layout (outcome, prerequisites, last checked) and the first guide, “Validate manifests in CI”.
+- Restyled the writing section to match the tool pages: full-width cover headline, post cards with date and tag chips, and larger article type with a related-links card.
+- Articles style code blocks, figures and pull quotes; `json`, `jsonc` and `css` fences are coloured like the docs.
+- Writing supports `draft: true` posts, which show in `npm run dev` (now built into `.dev/`) and are left out of production builds.
+- Added `{% figure %}` and `{% video %}` shortcodes for sized, captioned images and self-hosted video.
+- Posts can set a `hero` image, shown below the title and on the index card, and used as the share preview.
+- Article figures and hero images are resized at build time to AVIF and WebP in five widths, with a 1200px JPEG share image.
+- “Deprecation is data” has a placeholder hero built from the logotype layers.
+- Article lists share one marker column (orange number badges and dots, centred on the first line); on phones, date and tag chips are more compact.
+- Articles colour `html` and `js` code, scroll long code lines with an edge hint, and style tables (stacked rows on phones).
+- Drafted “One value at a time”, on retiring a single component attribute value.
+- Fixed `npm audit` warnings by updating `markdown-it` (14.3.3) and `@11ty/eleventy` (3.1.7).
+- Article pages declare article metadata (`og:type`, publish date, tags, JSON-LD) and advertise the feed.
+- Published “Deprecation is data”, on the v0.4 lifecycle record.
 - Upgraded to `@designlasagna/schemas` 0.4.6. v0.4 token and DTCG `PlatformMapping` accepts fields beyond `reference`, which stays the only defined and required field. The token and DTCG guidance and the v0.3 to v0.4 migration guide say so (a leftover `usage` no longer fails v0.4 validation, and tools ignore it), the contract tests assert the open mapping, and a regression validates it.
 - Upgraded to `@designlasagna/schemas` 0.4.5. v0.4 utility `variants` accept design-system-specific variant kinds, the Utilities page says so, and a regression checks it.
 - Schema reference pages list fields a definition inherits through `allOf`, so `StrictDeprecated` and CEM `AttributeExtensions` keep their full field tables after 0.4.5 reuses shared definitions.

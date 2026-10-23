@@ -1,0 +1,45 @@
+---
+layout: base.njk
+ogType: article
+---
+{#- Layout for a single piece of writing. A standalone editorial column: no
+    docs sidebar — just a dated reading surface with a related-links card.
+    An optional hero image breaks out to the wider tool-page canvas. -#}
+<article class="article-page">
+  <header class="article-page__header">
+    <p><a class="link-back" href="/writing/">All writing</a></p>
+    <p class="writing-meta">
+      {% if draft %}<strong>Draft</strong>{% endif %}
+      <time datetime="{{ page.date | dateISO }}">{{ page.date | dateLong }}</time>
+      {% for tag in tags | writingTags %}<span>{{ tag }}</span>{% endfor %}
+    </p>
+    <h1>{{ title }}</h1>
+    {% if description %}<p class="lede">{{ description }}</p>{% endif %}
+  </header>
+
+  {% set heroImg = hero | heroImage %}
+  {% if heroImg %}
+  <figure class="article-hero">
+    {% heroPicture hero, "page" %}
+    {% if heroImg.caption %}<figcaption>{{ heroImg.caption | markdownInline | safe }}</figcaption>{% endif %}
+  </figure>
+  {% endif %}
+
+  <div class="article-md">
+    {{ content | safe }}
+  </div>
+
+  <footer class="article-footer">
+    {% if related and related.length %}
+    <aside class="tool-card article-related" aria-label="Related">
+      <p class="eyebrow">Keep reading</p>
+      <ul>
+        {% for item in related %}
+        <li><a class="link-open" href="{{ item.href }}">{{ item.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </aside>
+    {% endif %}
+    <p><a class="link-back" href="/writing/">All writing</a></p>
+  </footer>
+</article>
